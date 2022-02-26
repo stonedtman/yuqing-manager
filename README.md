@@ -51,3 +51,49 @@
 2.  输入默认用户名：root ，密码：root,123
 
 
+
+##  按需定制|数据定制
+  当您在开发与研究中遇到  **数据采集、数据处理、舆情系统定制**  等方面的问题，请联系我们，我们会以最快的速度提供专业的解决方案。为您提供必要的专业技术支持。
+
+  服务流程如下
+
+![输入图片说明](https://gitee.com/stonedtx/yuqing/raw/master/ProIMG/data-plan.png)
+
+
+
+## 产品经理微信
+   扫描微信二维码，技术交流。
+
+<img src="https://gitee.com/stonedtx/yuqing/raw/master/ProIMG/%E8%81%94%E7%B3%BB%E6%88%91%E4%BB%AC-%E4%B8%AA%E4%BA%BA%E5%BE%AE%E4%BF%A1.jpg" title="Logo"  width="220">
+
+
+## 捐赠方式
+
+<img src="https://gitee.com/stonedtx/yuqing/raw/master/ProIMG/Wechat.png" title="Logo"  width="200">
+
+<img src="https://gitee.com/stonedtx/yuqing/raw/master/ProIMG/zhifubao-pay.png" title="Logo"  width="200">
+
+
+
+## 联系我们
+
++ 微信号： techflag  
+
++ 电话： 13505146123
+
++ 邮箱： wangtao@stonedt.com
+
++ 公司官网：[www.stonedt.com](http://www.stonedt.com)
+
+欢迎您在下方留言，或添加微信与我们交流。
+
+
+## License & Copyright
+
+Copyright (c) 2014-2022 思通数科 StoneDT, All rights reserved.
+
+Licensed under The GNU General Public License version 3 (GPLv3)  (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
+
+<https://www.gnu.org/licenses/gpl-3.0.html>
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
