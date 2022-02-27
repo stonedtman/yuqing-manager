@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<nav class="navbar-default navbar-static-side" role="navigation" th:fragment="left">
+    <div class="sidebar-collapse">
+        <ul class="nav metismenu" id="side-menu">
+            <li class="nav-header">
+                <div class="dropdown profile-element" style="text-align: center;">
+                      	<span>
+                          	<img alt="image" class="img-circle" th:src="@{/img/profile_small.jpg}"/>
+                          </span>
+                    <a href="#">
+                          	<span class="clear"> <span class="block m-t-xs"> <strong class="font-bold"  th:text="${session.User.username}">admin</strong></span> </span>
+                    </a>
+                </div>
+            </li>
+
+            <li th:classappend="${left == 'company' ? 'active' : ''}">
+                <a th:href="@{/company/list}"><i class="fa fa-laptop"></i> <span class="nav-label">企业管理</span> </a>
+            </li>
+
+            <li th:classappend="${left == 'user' ? 'active' : ''}">
+                <a th:href="@{/user/list}"><i class="fa fa-user"></i> <span class="nav-label">用户管理</span> </a>
+            </li>
+
+            <li th:classappend="${left == 'project' ? 'active' : ''}">
+                <a th:href="@{/project/list}"><i class="fa fa-edit"></i> <span class="nav-label">方案管理</span> </a>
+            </li>
+
+            <li th:classappend="${nav == 'log' ? 'active' : ''}">
+                <a href="#"><i class="fa fa-th-large"></i><span class="nav-label">日志管理</span><span
+                        class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li th:classappend="${left == 'userlogin' ? 'active' : ''}"><a th:href="@{/userlog/loginlist}">登录日志</a></li>
+                    <li th:classappend="${left == 'useruse' ? 'active' : ''}"><a th:href="@{/userlog/uselist}">使用日志</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>
+</body>
+</html>
