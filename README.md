@@ -59,6 +59,23 @@
 
 ![输入图片说明](https://gitee.com/stonedtx/yuqing/raw/master/ProIMG/data-plan.png)
 
+## 相关开源项目
+
+- **[数据采集系统](https://gitee.com/stonedtx/yuqing-manager)** 
+
+    采用分布式技术对海量信息采集，采集类型包括文字、图象、音频、视频等。
+
+- **[数据处理系统](https://gitee.com/stonedtx/yuqing-process)** 
+ 
+  将采集数据采用NLP和文本挖掘技术对此标签，以便于用户分类查看和检索。
+
+- **[监测分析系统](https://gitee.com/stonedtx/yuqing-manager)** 
+   
+  对采集数据展示分析，提供用户个性化配置，让每个用户获取不同的数据分析展示结果。
+
+- **[后台管理系统](https://gitee.com/stonedtx/yuqing-manager)** 
+   
+   对组织和用户、方案配置、用户日志 等，提供了一套管理后台。
 
 
 ## 产品经理微信
