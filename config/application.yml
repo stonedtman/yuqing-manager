@@ -25,9 +25,9 @@ spring:
   datasource:
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://s1.stonedt.com:6201/stonedt_portal?useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false&serverTimezone=GMT&useSSL=false
+      url: jdbc:mysql://localhost:3306/stonedt_portal?useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false&serverTimezone=GMT&useSSL=false
       username: root
-      password: config5566
+      password: 123456
 # mybatis     
 mybatis:
     type-aliases-package: com.yq.basic.domain
