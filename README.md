@@ -40,16 +40,16 @@
 
 ### 安装教程 (待续未完)
 
-1.  下载发行版 
-2.  导入数据库表结构
-3.  执行 java -jar 运行启动
+1.  下载发行版,下载 [yq-basic-admin.jar](https://gitee.com/stonedtx/yuqing-manager/blob/master/lastest_version/yq-basic-admin.jar) 程序，与 config文件夹 在同目录下。
+2.下载 [application.yml](https://gitee.com/stonedtx/yuqing-manager/blob/master/config/application.yml)，并创建 **config目录**  与 stonedt-yuqing.jar 在同一个目录下，可修改配置文件参数。
+3.  安装MySQL、redis，执行建表 [initialize_db_cache.sh](https://gitee.com/stonedtx/yuqing-manager/blob/master/initialize_db_cache.sh)  脚本。
+4.  执行 java -jar yq-basic-admin.jar运行启动
 
 
 ### 使用说明
 
 1.  本地浏览器输入 http://127.0.0.1:8124
 2.  输入默认用户名：13900000000 ，密码：stonedt
-3.  发行版本下载地址：https://gitee.com/stonedtx/yuqing-manager/blob/master/lastest_version/yq-basic-admin.jar
 
 
 
