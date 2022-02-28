@@ -49,6 +49,7 @@
 
 1.  本地浏览器输入 http://127.0.0.1:8124
 2.  输入默认用户名：13900000000 ，密码：stonedt
+3.  发行版本下载地址：https://gitee.com/stonedtx/yuqing-manager/blob/master/lastest_version/yq-basic-admin.jar
 
 
 
