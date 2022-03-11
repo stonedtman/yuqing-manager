@@ -1,0 +1,73 @@
+* {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.fl {
+  float: left;
+}
+.box {
+  height: 30px;
+  line-height: 30px;
+  margin-top: 10px;;
+  text-align: center;
+}
+/*设置“首页”“上一页”“下一页”“尾页”“跳转”5个按钮的样式*/
+.box button {
+  padding: 0 10px;     
+  color:#5A98DE;
+  height: 30px;
+  float: left;
+  cursor: pointer;
+  border: 1px solid #ebebeb;
+  background-color: #ffffff;
+}
+.box .first-page,
+.box .last-page {
+  margin: 0;
+}
+.box .pageWrap {    /*把多余的页码给隐藏起来*/
+  height: 30px;
+  float: left;
+  overflow: hidden;
+}
+.box .pageWrap ul {
+  width: 100000px;  /*设置数字按钮的滚动长度*/
+  height: 30px;
+  float: left;
+}
+ 
+/*设置数字按钮的样式*/
+.box .pageWrap ul li {
+  width: 40px; /**/     
+  height: 30px;
+  border: 1px solid #ebebeb;
+  line-height: 30px;
+  box-sizing: border-box;
+  cursor: pointer;
+  float: left;
+}
+/*设置数字按钮被选中时候的按钮背景颜色*/
+.box .pageWrap ul .sel-page {
+  background-color: #5A98DE;
+}
+/*设置跳转页数的文本框的样式*/
+.box .jump-text {
+  width: 40px;
+  height: 30px;
+  box-sizing: border-box;
+  text-align: center;
+  float: left;
+}
+/*设置跳转按钮的样式*/
+.box .jump-button {
+  margin: 0;
+  float: left;
+}
+/*设置显示总页数和总条数的样式*/
+.box .total-pages,
+.box .total-count {
+  margin-left: 10px;
+  float: left;
+  font-size: 14px;
+}
