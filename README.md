@@ -70,7 +70,7 @@
  
   将采集数据采用NLP和文本挖掘技术对此标签，以便于用户分类查看和检索。
 
-- **[监测分析系统](https://gitee.com/stonedtx/yuqing-manager)** 
+- **[监测分析系统](https://gitee.com/stonedtx/yuqing)** 
    
   对采集数据展示分析，提供用户个性化配置，让每个用户获取不同的数据分析展示结果。
 
