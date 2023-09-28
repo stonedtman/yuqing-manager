@@ -62,7 +62,7 @@
 
 ## 相关开源项目
 
-- **[数据采集系统](https://gitee.com/stonedtx/yuqing-manager)** 
+- **[数据采集系统](https://gitee.com/stonedtx/open-spider)** 
 
     采用分布式技术对海量信息采集，采集类型包括文字、图象、音频、视频等。
 
