@@ -66,7 +66,7 @@
 
     采用分布式技术对海量信息采集，采集类型包括文字、图象、音频、视频等。
 
-- **[数据处理系统](https://gitee.com/stonedtx/yuqing-process)** 
+- **[NLP处理引擎](https://gitee.com/stonedtx/free-nlp-api)** 
  
   将采集数据采用NLP和文本挖掘技术对此标签，以便于用户分类查看和检索。
 
