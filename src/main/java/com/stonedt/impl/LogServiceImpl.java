@@ -11,9 +11,12 @@ import com.stonedt.service.LogService;
 import com.stonedt.util.MapUtil;
 import com.stonedt.util.MyHttpRequestUtil;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -79,8 +82,6 @@ public class LogServiceImpl implements LogService {
     Long page = paramJson.getLong("page");
     //搜索内容
     String keyword = paramJson.getString("keyword");
-    PageHelper pageHelper = new PageHelper();
-    pageHelper.startPage(page.intValue() , 10);
 
     Map map = new HashMap();
     map.put("times" , paramJson.getString("times"));//获取时间范围
@@ -90,8 +91,13 @@ public class LogServiceImpl implements LogService {
     }*/
 
     map.put("keyword" , keyword);
-
+    PageHelper.startPage(page.intValue() , 10);
     List<Map> systemlogs = userDao.getSystemlogs(map);
+    for (Map systemlog : systemlogs) {
+      int count = userDao.getCountByCondition(systemlog);
+      systemlog.put("count" , count);
+    }
+
     PageInfo<Map> mapPageInfo = new PageInfo<>(systemlogs);
 
 

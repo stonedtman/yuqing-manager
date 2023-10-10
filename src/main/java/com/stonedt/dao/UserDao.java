@@ -91,4 +91,11 @@ public interface UserDao {
   List<Map> getProjectListByuserId(Map userId);
 
   List<Map> getProjectList(Map map);
+
+  /**
+   * 根据条件获取日志数量
+   * @param systemlog 条件
+   * @return 数量
+   */
+  int getCountByCondition(Map systemlog);
 }

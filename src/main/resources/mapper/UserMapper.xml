@@ -163,14 +163,15 @@
             type ,
             DATE_FORMAT(createtime , '%Y-%m-%d') AS createtime,
             module,
-            submodule,
-            COUNT(1) as count
-            FROM systemlog s
-            where createtime > #{times} and user_id is not null and username != ''
+            submodule
+            FROM systemlog
+            where createtime > #{times}
+              and user_id is not null
+              and username != ''
             <if test="keyword != '' and keyword !=null">
                 and username like concat('%' , #{keyword} , '%')
             </if>
-            group by DATE_FORMAT(createtime , '%Y-%m-%d') , module , submodule , type ,user_id ORDER BY createtime desc
+            ORDER BY id desc
     </select>
 
 
@@ -292,5 +293,12 @@ organization.organization_id,organization.organization_short,organization.organi
         user LEFT JOIN organization ON user.organization_id = organization.organization_id
     WHERE
         user.user_id = #{user_id}
+    </select>
+    <select id="getCountByCondition" resultType="java.lang.Integer">
+        SELECT count(1) FROM systemlog
+        where user_id = #{user_id}
+        and module = #{module}
+        and submodule = #{submodule}
+        and type = #{type}
     </select>
 </mapper>
