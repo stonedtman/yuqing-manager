@@ -231,7 +231,7 @@ public class UserServiceImpl implements UserService {
           user.setOpenid("");
           //获取当前时间戳
           long nowTime = System.currentTimeMillis();
-          user.setTerm_of_validity(new Date(nowTime+term_of_validityStr));
+          user.setTerm_of_validity(new Date(nowTime+term_of_validityStr*24*60*60*1000));
           Integer count = addUserInfo(user);
           if (count > 0){
             response.put("code", Integer.valueOf(200));
