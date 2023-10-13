@@ -249,11 +249,11 @@ organization.organization_id,organization.organization_short,organization.organi
     <insert id="addUserInfo">
       INSERT INTO user
 
-      (create_time,user_id,telephone,password,email,status,username,wechat_number,openid,organization_id,user_type,user_level)
+      (create_time,user_id,telephone,password,email,status,username,wechat_number,openid,organization_id,user_type,user_level,term_of_validity)
 
       VALUES
 
-      (#{create_time},#{user_id},#{telephone},#{password},#{email},#{status},#{username},#{wechat_number},#{openid},#{organization_id},#{user_type},#{user_level})
+      (#{create_time},#{user_id},#{telephone},#{password},#{email},#{status},#{username},#{wechat_number},#{openid},#{organization_id},#{user_type},#{user_level},#{term_of_validity})
 
     </insert>
     

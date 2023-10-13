@@ -34,6 +34,10 @@ public class UserServiceImpl implements UserService {
     JSONObject response = new JSONObject();
     UserEntity userEntity = this.userDao.verifyAcountByphone(telephone);
     if (userEntity != null) {
+      if (userEntity.getTerm_of_validity().after(new Date())) {
+        response.put("code", Integer.valueOf(500));
+        response.put("msg", "账号已过期！");
+      }
       String pwd = userEntity.getPassword();
       if (MD5Util.getMD5(password).equals(pwd)) {
         response.put("code", Integer.valueOf(200));
@@ -211,7 +215,6 @@ public class UserServiceImpl implements UserService {
             return response;
           }
           Long term_of_validityStr = Long.valueOf(String.valueOf(map.get("term_of_validity")));
-          String term_of_validityTime = DateUtil.addTerm_of_validityTime(term_of_validityStr);
 
 
           user.setUser_id(telephone);
@@ -226,12 +229,10 @@ public class UserServiceImpl implements UserService {
           user.setEmail("");
           user.setWechat_number("");
           user.setOpenid("");
+          //获取当前时间戳
+          long nowTime = System.currentTimeMillis();
+          user.setTerm_of_validity(new Date(nowTime+term_of_validityStr));
           Integer count = addUserInfo(user);
-
-          HashMap<Object, Object> organizationMap = new HashMap<>();
-          organizationMap.put("organization_id" , organization_id);
-          organizationMap.put("term_of_validity" , term_of_validityTime);
-          int i = userDao.updateOrganizationById(organizationMap);
           if (count > 0){
             response.put("code", Integer.valueOf(200));
             response.put("msg", "新增用户成功");

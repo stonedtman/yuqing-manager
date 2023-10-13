@@ -1,5 +1,7 @@
 package com.stonedt.entity;
 
+import java.util.Date;
+
 public class UserEntity {
   private Integer id;
   
@@ -32,6 +34,11 @@ public class UserEntity {
   private Integer user_type;
   
   private Integer user_level;
+
+  /**
+   * 账号有效期
+   */
+  private Date term_of_validity;
   
   public Integer getId() {
     return this.id;
@@ -159,5 +166,13 @@ public class UserEntity {
   
   public void setUser_level(Integer user_level) {
     this.user_level = user_level;
+  }
+
+  public Date getTerm_of_validity() {
+    return term_of_validity;
+  }
+
+  public void setTerm_of_validity(Date term_of_validity) {
+    this.term_of_validity = term_of_validity;
   }
 }
