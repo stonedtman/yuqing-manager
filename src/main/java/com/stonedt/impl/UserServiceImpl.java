@@ -37,6 +37,7 @@ public class UserServiceImpl implements UserService {
       if (userEntity.getTerm_of_validity().after(new Date())) {
         response.put("code", Integer.valueOf(500));
         response.put("msg", "账号已过期！");
+        return response;
       }
       String pwd = userEntity.getPassword();
       if (MD5Util.getMD5(password).equals(pwd)) {
