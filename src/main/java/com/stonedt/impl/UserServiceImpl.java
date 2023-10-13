@@ -186,10 +186,30 @@ public class UserServiceImpl implements UserService {
           password = MD5Util.getMD5(password);
 
           String username = (String) map.get("username");
+          username = username.trim();
+          //用户名只能为2到20位汉字或者2到20位英文字母(含空格)
+
+          if (!username.matches("[a-zA-Z\\s]{2,20}")
+                  &&!username.matches("^[\\u4e00-\\u9fa5\\u3400-\\u4db5\\u2e80-\\u2fdf]{2,20}$")){
+            response.put("code", Integer.valueOf(500));
+            response.put("msg", "用户名只能为2到20位汉字或者2到20位英文字母(含空格)");
+            return response;
+          }
           String organization_id = String.valueOf(map.get("organization_id"));
           Integer user_level = Integer.valueOf(String.valueOf(map.get("user_level")));
           Integer user_type = Integer.valueOf((String) map.get("user_type"));
           String telephone = String.valueOf(map.get("telephone"));
+          if (!telephone.matches("^\\d{11}$")) {
+            response.put("code", Integer.valueOf(500));
+            response.put("msg", "手机号格式不正确");
+            return response;
+          }
+          UserEntity checkUser = userDao.getUser(telephone);
+          if (checkUser != null) {
+            response.put("code", Integer.valueOf(500));
+            response.put("msg", "该手机号已经注册");
+            return response;
+          }
           Long term_of_validityStr = Long.valueOf(String.valueOf(map.get("term_of_validity")));
           String term_of_validityTime = DateUtil.addTerm_of_validityTime(term_of_validityStr);
 

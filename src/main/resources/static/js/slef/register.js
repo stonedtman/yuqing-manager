@@ -1,11 +1,24 @@
+let usernameFirstPatt = /[a-zA-Z\s]{2,20}/;
+let usernameSecPatt = /^[\u4e00-\u9fa5\u3400-\u4db5\u2e80-\u2fdf]{2,20}$/;
+let phonePatt = /^\d{11}$/;
 function regist() {
+
     if ($('#telephone').val() == '' || $('#telephone').val() == null) {
         alert("手机号码不能为空！");
         return
     }
+    if (!phonePatt.test($('#telephone').val())) {
+        alert('手机号格式不正确');
+        return;
+    }
     if ($('#username').val() == '' || $('#username').val() == null) {
         alert("姓名不能为空！");
         return
+    }
+
+    if (!usernameFirstPatt.test($('#username').val()) &&!usernameSecPatt.test($('#username').val())){
+        alert('用户名只能为2到20位汉字或者2到20位英文字母(含空格)');
+        return;
     }
     if ($('#password').val() == '' || $('#password').val() == null) {
         alert("密码不能为空！");
@@ -55,6 +68,8 @@ function registerUser(data) {
             if (code == 200) {
                 alert("添加成功");
                 location.href = ctxPath + "user/list";
+            } else if (code === 500) {
+                alert(res.msg);
             } else {
                 alert("添加失败");
             }
