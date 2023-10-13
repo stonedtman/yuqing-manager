@@ -34,8 +34,8 @@ public class UserServiceImpl implements UserService {
     JSONObject response = new JSONObject();
     UserEntity userEntity = this.userDao.verifyAcountByphone(telephone);
     if (userEntity != null) {
-      if (userEntity.getTerm_of_validity().after(new Date())) {
-        response.put("code", Integer.valueOf(500));
+      if (userEntity.getTerm_of_validity().before(new Date())) {
+        response.put("code", 500);
         response.put("msg", "账号已过期！");
         return response;
       }
