@@ -183,9 +183,19 @@ public class SynthesizeSchedule {
 	public static String getPolicyData() {
 		
 		String url = "https://www.gov.cn/zhengce/zuixin/home.htm";
+
 		JSONArray array = new JSONArray();
 		try {
-			String gethtml = gethtml(url);
+			String gethtml = null;
+			for (int i = 0; i < 3; i++) {
+				gethtml = gethtml(url);
+				if(gethtml!=null) {
+					break;
+				}
+			}
+			if (gethtml==null) {
+				return null;
+			}
 			Document parse = Jsoup.parse(gethtml);
 			Elements select = parse.select(".news_box > .list > ul > li");
 			for (int i = 0; i < select.size()&& i<5; i++) {
@@ -235,7 +245,16 @@ public class SynthesizeSchedule {
 		String url = "https://np-listapi.eastmoney.com/comm/web/getNewsByColumns?client=web&biz=web_news_channel&column=350&order=1&needInteractData=0&page_index=1&page_size=20&req_trace=1666952448875&fields=code,showTime,title,mediaName,summary,image,url,uniqueUrl";
 		JSONArray array = new JSONArray();
 		try {
-			String gethtml = gethtml(url);
+			String gethtml = null;
+			for (int i = 0; i < 3; i++) {
+				gethtml = gethtml(url);
+				if(gethtml!=null) {
+					break;
+				}
+			}
+			if (gethtml==null) {
+				return null;
+			}
 			
 			//Document parse = Jsoup.parse(gethtml);
 			//Elements select = parse.select(".artitleList ul li");

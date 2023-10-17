@@ -236,7 +236,17 @@ public class HotWordsUtil {
 	 * @return
 	 */
 	public static String hotWeibo() {
-		String html = get("https://tophub.today/n/KqndgxeLl9", "gb2312");
+		String html = null;
+		for (int i = 0; i < 3; i++) {
+			html = get("https://tophub.today/n/KqndgxeLl9", "gb2312");
+			if (html != null){
+				break;
+			}
+		}
+		if (html == null){
+			return null;
+		}
+
 		JSONArray list= new JSONArray();
 		Document parse = Jsoup.parse(html);
 		try {
@@ -318,7 +328,16 @@ public class HotWordsUtil {
 	 * @return
 	 */
 	public static String hot36Kr() {
-		String html = get("https://tophub.today/n/Q1Vd5Ko85R", "gb2312");
+		String html = null;
+		for (int i = 0; i < 3; i++) {
+			html = get("https://tophub.today/n/Q1Vd5Ko85R", "gb2312");
+			if (html != null){
+				break;
+			}
+		}
+		if (html == null){
+			return null;
+		}
 		JSONArray list= new JSONArray();
 		Document parse = Jsoup.parse(html);
 		try {
@@ -352,7 +371,13 @@ public class HotWordsUtil {
 
 
 	public static String hotDouyin() {
-		String html = get("https://tophub.today/n/K7GdaMgdQy", "gb2312");
+		String html = null;
+		for (int i = 0; i < 3; i++) {
+			html = get("https://tophub.today/n/K7GdaMgdQy", "gb2312");
+			if (html != null){
+				break;
+			}
+		}
 		JSONArray list= new JSONArray();
 		Document parse = Jsoup.parse(html);
 		try {
@@ -390,7 +415,17 @@ public class HotWordsUtil {
 
 
 	public static String hotBilibili() {
-		String html = get("https://tophub.today/n/74KvxwokxM", "gb2312");
+		String html = null;
+		for (int i = 0; i < 3; i++) {
+			html = get("https://tophub.today/n/74KvxwokxM", "gb2312");
+			if (html != null){
+				break;
+			}
+		}
+		if (html == null){
+			return null;
+		}
+
 		JSONArray list= new JSONArray();
 		Document parse = Jsoup.parse(html);
 		try {
@@ -428,7 +463,16 @@ public class HotWordsUtil {
 
 
 	public static String hotTecent() {
-		String html = get("https://tophub.today/n/qndg48xeLl", "gb2312");
+		String html = null;
+		for (int i = 0; i < 3; i++) {
+			html = get("https://tophub.today/n/qndg48xeLl", "gb2312");
+			if (html != null){
+				break;
+			}
+		}
+		if (html == null){
+			return null;
+		}
 		JSONArray list= new JSONArray();
 		Document parse = Jsoup.parse(html);
 		try {
