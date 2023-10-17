@@ -24,7 +24,15 @@ public class WebConfigurer implements WebMvcConfigurer {
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
     registry.addInterceptor(this.loginInterceptor)
-      .addPathPatterns(new String[] { "/**" }).excludePathPatterns("/login", "/logout", "/verifyacount", "/css/**", "/font-awesome/**", "/img/**", "/js/**","/notice/getNewNotice");
+      .addPathPatterns(new String[] { "/**" }).excludePathPatterns("/login",
+                    "/logout",
+                    "/verifyacount",
+                    "/css/**",
+                    "/font-awesome/**",
+                    "/img/**",
+                    "/js/**",
+                    "/notice/getNewNotice",
+                    "/synthesize/getNewSynthesize");
   }
   
   @Override

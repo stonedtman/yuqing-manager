@@ -559,4 +559,185 @@ public class DateUtil {
 
       return time;
   }
+
+  /**
+   * 获取当前年月日时分秒
+   *
+   * @return (String)年月日时分秒
+   */
+  public static String getDate() {
+    //获取当前时间
+    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    Calendar calendar = Calendar.getInstance();
+
+    //当前时间starttimeDate
+    calendar.setTime(new Date());
+    Date starttimeDate = calendar.getTime();
+
+    return format.format(starttimeDate);
+  }
+
+  /**
+   * 判断字符串是否包含中文
+   *
+   * @param str
+   * @return boolean
+   */
+  public static boolean isContainChinese(String str) {
+    Pattern p = Pattern.compile("[\u4e00-\u9fa5]");
+    Matcher m = p.matcher(str);
+    if (m.find()) {
+      return true;
+    }
+    return false;
+  }
+
+
+  /**
+   * 判断输入时间是否超过当前时间，或小于1999年，如果符合则返回当前时间
+   *
+   * @param strSuccess
+   * @return strSuccess or nowDate
+   */
+  public static String exceedToDay(String strSuccess) {
+    try {
+      DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+      Date nowDate = df.parse(getDate());
+      Date inputDate = df.parse(strSuccess);
+      Date oldDate = df.parse("1998-12-31 23:59:59");
+
+      if (nowDate.getTime() > inputDate.getTime() && inputDate.getTime() > oldDate.getTime())//比较时间大小,如果输入时间小于当前时间，且大于1998年12月31日之后
+      {
+        return strSuccess;
+      }
+      return getDate();
+    } catch (Exception e) {
+      return getDate();
+    }
+  }
+
+  /**
+   * 传入各种类型的时间，返回统一的格式
+   *
+   * @param dateStr
+   * @return
+   */
+  public static String FormatDate(String dateStr) throws Exception {
+
+    //如果为null或为空字符串，则返回当前时间
+    if (dateStr == null || dateStr.equals("")) {
+      return DateUtil.getDate();
+    }
+    //如果为xxx前，则分别判断并根据当前时间反推正确时间
+    if (dateStr.contains("前")) {
+      try {
+        if (dateStr.contains("分钟")) {
+          dateStr = dateStr.substring(0, dateStr.indexOf("分钟"));
+          return DateUtil.minusMinute(Integer.parseInt(dateStr));
+        } else if (dateStr.contains("小时")) {
+          dateStr = dateStr.substring(0, dateStr.indexOf("小时"));
+          return DateUtil.minusHour(Integer.parseInt(dateStr));
+        } else if (dateStr.contains("天")) {
+          dateStr = dateStr.substring(0, dateStr.indexOf("天"));
+          return DateUtil.minusDay(Integer.parseInt(dateStr));
+        } else {
+          return DateUtil.getDate();
+        }
+      } catch (Exception e) {
+        return DateUtil.getDate();
+      }
+    }
+    //如果文章包含关键词"来源"，则将直接提取年份之后的时间
+    if (dateStr.contains("来源")) {
+      try {
+        dateStr = dateStr.substring(dateStr.indexOf(DateUtil.getDateyear()));
+      } catch (Exception e) {
+        try {
+          dateStr = dateStr.substring(dateStr.indexOf(DateUtil.getDateyear().substring(2)));
+        } catch (Exception e2) {
+          // TODO: handle exception
+        }
+      }
+
+    }
+    //如果不为xxxx年xx月xx日的格式，则将空缺处补0或20
+    if (dateStr.indexOf("日") != 10 && dateStr.indexOf("日") != -1) {
+      try {
+        if (dateStr.indexOf("年") != 4) {
+          dateStr = "20" + dateStr;
+        }
+        if (dateStr.indexOf("月") != 7) {
+          dateStr = dateStr.substring(0, 5) + "0" + dateStr.substring(5);
+        }
+        if (dateStr.indexOf("日") != 10) {
+          dateStr = dateStr.substring(0, 8) + "0" + dateStr.substring(8);
+        }
+      } catch (Exception e) {
+        return DateUtil.getDate();
+      }
+
+    }
+
+    //经过以上处理之后，如果还有中文，则全部转换为数字类型。
+    if (DateUtil.isContainChinese(dateStr)) {
+      dateStr = DateUtil.getNumber(dateStr);
+    }
+
+    HashMap<String, String> dateRegFormat = new HashMap<String, String>();
+    //以-或/等字符分隔的时间格式
+    dateRegFormat.put("^\\d{4}\\D+\\d{1,2}\\D+\\d{1,2}\\D+\\d{1,2}\\D+\\d{1,2}\\D+\\d{1,2}\\D*$", "yyyy-MM-dd-HH-mm-ss");//2014年3月12日 13时5分34秒，2014-03-12 12:05:34，2014/3/12 12:5:34
+    dateRegFormat.put("^\\d{4}\\D+\\d{1,2}\\D+\\d{1,2}\\D+\\d{1,2}\\D+\\d{1,2}$", "yyyy-MM-dd-HH-mm");//2014-03-12 12:05
+    dateRegFormat.put("^\\d{4}\\D+\\d{1,2}\\D+\\d{1,2}\\D+\\d{1,2}$", "yyyy-MM-dd-HH");//2014-03-12 12
+    dateRegFormat.put("^\\d{4}\\D+\\d{1,2}\\D+\\d{1,2}$", "yyyy-MM-dd");//2014-03-12
+    dateRegFormat.put("^\\d{4}\\D+\\d{1,2}$", "yyyy-MM");//2014-03
+    dateRegFormat.put("^\\d{4}$", "yyyy");//2014
+    //以年月日 时分秒分隔的格式。
+    dateRegFormat.put("^\\d{4}\\u5e74+\\d{1,2}\\u6708+\\d{1,2}\\u65e5+\\d{1,2}", "yyyy-MM-dd-HH");//2014年03月12日 12
+    dateRegFormat.put("^\\d{4}\\u5e74+\\d{1,2}\\u6708+\\d{1,2}\\u65e5$", "yyyy-MM-dd");//2014年03月12日
+    dateRegFormat.put("^\\d{4}\\u5e74+\\d{1,2}\\u6708$", "yyyy-MM");//2014年03月
+    dateRegFormat.put("^\\d{4}\\u5e74$", "yyyy");//2014年
+    //没有间隔的格式
+    dateRegFormat.put("^\\d{14}$", "yyyyMMddHHmmss");//20140312120534
+    dateRegFormat.put("^\\d{12}$", "yyyyMMddHHmm");//201403121205
+    dateRegFormat.put("^\\d{10}$", "yyyyMMddHH");//2014031212
+    dateRegFormat.put("^\\d{8}$", "yyyyMMdd");//20140312
+    dateRegFormat.put("^\\d{6}$", "yyyyMM");//201403
+    dateRegFormat.put("^\\d{2}\\s*:\\s*\\d{2}\\s*:\\s*\\d{2}$", "yyyy-MM-dd-HH-mm-ss");//13:05:34 拼接当前日期
+    dateRegFormat.put("^\\d{2}\\s*:\\s*\\d{2}$", "yyyy-MM-dd-HH-mm");//13:05 拼接当前日期
+    dateRegFormat.put("^\\d{2}\\D+\\d{1,2}\\D+\\d{1,2}$", "yy-MM-dd");//14.10.18(年.月.日)
+    dateRegFormat.put("^\\d{1,2}\\D+\\d{1,2}$", "yyyy-dd-MM");//30.12(日.月) 拼接当前年份
+    dateRegFormat.put("^\\d{1,2}\\D+\\d{1,2}\\D+\\d{4}$", "dd-MM-yyyy");//12.21.2013(日.月.年)
+
+    String curDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+    DateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    DateFormat formatter2;
+    String dateReplace;
+    String strSuccess = "";
+    try {
+      for (String key : dateRegFormat.keySet()) {
+        if (Pattern.compile(key).matcher(dateStr).matches()) {
+          formatter2 = new SimpleDateFormat(dateRegFormat.get(key));
+          if (key.equals("^\\d{2}\\s*:\\s*\\d{2}\\s*:\\s*\\d{2}$")
+                  || key.equals("^\\d{2}\\s*:\\s*\\d{2}$")) {//13:05:34 或 13:05 拼接当前日期
+            dateStr = curDate + "-" + dateStr;
+          } else if (key.equals("^\\d{1,2}\\D+\\d{1,2}$")) {//21.1 (日.月) 拼接当前年份
+            dateStr = curDate.substring(0, 4) + "-" + dateStr;
+          }
+          dateReplace = dateStr.replaceAll("\\D+", "-");
+          strSuccess = formatter1.format(formatter2.parse(dateReplace));
+          break;
+        }
+      }
+    } catch (Exception e) {
+      //如果异常，则返回当前时间
+      return DateUtil.getDate();
+    } finally {
+      if (strSuccess.length() == 0) {
+        //如果赋值的字符串长度为0，则代表不正常。返回当前时间
+        return DateUtil.getDate();
+      }
+      return DateUtil.exceedToDay(strSuccess);
+    }
+  }
 }
