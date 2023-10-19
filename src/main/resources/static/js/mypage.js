@@ -21,7 +21,7 @@
 			this.bindEvents();
 		},
 		createDom : function() {
-			var that = this, ulDom = '', jumpDom = '', content = '', liWidth = 60, // li的宽度
+			var that = this, ulDom = '', jumpDom = '', content = '', liWidth = 40, // li的宽度
 			totalPages = that.options.totalPages, // 总页数
 			wrapLength = 0;
 			totalPages > 5 ? wrapLength = 5 * liWidth : wrapLength = totalPages
