@@ -46,7 +46,7 @@ public interface UserDao {
 
     int updatePassword(Map data);
 
-    List<Map<String, Object>> getCompanyList(Map<String, Object> map);
+    List<Map<String, Object>> getCompanyList(@Param("map") Map<String, Object> map);
 
   int updateCompany(Map data);
 

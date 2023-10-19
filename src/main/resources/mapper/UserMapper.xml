@@ -110,9 +110,11 @@
     </update>
 
     <select id="getCompanyList" resultType="map">
-      select o.* , u.count from organization o JOIN
-      (SELECT organization_id , COUNT(*) count from user GROUP BY organization_id) u on
-      o.organization_id = u.organization_id  order by term_of_validity
+      select o.* , count(u.id) as count from organization o
+        left join user u on
+        o.organization_id = u.organization_id
+        where o.organization_name like concat('%' , #{map.keyword} , '%')
+       group by o.id
     </select>
 
     <update id="updatePassword" parameterType="map">

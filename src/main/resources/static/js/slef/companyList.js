@@ -5,11 +5,12 @@ $(function () {
 })
 
 function loading(pagenum) {
+    let keyword = $("#keyword").val();
     $.ajax({
         type: "POST",
         url: ctxPath + "company/getCompanyList",
         dataType: "json",
-        data: {page: pagenum},
+        data: {page: pagenum, keyword: keyword},
         beforeSend: function () {
             $("#companylist").html('');
         },
@@ -181,6 +182,11 @@ function JumpToPage(pagenum) {
     loading(pagenum);
 }
 
+//搜索事件
+$("#keyword").keydown(function (res) {
+    if (res.keyCode == 13)
+        loading(1);
+})
 
 
 

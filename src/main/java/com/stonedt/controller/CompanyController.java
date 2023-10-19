@@ -60,11 +60,13 @@ public class CompanyController {
 
     @RequestMapping(value = "/getCompanyList")
     @ResponseBody
-    public String getCompanyList(@RequestParam(value = "page", defaultValue = "1") Integer page){
+    public String getCompanyList(@RequestParam(value = "page", defaultValue = "1") Integer page,
+                                 @RequestParam(value = "keyword", defaultValue = "") String keyword){
 
 
         Map<String, Object> map = new HashMap<>();
         map.put("page", page);
+        map.put("keyword", keyword);
         JSONObject response = this.companyService.getCompanyList(map);
         return response.toJSONString();
     }
