@@ -106,13 +106,6 @@ function loading(pagenum) {
                         var organization_code = '——————————';
                     }
 
-                    //logo地址
-                    if (dataJson.logo_url != null && dataJson.logo_url != '') {
-                        var logo_url = dataJson.logo_url;
-                    }else{
-                        var logo_url = '——————————';
-                    }
-
                     //系统名称
                     if (dataJson.system_title != null && dataJson.system_title != '') {
                         var system_title = dataJson.system_title;
@@ -147,7 +140,6 @@ function loading(pagenum) {
                         '<td>' + status + '</td>' +
                         /*'<td>' + create_time + '</td>' +*/
                         '<td>' + organization_code + '</td>' +
-                        '<td>' + logo_url + '</td>' +
                         '<td>' + system_title + '</td>' +
                         '<td>' +
                         '<div class="btn-group">' +

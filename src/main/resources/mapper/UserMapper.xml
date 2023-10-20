@@ -105,7 +105,7 @@
 
     <update id="updateCompany" parameterType="map">
         update organization set create_time = #{create_time}, organization_short = #{organization_short} , organization_name = #{organization_name} ,
-         organization_type = #{organization_type} , term_of_validity = #{term_of_validity} , status = #{status} , organization_code = #{organization_code} , logo_url = #{logo_url} , system_title = #{system_title}
+         organization_type = #{organization_type} , term_of_validity = #{term_of_validity} , status = #{status} , organization_code = #{organization_code} , system_title = #{system_title}
          where id = #{id}
     </update>
 
@@ -113,7 +113,14 @@
       select o.* , count(u.id) as count from organization o
         left join user u on
         o.organization_id = u.organization_id
-        where o.organization_name like concat('%' , #{map.keyword} , '%')
+        <where>
+            <if test="map.keyword != '' and map.keyword != null">
+                o.organization_name like concat('%' , #{map.keyword} , '%')
+            </if>
+            <if test="map.organization_id != '' and map.organization_id != null">
+                and o.organization_id = #{mao.organization_id}
+            </if>
+        </where>
        group by o.id
     </select>
 
@@ -131,19 +138,9 @@
 
     <insert id="addCompany" parameterType="map">
         insert into organization(create_time , organization_id , organization_short , organization_name , organization_type ,
-        term_of_validity , status , organization_code , logo_url , system_title)
+        term_of_validity , status , organization_code , system_title)
         values (#{create_time} , #{organization_id} , #{organization_short} , #{organization_name} , #{organization_type} ,
-        #{term_of_validity} , #{status} , #{organization_code} ,
-        <choose>
-            <when test="logo_url != null">
-                #{logo_url} ,
-            </when>
-            <otherwise>
-                '' ,
-            </otherwise>
-        </choose>
-
-        #{system_title})
+        #{term_of_validity} , #{status} , #{organization_code} ,#{system_title})
     </insert>
 
     <select id="getorganizationList" resultType="map" >
@@ -262,11 +259,11 @@ organization.organization_id,organization.organization_short,organization.organi
     <insert id="addUserorganizeInfo" parameterType="com.stonedt.entity.OrganizationEntity">
         INSERT INTO organization
 
-        (create_time,organization_id,organization_short,organization_name,organization_type,term_of_validity,status,organization_code,logo_url,system_title)
+        (create_time,organization_id,organization_short,organization_name,organization_type,term_of_validity,status,organization_code,system_title)
 
         VALUES
 
-      (#{create_time},#{organization_id},#{organization_short},#{organization_name},#{organization_type},#{term_of_validity},#{status},#{organization_code},#{logo_url},#{system_title})
+      (#{create_time},#{organization_id},#{organization_short},#{organization_name},#{organization_type},#{term_of_validity},#{status},#{organization_code},#{system_title})
     </insert>
     
     <select id="getorganizationIdByName" resultType="map" parameterType="map">
