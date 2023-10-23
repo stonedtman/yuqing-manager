@@ -347,34 +347,34 @@ public class SynthesizeSchedule {
 	 */
 	public void conversionHotList(Synthesize synthesize) {
 		Synthesize oldSynthesize = synthesizeDao.getNewSynthesize();
-		if (synthesize.getHot_all()==null) {
+		if (synthesize.getHot_all()==null||synthesize.getHot_all().length()<10) {
 			synthesize.setHot_all(oldSynthesize.getHot_all());
 		}
-		if (synthesize.getHot_weibo()==null) {
+		if (synthesize.getHot_weibo()==null||synthesize.getHot_weibo().length()<10) {
 			synthesize.setHot_weibo(oldSynthesize.getHot_weibo());
 		}
-		if (synthesize.getHot_wechat()==null) {
+		if (synthesize.getHot_wechat()==null||synthesize.getHot_wechat().length()<10) {
 			synthesize.setHot_wechat(oldSynthesize.getHot_wechat());
 		}
-		if (synthesize.getHot_douyin()==null) {
+		if (synthesize.getHot_douyin()==null||synthesize.getHot_douyin().length()<10) {
 			synthesize.setHot_douyin(oldSynthesize.getHot_douyin());
 		}
-		if (synthesize.getHot_bilibili()==null) {
+		if (synthesize.getHot_bilibili()==null||synthesize.getHot_bilibili().length()<10) {
 			synthesize.setHot_bilibili(oldSynthesize.getHot_bilibili());
 		}
-		if (synthesize.getHot_tecentvedio()==null) {
+		if (synthesize.getHot_tecentvedio()==null||synthesize.getHot_tecentvedio().length()<10) {
 			synthesize.setHot_tecentvedio(oldSynthesize.getHot_tecentvedio());
 		}
-		if (synthesize.getHot_search_terms()==null) {
+		if (synthesize.getHot_search_terms()==null||synthesize.getHot_search_terms().length()<10) {
 			synthesize.setHot_search_terms(oldSynthesize.getHot_search_terms());
 		}
-		if (synthesize.getHot_policydata()==null) {
+		if (synthesize.getHot_policydata()==null||synthesize.getHot_policydata().length()<10) {
 			synthesize.setHot_policydata(oldSynthesize.getHot_policydata());
 		}
-		if (synthesize.getHot_finaceData()==null) {
+		if (synthesize.getHot_finaceData()==null||synthesize.getHot_finaceData().length()<10) {
 			synthesize.setHot_finaceData(oldSynthesize.getHot_finaceData());
 		}
-		if (synthesize.getHot_36kr()==null) {
+		if (synthesize.getHot_36kr()==null||synthesize.getHot_36kr().length()<10) {
 			synthesize.setHot_36kr(oldSynthesize.getHot_36kr());
 		}
 
