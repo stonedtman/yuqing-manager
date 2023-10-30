@@ -45,15 +45,15 @@ function loading(pagenum) {
                         }else {
                             end_login_time = "--";
                         }
-                        let organization_code = dataJson.organization_code;
-                        let organization_name = dataJson.organization_name;
-                        let organization_short = dataJson.organization_short;
-                        let organization_type = dataJson.organization_type;
-                        let telephone = dataJson.telephone;
+                        // let organization_code = dataJson.organization_code;
+                        let organization_name = dataJson.organization_name!==undefined?dataJson.organization_name:"————————————"
+                        let organization_short = dataJson.organization_short!==undefined?dataJson.organization_short:"————————————";
+                        // let organization_type = dataJson.organization_type;
+                        // let telephone = dataJson.telephone;
                         let user_id = dataJson.user_id;
                         let username = dataJson.username;
                         let organization_id = dataJson.organization_id;
-                        let term_of_validity = stampTOtime(dataJson.term_of_validity);
+                        let term_of_validity = dataJson.term_of_validity!==undefined?stampTOtime(dataJson.term_of_validity):'无限期';
                         term_of_validity = term_of_validity.substring(0 , 10);
                         let loginCount = dataJson.login_count;
 
