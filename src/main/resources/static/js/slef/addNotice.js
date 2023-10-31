@@ -13,10 +13,6 @@ function addNotice() {
         return
     }
 
-    if ($('#content').val().length > 100) {
-        alert("公告内容不能超过100个字符！");
-        return
-    }
 
 
         let content = $("#content").val();
