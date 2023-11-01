@@ -200,10 +200,10 @@ function paging(totalData, totalPage, pagenum) {
         totalCount: '合计' + totalData + '条数据', // 条目总数
         slideSpeed: 600, // 缓动速度 单位毫秒
         jump: true, //是否支持跳转
-        callback: function (page) {
-            // 回调函数
-            loading(page);
-        }
+        // callback: function (page) {
+        //     // 回调函数
+        //     loading(page);
+        // }
     });
 }
 

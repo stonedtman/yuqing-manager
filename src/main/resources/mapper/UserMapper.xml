@@ -24,6 +24,7 @@
         <if test="keyword != '' and keyword != null">
             and u.username like concat('%' , #{keyword} , '%')
         </if>
+        order by u.end_login_time desc
     </select>
 
     <insert id="addWarningSetting" parameterType="map">
