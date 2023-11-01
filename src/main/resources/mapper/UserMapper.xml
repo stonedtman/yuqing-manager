@@ -3,11 +3,18 @@
 <mapper namespace="com.stonedt.dao.UserDao">
 
     <select id="getProjectList" parameterType="map" resultType="map">
-        select * from project
+        select p.*,u.username from project p
+                                       left join user u
+                                                 on p.user_id = u.user_id
+        order by user_id desc
     </select>
 
     <select id="getProjectListByuserId" parameterType="map" resultType="map">
-        select * from project where user_id = #{user_id}
+        select p.*,u.username from project p
+                                       left join user u
+                                                 on p.user_id = u.user_id
+        where p.user_id = #{user_id}
+        order by user_id desc
     </select>
 
     <update id="updateOrganizationById" parameterType="map">
@@ -92,7 +99,11 @@
     </select>
 
     <select id="getProjectListByGroupId" parameterType="map" resultType="map">
-        select * from project where group_id = #{group_id}
+        select p.*,u.username from project p
+                   left join user u
+                       on p.user_id = u.user_id
+                   where p.group_id = #{group_id}
+                      order by user_id desc
     </select>
 
     <select id="getGroupListByuserId" parameterType="string" resultType="map">

@@ -2,6 +2,8 @@ package com.stonedt.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
+import com.stonedt.entity.DefaultOpinionCondition;
+import com.stonedt.entity.DefaultProject;
 import com.stonedt.service.DefaultProjectService;
 import com.stonedt.util.ResultUtil;
 import com.stonedt.vo.DefaultProjectVO;
@@ -41,14 +43,45 @@ public class DefaultProjectController {
 
 
     @PostMapping({"/getDefaultProjectList"})
-    @ResponseBody
     public ResultUtil getUserList(@RequestBody JSONObject dataObject) {
 
         String groupIdStr = dataObject.getString("groupId");
+        String page = dataObject.getString("page");
 
         Long groupId = Long.valueOf(groupIdStr);
-        List<DefaultProjectVO> defaultProjectListPage = defaultProjectService.getDefaultSolutionListByGroupId(groupId);
-        return ResultUtil.ok(defaultProjectListPage);
+        Integer pageNum = Integer.valueOf(page);
+        PageInfo<DefaultProject> pageInfo = defaultProjectService.getDefaultSolutionListByGroupId(groupId, pageNum);
+        return ResultUtil.ok(pageInfo);
     }
 
+    /**
+     * 修改方案状态
+     */
+    @PostMapping({"/updateProjectStatus"})
+    public ResultUtil updateProjectStatus(@RequestBody JSONObject dataObject) {
+        Long projectId = dataObject.getLong("projectId");
+        Integer status = dataObject.getInteger("status");
+        defaultProjectService.updateProjectStatus(projectId, status);
+        return ResultUtil.ok();
+    }
+
+    /**
+     * 添加方案页面
+     */
+    @GetMapping("/addProjectPage")
+    public ModelAndView addProjectPage(ModelAndView modelAndView) {
+        modelAndView.setViewName("addProject");
+        modelAndView.addObject("left", "defaultProject");
+        return modelAndView;
+    }
+
+    /**
+     * 添加方案
+     */
+    @PostMapping("/addProject")
+    public ResultUtil addProject(@RequestBody JSONObject jsonObject) {
+
+        return defaultProjectService.addProject(jsonObject);
+
+    }
 }

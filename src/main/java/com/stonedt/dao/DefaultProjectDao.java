@@ -3,6 +3,7 @@ package com.stonedt.dao;
 import com.stonedt.entity.DefaultProject;
 import com.stonedt.vo.DefaultProjectVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -27,6 +28,12 @@ public interface DefaultProjectDao {
      * @return 对象列表
      */
     List<DefaultProject> selectByGroupId(Long groupId);
+
+    void updateProjectStatus(@Param("projectId") Long projectId, @Param("status") Integer status);
+
+    void insert(DefaultProject defaultProject);
+
+    boolean existProjectName(@Param("projectName") String projectName, @Param("groupId") Long groupId);
 }
 
 

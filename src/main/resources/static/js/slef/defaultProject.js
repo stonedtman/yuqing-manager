@@ -1,6 +1,6 @@
 $(function () {
-    $('#head').html('用户管理')
-    $('#navigation').html('用户管理')
+    $('#head').html('默认方案管理')
+    $('#navigation').html('默认方案管理')
 
 
 
@@ -9,14 +9,15 @@ $(function () {
         url: "/defaultProject/getDefaultGroupList",
         contentType: "application/json;charset=UTF-8",
         success: function (response) {
-            let res = JSON.parse(response);
-            //装公司数
-            if (res.status === 200) {
-                let groupData = res.data;
+            console.log(response);
+            // let res = JSON.parse(response);
+
+            if (response.status === 200) {
+                let groupData = response.data;
                 if (groupData != null) {
                     for (let i = 0; i < groupData.length; i++) {
                         let group = groupData[i];
-                        $("#defaultGroup").append("<option value='" + group.group_id + "'>--" + group_name + "--</option>");
+                        $("#defaultGroup").append("<option value='" + group.group_id + "'>--" + group.group_name + "--</option>");
                     }
                     loading(1);
                 }
@@ -31,37 +32,37 @@ $(function () {
 
 })
 
-function getProjectList() {
-    let groupId = $("#defaultGroup option:selected").val();
-    if (groupId == null || groupId == "") {
-        $("#defaultProjectList").html("<option value=\"\">--请选择--</option>")
-        //清空
-        $("#defaultProject").html('')
-        return;
-    }
-    $.ajax({
-        type: "get",
-        url: "/defaultProject/getDefaultProjectList?groupId=" + groupId,
-        contentType: "application/json;charset=UTF-8",
-        success: function (response) {
-            $("#defaultProjectList").html("<option value=\"\">--请选择--</option>")
-            let res = JSON.parse(response);
-            //装公司数
-            if (res.status === 200) {
-                let projectData = res.data;
-                if (projectData != null) {
-                    for (let i = 0; i < projectData.length; i++) {
-                        let project = projectData[i];
-                        $("#defaultProjectList").append("<option value='" + project.project_id + "'>--" + project.project_name + "--</option>");
-                    }
-                }
-            }else {
-                $("#defaultProjectList").html("<option value=\"\">--方案查询出错--</option>")
-            }
-
-        }
-    })
-}
+// function getProjectList() {
+//     let groupId = $("#defaultGroup option:selected").val();
+//     if (groupId == null || groupId == "") {
+//         $("#defaultProjectList").html("<option value=\"\">--请选择--</option>")
+//         //清空
+//         $("#defaultProject").html('')
+//         return;
+//     }
+//     $.ajax({
+//         type: "get",
+//         url: "/defaultProject/getDefaultProjectList?groupId=" + groupId,
+//         contentType: "application/json;charset=UTF-8",
+//         success: function (response) {
+//             $("#defaultProjectList").html("<option value=\"\">--请选择--</option>")
+//             let res = JSON.parse(response);
+//             //装公司数
+//             if (res.status === 200) {
+//                 let projectData = res.data;
+//                 if (projectData != null) {
+//                     for (let i = 0; i < projectData.length; i++) {
+//                         let project = projectData[i];
+//                         $("#defaultProjectList").append("<option value='" + project.project_id + "'>--" + project.project_name + "--</option>");
+//                     }
+//                 }
+//             }else {
+//                 $("#defaultProjectList").html("<option value=\"\">--方案查询出错--</option>")
+//             }
+//
+//         }
+//     })
+// }
 
 function loading(pagenum) {
 
@@ -73,39 +74,44 @@ function loading(pagenum) {
 
     $.ajax({
         type: "POST",
-        url: ctxPath + "defaultProject/getDefaultProjectList",
+        url: "/defaultProject/getDefaultProjectList",
         dataType: "json",
         contentType: "application/json;charset=UTF-8",
         data: JSON.stringify(dataObject),
         beforeSend: function () {
-            $("#defaultProjectList").html('');
+            $("#defaultProject").html('');
         },
         complete: function () {
         },
         success: function (res) {
             let code = res.status;
-            let totalCount = res.totalCount;
-            let totalPage = res.totalPage;
-            let page = res.page;
-            if (page === 1) {
-                paging(totalCount, totalPage, page);
-            }
+
             if (code === 200) {
-                console.log(res)
                 let data = res.data;
+                let totalCount = data.total;
+                let totalPage = data.pages;
+                let page = data.pageNum;
+                if (page === 1) {
+                    paging(totalCount, totalPage, page);
+                }
+                console.log(res)
+
+                let list = data.list;
                 // paging(totalCount, totalPage, page);
                 let htmlStr = '';
-                for (var i = 0; i < data.length; i++) {
-                    let dataJson = data[i];
+                for (var i = 0; i < list.length; i++) {
+                    let dataJson = list[i];
                     let create_time = stampTOtime(dataJson.create_time);
                     let project_id = dataJson.project_id;
                     let project_name = dataJson.project_name;
+                    let subject_word = dataJson.subject_word;
+                    let stop_word = dataJson.stop_word===""?"————————":dataJson.stop_word;
                     let update_ime = stampTOtime(dataJson.update_time);
                     let project_type = dataJson.project_type;
-
+                    let del_status = dataJson.del_status;
                     let btn = 'danger';
                     let stat = '禁用';
-                    if (status == 1) {
+                    if (del_status === 0) {
                         status = '已启用';
                     } else {
                         status = '已禁用';
@@ -113,33 +119,37 @@ function loading(pagenum) {
                         stat = '启用';
                     }
 
+                    if (project_type === 2) {
+                        project_type = '普通方案';
+                    }else {
+                        project_type = '高级方案';
+                    }
+
                     htmlStr = '<tr class="textAlign">' +
-                        '<td>' + telephone + '</td>' +
-                        '<td>' + username + '</td>' +
-                        '<td data-code="' + organization_code + '" data-id="' + organization_id + '">' + organization_name + '</td>' +
+                        '<td data-id="' + project_id + '">' + project_name + '</td>' +
                         /*'<td data-code="' + organization_code + '" data-id="' + organization_id + '">' + organization_short + '</td>' +*/
-                        '<td>'+system_title+'</td>' +
+                        '<td>'+subject_word+'</td>' +
+                        '<td>' + stop_word + '</td>' +
+                        '<td>' + project_type + '</td>' +
                         '<td>' + status + '</td>' +
+                        // '<td>' + update_ime + '</td>' +
                         /* '<td>' + create_time + '</td>' +*/
-                        '<td>' + login_count + '</td>' +
-                        '<td>' + end_login_time + '</td>' +
                         /*'<td>' + term_of_validity + '</td>' +*/
                         '<td>' +
                         '<div class="btn-group">' +
-                        '<button class="btn-' + btn + ' btn btn-xs" onclick=\'changeState("' + telephone + '","' + dataJson.status + '")\'>' + stat + '</button>'
-                        +'<button class="btn-info btn btn-xs" onclick=\'updateUser("' + telephone + '","' + status + '")\'>' + '修改' + '</button>'
-                        +'<button class="label-warning btn btn-xs" onclick=\'resetPasswords("' + telephone + '","' + 123456 + '")\'>' + '重置密码' + '</button>' +
+                        '<button class="btn-' + btn + ' btn btn-xs" onclick=\'changeState("' + project_id + '","' + dataJson.del_status + '")\'>' + stat + '</button>'
+                        +'<button class="btn-info btn btn-xs" onclick=\'updateProject(project_id)\'>' + '修改' + '</button>'
                         '</div>' +
                         '</td>' +
                         '</tr>'
-                    $("#userlist").append(htmlStr);
+                    $("#defaultProject").append(htmlStr);
                 }
 
 
 
 
             } else {
-                $("#userlist").html('<tr><td colspan="11">暂无数据！</td></tr>');
+                $("#defaultProject").html('<tr><td colspan="11">暂无数据！</td></tr>');
             }
         },
     });
@@ -152,10 +162,10 @@ function paging(totalData, totalPage, pagenum) {
         totalCount: '合计' + totalData + '条数据', // 条目总数
         slideSpeed: 600, // 缓动速度 单位毫秒
         jump: true, //是否支持跳转
-        callback: function (page) {
-            // 回调函数
-            loading(page);
-        }
+        // callback: function (page) {
+        //     // 回调函数
+        //     loading(page);
+        // }
     });
 }
 
@@ -163,27 +173,24 @@ function JumpToPage(pagenum) {
     loading(pagenum);
 }
 
-function changeState(username, st) {
-    let status = 1
-    if (st == 1) {
+function changeState(projectId, status) {
+
+    if (status == 1) {
         status = 0
+    }else {
+        status = 1
     }
     let object = new Object();
-    object.telephone = username;
+    object.projectId = projectId;
     object.status = status;
 
     $.ajax({
         type: "POST",
-        url: "/user/updateUserState",
+        url: "/defaultProject/updateProjectStatus",
         contentType: "application/json;charset=UTF-8",
         dataType: "json",
         data: JSON.stringify(object),
         success: function (data) {
-            if (data.code == 1 && st == '1') {
-                alert('此用户已禁止登录')
-            } else if (data.code == 1 && st == '0') {
-                alert('此用户已启用登录')
-            }
             loading(1)
         },
     });
@@ -212,12 +219,12 @@ function stampTOtime(data) {
 
 
 
-function updateUser(telephone , status){
+function updateProject(projectId) {
 
 
     /*$.get("/user/getUser?oldTelephone="+telephone );*/
 
-    location.href="/user/updateUser?oldTelephone="+telephone;
+    location.href="/defaultProject/updateProject?projectId="+projectId;
 
     /*$.ajax({
         type: "get",
@@ -226,52 +233,3 @@ function updateUser(telephone , status){
 
 }
 
-function resetPasswords(telephone , password) {
-
-    var b = confirm("确定重置密码吗？");
-
-    if (b) {
-        let object = new Object();
-        object.telephone = telephone;
-        object.password = password;
-
-        $.ajax({
-            type: "POST",
-            url: "/user/updatePassword",
-            contentType: "application/json;charset=UTF-8",
-            dataType: "json",
-            data: JSON.stringify(object),
-            success: function (data) {
-                if (data.code == 200) {
-                    alert('已重置密码');
-                } else if (data.code == 0) {
-                    alert('密码未改变');
-                }else if (data.code == 500){
-                    alert('出现错误');
-                }
-                loading(1)
-
-            },
-        });
-    }
-
-}
-
-
-
-
-//搜索事件
-$("#keyword").keydown(function (res) {
-    if (res.keyCode == 13)
-        loading(1);
-})
-/*
-$('#searchButton').click(function () {
-    loading(1);
-})*/
-
-
-//选择企业事件
-$("#company").on('change' , function () {
-    loading(1);
-})

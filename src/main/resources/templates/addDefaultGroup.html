@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>创建方案组</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon.png">
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/font-awesome/css/font-awesome.css}" rel="stylesheet">
+    <link th:href="@{/css/plugins/iCheck/custom.css}" rel="stylesheet">
+    <link th:href="@{/css/animate.css}" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link th:href="@{/css/custom.css}" rel="stylesheet">
+    <link th:href="@{/css/bootstrap3-wysiwyg_0.3.3_bootstrap3-wysihtml5.css}" rel="stylesheet">
+</head>
+<body class="gray-bg">
+
+<div class="middle-box text-center loginscreen   animated fadeInDown">
+    <div>
+        <div>
+            <h1 class="logo-name"></h1>
+        </div>
+        <h3>创建方案组</h3>
+        <form id="form-user" class="m-t" role="form" action="addNotice" method="post">
+            <!-- <div class="form-group">
+                 <input autocomplete="off" type="text" id="organization_id" name="institution" class="form-control"
+                        placeholder="请输入机构公共id" required>
+             </div>-->
+            <div class="form-group">
+               <input class="form-control" id="groupName" placeholder="请输入方案组名">
+            </div>
+
+            <button type="button" onclick="addGroup()" class="btn btn-primary block full-width m-b">添加</button>
+            <a href="list" type="button" class="btn btn-white block full-width m-b">取消</a>
+        </form>
+    </div>
+</div>
+<div class="page-footer" style="position: absolute">
+    © 2014-<span id="currentyear"></span> 南京涌亿思信息技术有限公司 苏ICP备17066984号-1
+</div>
+<!-- Mainly scripts -->
+<script th:src="@{/js/jquery-2.1.1.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/bootstrap3-wysiwyg_0.3.3_bootstrap3-wysihtml5.all.js}"></script>
+<script th:inline="javascript" type="text/javascript">
+    $("#currentyear").text((new Date()).getFullYear());
+    var ctxPath = /*[[@{/}]]*/'';
+    // $('#content').wysihtml5();
+
+    function addGroup() {
+
+        if ($('#groupName').val() == '' || $('#groupName').val() == null) {
+            alert("方案组名称不能为空！");
+            return
+        }
+
+
+
+        let groupName = $("#groupName").val();
+
+
+        let dataJson = new Object();
+        dataJson.groupName = groupName;
+        $.ajax({
+            type: "POST",
+            url: ctxPath + "defaultGroup/addGroup",
+            dataType: 'json',
+            data: JSON.stringify(dataJson),
+            contentType: 'application/json;charset=utf-8',
+            success: function (res) {
+                let code = res.status;
+                if (code === 200) {
+                    alert("添加成功");
+                    location.href = ctxPath + "defaultGroup/list";
+                } else if (code === 500) {
+                    alert(res.msg);
+                } else {
+                    alert("添加失败");
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                if (xhr.status == 403) {
+                    window.location.href = ctxPath + "login";
+                }
+            }
+        });
+    }
+</script>
+
+</body>
+
+</html>

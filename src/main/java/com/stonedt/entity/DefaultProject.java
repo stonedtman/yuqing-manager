@@ -72,7 +72,7 @@ public class DefaultProject implements Serializable {
     /**
      * 软删除（0：否 1：是）
      */
-    private Integer del_wtatus;
+    private Integer del_status;
 
     /**
      * 方案组id
@@ -84,7 +84,7 @@ public class DefaultProject implements Serializable {
     public DefaultProject() {
     }
 
-    public DefaultProject(Integer id, Date create_time, Long project_id, String project_name, Date update_ime, Integer project_type, String project_description, String subject_word, String character_word, String event_word, String regional_word, String stop_word, Integer del_wtatus, Long group_id) {
+    public DefaultProject(Integer id, Date create_time, Long project_id, String project_name, Date update_ime, Integer project_type, String project_description, String subject_word, String character_word, String event_word, String regional_word, String stop_word, Integer del_status, Long group_id) {
         this.id = id;
         this.create_time = create_time;
         this.project_id = project_id;
@@ -97,7 +97,7 @@ public class DefaultProject implements Serializable {
         this.event_word = event_word;
         this.regional_word = regional_word;
         this.stop_word = stop_word;
-        this.del_wtatus = del_wtatus;
+        this.del_status = del_status;
         this.group_id = group_id;
     }
 
@@ -197,12 +197,12 @@ public class DefaultProject implements Serializable {
         this.stop_word = stop_word;
     }
 
-    public Integer getDel_wtatus() {
-        return del_wtatus;
+    public Integer getDel_status() {
+        return del_status;
     }
 
-    public void setDel_wtatus(Integer del_wtatus) {
-        this.del_wtatus = del_wtatus;
+    public void setDel_status(Integer del_status) {
+        this.del_status = del_status;
     }
 
     public Long getGroup_id() {
@@ -218,12 +218,12 @@ public class DefaultProject implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         DefaultProject that = (DefaultProject) o;
-        return Objects.equals(id, that.id) && Objects.equals(create_time, that.create_time) && Objects.equals(project_id, that.project_id) && Objects.equals(project_name, that.project_name) && Objects.equals(update_ime, that.update_ime) && Objects.equals(project_type, that.project_type) && Objects.equals(project_description, that.project_description) && Objects.equals(subject_word, that.subject_word) && Objects.equals(character_word, that.character_word) && Objects.equals(event_word, that.event_word) && Objects.equals(regional_word, that.regional_word) && Objects.equals(stop_word, that.stop_word) && Objects.equals(del_wtatus, that.del_wtatus) && Objects.equals(group_id, that.group_id);
+        return Objects.equals(id, that.id) && Objects.equals(create_time, that.create_time) && Objects.equals(project_id, that.project_id) && Objects.equals(project_name, that.project_name) && Objects.equals(update_ime, that.update_ime) && Objects.equals(project_type, that.project_type) && Objects.equals(project_description, that.project_description) && Objects.equals(subject_word, that.subject_word) && Objects.equals(character_word, that.character_word) && Objects.equals(event_word, that.event_word) && Objects.equals(regional_word, that.regional_word) && Objects.equals(stop_word, that.stop_word) && Objects.equals(del_status, that.del_status) && Objects.equals(group_id, that.group_id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, create_time, project_id, project_name, update_ime, project_type, project_description, subject_word, character_word, event_word, regional_word, stop_word, del_wtatus, group_id);
+        return Objects.hash(id, create_time, project_id, project_name, update_ime, project_type, project_description, subject_word, character_word, event_word, regional_word, stop_word, del_status, group_id);
     }
 
     @Override
@@ -241,7 +241,7 @@ public class DefaultProject implements Serializable {
                 ", event_word='" + event_word + '\'' +
                 ", regional_word='" + regional_word + '\'' +
                 ", stop_word='" + stop_word + '\'' +
-                ", del_wtatus=" + del_wtatus +
+                ", del_status=" + del_status +
                 ", group_id=" + group_id +
                 '}';
     }

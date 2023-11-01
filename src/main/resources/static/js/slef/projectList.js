@@ -217,10 +217,11 @@ function install(res) {
 
             htmlStr = '<tr class="textAlign">' +
                 /*'<td>' + organization_id + '</td>' +*/
+                '<td>' + dataJson.username + '</td>' +
                 '<td>' + project_name + '</td>' +
                 '<td>' + project_type + '</td>' +
-                '<td>' + project_description + '</td>' +
-                '<td>' + subject_word + '</td>' +
+                // '<td>' + project_description + '</td>' +
+                '<td style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" title="'+dataJson.subject_word+'">' + subject_word + '</td>' +
                 '<td>' + character_word + '</td>' +
                 '<td>' + event_word + '</td>' +
                 '<td>' + regional_word + '</td>' +

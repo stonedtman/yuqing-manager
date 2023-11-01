@@ -90,17 +90,13 @@
                         <div class="ibox-title">
                             <h5>全部</h5>
                             <div style="display: inline-block;margin-left: 5%">
-                                <select style="width: 200px" id="defaultGroup" onchange="getProjectList()">
-                                    <option value="">---------选择方案组---------</option>
+                                <select style="width: 200px" id="defaultGroup" onchange="loading(1)">
+                                    <option value="0">全部方案组</option>
                                 </select>
                             </div>
-                            <div style="display: inline-block;margin-left: 5%">
-                                <select style="width: 200px" id="defaultProjectList">
-                                    <option value="">---------选择方案---------</option>
-                                </select>
-                            </div>
+                            <div class="text-muted pull-right"><h5><a href="/defaultProject/addProjectPage">+添加新方案</a></h5></div>
 
-                            <div class="text-muted pull-right"><h5><a href="/user/register">+添加新用户</a></h5></div>
+
 
                         </div>
                         <div class="ibox-content">
@@ -109,15 +105,15 @@
                                 <table class="table table-hover">
                                     <thead>
                                     <tr class="textAlign">
-                                        <th>用户名</th>
-                                        <th>姓名</th>
-                                        <th>机构全称</th>
+                                        <th>方案名称</th>
+                                        <th style="width: 30%">主体关键词</th>
+                                        <th style="width: 30%">屏蔽词</th>
                                         <!--<th>机构简称</th>-->
-                                        <th>系统名称</th>
+                                        <th>方案类型</th>
                                         <th>状态</th>
                                         <!-- <th>创建日期</th>-->
-                                        <th>登录次数</th>
-                                        <th>最后一次登录</th>
+<!--                                        <th>更新时间</th>-->
+<!--                                        <th>最后一次登录</th>-->
                                         <!--<th>有效期</th>-->
                                         <!--<thuserlist>操作</thuserlist>-->
                                         <th>操作</th>
