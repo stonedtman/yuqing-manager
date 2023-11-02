@@ -34,6 +34,10 @@ public interface DefaultProjectDao {
     void insert(DefaultProject defaultProject);
 
     boolean existProjectName(@Param("projectName") String projectName, @Param("groupId") Long groupId);
+
+    DefaultProject selectByProjectId(Long projectId);
+
+    void update(DefaultProject defaultProject);
 }
 
 

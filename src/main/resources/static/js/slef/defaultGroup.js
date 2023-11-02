@@ -1,3 +1,5 @@
+$('#head').html('默认方案管理')
+$('#navigation').html('默认方案管理')
 loading(1);
 
 function loading(pagenum) {

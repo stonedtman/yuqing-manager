@@ -21,6 +21,10 @@ public interface DefaultOpinionConditionDao {
 
 
     void insert(DefaultOpinionCondition condition);
+
+    DefaultOpinionCondition selectByProjectId(Long projectId);
+
+    void update(DefaultOpinionCondition condition);
 }
 
 

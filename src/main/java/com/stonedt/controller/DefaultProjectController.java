@@ -84,4 +84,31 @@ public class DefaultProjectController {
         return defaultProjectService.addProject(jsonObject);
 
     }
+
+    /**
+     * 修改方案页面
+     */
+    @GetMapping("/updateProjectPage")
+    public ModelAndView updateProjectPage(ModelAndView modelAndView, @RequestParam Long projectId) {
+        modelAndView.setViewName("updateProject");
+        modelAndView.addObject("left", "defaultProject");
+        modelAndView.addObject("projectId", String.valueOf(projectId));
+        return modelAndView;
+    }
+
+    /**
+     * 方案详情
+     */
+    @GetMapping("/getProjectDetail")
+    public ResultUtil getProjectDetail(@RequestParam Long projectId) {
+        return defaultProjectService.getProjectDetail(projectId);
+    }
+
+    /**
+     * 修改方案
+     */
+    @PostMapping("/updateProject")
+    public ResultUtil updateProject(@RequestBody JSONObject jsonObject) {
+        return defaultProjectService.updateProject(jsonObject);
+    }
 }

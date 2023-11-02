@@ -49,7 +49,15 @@
         values
         (now(), #{opinionConditionId}, #{projectId}, #{time}, #{precise}, #{emotion}, #{similar}, #{sort}, #{matchs},#{timee},#{times},#{websitename},#{author})
     </insert>
+    <update id="update">
+        update default_opinion_condition
+        set websitename = #{websitename},author = #{author}
+        where project_id = #{projectId}
+    </update>
     <select id="getByProjectId" resultType="com.stonedt.entity.DefaultOpinionCondition">
+        select * from default_opinion_condition where project_id = #{projectId}
+    </select>
+    <select id="selectByProjectId" resultType="com.stonedt.entity.DefaultOpinionCondition">
         select * from default_opinion_condition where project_id = #{projectId}
     </select>
 </mapper>

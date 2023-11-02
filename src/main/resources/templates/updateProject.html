@@ -9,7 +9,7 @@
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" th:href="@{/assets/images/favicon.png}">
-    <title>创建方案·网络情报分析系统</title>
+    <title>修改方案·网络情报分析系统</title>
 
     <!-- Custom CSS -->
     <link th:href="@{/dist/css/style.min.css}" rel="stylesheet">
@@ -39,10 +39,10 @@
         input:-ms-input-placeholder, textarea:-ms-input-placeholder {
             color: #b6b7b7 !important;
         }
-         .badge-info {
-             color: #fff !important;
-             background-color: #6184e6 !important;
-         }
+        .badge-info {
+            color: #fff !important;
+            background-color: #6184e6 !important;
+        }
 
         .preference-time {
             display: inline-block;
@@ -69,35 +69,35 @@
 </head>
 <body>
 
-                <div class="card">
-                    <div class="card-body">
-                        <ul class="create-tab" id="search-tab">
-                            <li class="create-tab-act" data-type="2">快速创建</li>
-                            <li class="" data-type="1">高级创建</li>
-                            <li id="tips" data-type="3">当前是快速创建，可设置550字</li>
-                        </ul>
-                        <!-- tab1 start -->
-                        <div id="tab2" class="card m-b-0" style="display: none;">
-                            <div class="card-body p-b-0">
-                                <div class="create-line m-b-30">
-                                    <span>方案名称</span>
-                                    <input id="proname1" type="text" maxlength="10" class="form-control"
-                                           placeholder="请输入方案名称">
-                                    <span>*方案名称控制在6字符以内</span>
-                                </div>
-                                <div class="create-line m-b-30">
-                                    <span>所属方案组名称</span>
-                                    <select name="" id="groupList" class="form-control">
-                                    </select>
-                                </div>
-                                <div class="create-line2 m-b-20">
-                                    <span>方案主体关键词</span>
-                                    <textarea class="form-control" name="" id="prokeywords1" rows="4"
-                                              placeholder=''></textarea>
-                                    <div class="create-tips">
-                                        <a tabindex="0" class="" data-html="true" role="button" data-toggle="popover"
-                                           data-trigger="focus" title="方案主体关键词提示"
-                                           data-content="1：“+”表示“并且”,“|”表示“或”
+<div class="card">
+    <div class="card-body">
+        <ul class="create-tab" id="search-tab">
+            <li class="create-tab-act" data-type="2">快速创建</li>
+            <li class="" data-type="1">高级创建</li>
+            <li id="tips" data-type="3">当前是快速创建，可设置550字</li>
+        </ul>
+        <!-- tab1 start -->
+        <div id="tab2" class="card m-b-0" style="display: none;">
+            <div class="card-body p-b-0">
+                <div class="create-line m-b-30">
+                    <span>方案名称</span>
+                    <input id="proname1" type="text" maxlength="10" class="form-control"
+                           placeholder="请输入方案名称">
+                    <span>*方案名称控制在6字符以内</span>
+                </div>
+                <div class="create-line m-b-30">
+                    <span>所属方案组名称</span>
+                    <select name="" id="groupList" class="form-control">
+                    </select>
+                </div>
+                <div class="create-line2 m-b-20">
+                    <span>方案主体关键词</span>
+                    <textarea class="form-control" name="" id="prokeywords1" rows="4"
+                              placeholder=''></textarea>
+                    <div class="create-tips">
+                        <a tabindex="0" class="" data-html="true" role="button" data-toggle="popover"
+                           data-trigger="focus" title="方案主体关键词提示"
+                           data-content="1：“+”表示“并且”,“|”表示“或”
 														<br>
 														2：什么情况下用“|”：
 														如想关注北京或上海或广州的新闻，表达式为“北京|上海|广州”，表示文章中出现 “北京”、“上海”、“广州”任意一个城市就能监测到。
@@ -110,291 +110,291 @@
 														<br>
 														5：什么情况下用到排除关键词：
 														如想关注上海、北京、广州的新闻，但又不想看到内容中有“三室一厅”、“二室 一厅”这种关键词的广告，可以使用排除关键词的方式。 匹配关键词表达式“北京|上海|广州” 排除关键词表达式“三室一厅|二室一厅”">
-                                            <i class="fa fa-question-circle"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="create-line2 m-b-20">
-                                    <span>监测屏蔽歧义词</span>
-                                    <textarea class="form-control" name="" id="proshield1" rows="4"
-                                              placeholder=''></textarea>
-                                    <div class="create-tips">
-                                        <a tabindex="0" class="" data-html="true" role="button" data-toggle="popover"
-                                           data-trigger="focus" title="监测屏蔽歧义词提示"
-                                           data-content="1：“+”表示“并且”,“|”表示“或”
-														<br>
-														2：什么情况下用“|”：
-														如想关注北京或上海或广州的新闻，表达式为“北京|上海|广州”，表示文章中出现 “北京”、“上海”、“广州”任意一个城市就能监测到。
-														<br>
-														3：什么情况下用“+”：
-														如想关注北京车牌摇号的新闻，表达式为“北京+车牌摇号”，表示文章中同时出现 “北京”和“车牌摇号”两个关键词才能监测到。
-														<br>
-														4：什么情况下同时用到“+”、“|”：
-														如想关注上海世博会的新闻，由于“世博会”又可能被称为“世界博览会”，表达式为 “上海+(世博会|世界博览会)”，表示文章中出现“上海”，同时出现“世博会”或者 “世界博览会”中任意一个词，就能监测到；
-														<br>
-														5：什么情况下用到排除关键词：
-														如想关注上海、北京、广州的新闻，但又不想看到内容中有“三室一厅”、“二室 一厅”这种关键词的广告，可以使用排除关键词的方式。 匹配关键词表达式“北京|上海|广州” 排除关键词表达式“三室一厅|二室一厅”">
-                                            <i class="fa fa-question-circle"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="create-line m-b-30">
-                                    <span>来源网站</span>
-                                    <input id="sourceWebsite1" type="text" class="form-control"
-                                           placeholder="请输入来源网站">
-                                </div>
-                                <div class="create-line m-b-30">
-                                    <span>作者名称</span>
-                                    <input id="author1" type="text" class="form-control"
-                                           placeholder="请输入作者名称">
-                                </div>
-<!--                                <div class="p-t-10" >-->
-<!--                                    &lt;!&ndash; double line  start&ndash;&gt;-->
-<!--                                    <div class="warning-edit-third ">-->
-<!--                                        <div class="warning-left">-->
-<!--                                            <div>情感属性</div>-->
-<!--                                            <div class=" m-l-0" id="emotion1">-->
-<!--                                                <span data-emotion=1 class="badge badge-pill badge-light">正面</span>-->
-<!--                                                <span data-emotion=2 class="badge badge-pill badge-light">中性</span>-->
-<!--                                                <span data-emotion=3 class="badge badge-pill badge-light">负面</span>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                        <div class="warning-center">-->
-<!--                                            <div>相似文章</div>-->
-<!--                                            <div class=" m-l-0">-->
-<!--                                                <span data-similar=1 class="badge badge-pill badge-light">合并文章</span>-->
-<!--                                                <span data-similar=0 class="badge badge-pill badge-light">取消合并</span>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                        <div class="warning-right">-->
-<!--                                            <div>精准筛选</div>-->
-<!--                                            <div class=" m-l-0">-->
-<!--                                                <span data-precise=1 class="badge badge-pill badge-light">打开精准</span>-->
-<!--                                                <span data-precise=0 class="badge badge-pill badge-light">关闭精准</span>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                    &lt;!&ndash; double line end&ndash;&gt;-->
-<!--                                    &lt;!&ndash; double line  start&ndash;&gt;-->
-<!--                                    <div class="warning-edit-double" style="justify-content: inherit;">-->
-<!--                                        <div class="warning-left" style="width: 40%;">-->
-<!--                                            <div>信息排序</div>-->
-<!--                                            <div class=" m-l-0">-->
-<!--                                                <span data-sort=1 class="badge badge-pill badge-light">时间降序</span>-->
-<!--                                                <span data-sort=2 class="badge badge-pill badge-light">时间升序</span>-->
-<!--                                                <span data-sort=3 class="badge badge-pill badge-light">相似数量</span>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                        <div class="warning-right">-->
-<!--                                            <div>匹配方式</div>-->
-<!--                                            <div style="margin-left: 0;">-->
-<!--                                                <span data-matchs=1 class="badge badge-pill badge-light">全文匹配</span>-->
-<!--                                                <span data-matchs=2 class="badge badge-pill badge-light">标题匹配</span>-->
-<!--                                                <span data-matchs=3 class="badge badge-pill badge-light">正文匹配</span>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                    &lt;!&ndash; double line end&ndash;&gt;-->
-<!--                                    &lt;!&ndash; double line  start&ndash;&gt;-->
-<!--                                    <div class="warning-edit-double">-->
-<!--                                        <div class="warning-left w-100">-->
-<!--                                            <div class="preference-left">时间范围</div>-->
-<!--                                            <div class=" m-l-0 preference-time-list">-->
-<!--                                                <span data-time=1 class="badge badge-pill badge-light">24小时</span>-->
-<!--                                                <span data-time=3 class="badge badge-pill badge-light">昨天</span>-->
-<!--                                                <span data-time=2 class="badge badge-pill badge-light">今天</span>-->
-<!--                                                <span data-time=4 class="badge badge-pill badge-light">3天</span>-->
-<!--                                                <span data-time=5 class="badge badge-pill badge-light">7天</span>-->
-<!--                                                <span data-time=6 class="badge badge-pill badge-light">15天</span>-->
-<!--                                                <span data-time=7 class="badge badge-pill badge-light">30天</span>-->
-<!--                                                <span data-time=8 class="badge badge-pill badge-light">自定义</span>-->
-<!--                                                <div class="input-daterange monitor-date preference-time date-range" style="display:none"-->
-<!--                                                     >-->
-<!--                                                    <input type="text" class="form-control" name="start" placeholder="开始日期"/>-->
-<!--                                                    <input type="text" class="form-control" name="end" placeholder="结束日期"/>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-
-                                <div class="create-btn-group">
-                                    <button class="btn btn-info m-r-10" type="button" id="gosubmit1">确定</button>
-                                    <button class="btn btn-secondary" type="button" id="goback1">取消</button>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- tab1 end -->
-                        <!-- tab2 start -->
-                        <div id="tab1" class="card m-b-0" >
-                            <div class="card-body p-b-0">
-                                <div class="create-line m-b-30">
-                                    <span>方案名称</span>
-                                    <input id="proname" type="text" maxlength="6" class="form-control"
-                                           placeholder="请输入方案名称">
-                                    <span>*方案名称控制在6字符以内</span>
-                                </div>
-                                <div class="create-line m-b-30">
-                                    <span>所属方案组名称</span>
-                                    <select name="" id="groupList2" class="form-control">
-                                        <option value="1">涉及国家</option>
-                                    </select>
-                                </div>
-                                <div class="create-line2 m-b-20">
-                                    <span>方案主体关键词</span>
-                                    <textarea class="form-control" name="" id="prokeywords" rows="4"
-                                              placeholder='关键词之间用逗号","隔开&#13;&#10;例如：汽车行业，别克，辉腾，三菱'></textarea>
-                                    <div class="create-tips">
-                                        <a tabindex="0" class="" data-html="true" role="button" data-toggle="popover"
-                                           data-trigger="focus" title="方案主体关键词提示"
-                                           data-content="1、地域、人物、事件 三类都可输入多个关键词，关键词之间用英文逗号分开。三个类型都可以为空。<br>2、每一类的多个关键词之间默认为或(或者)”的关系。<br>3、地域、人物、事件三个类型之间是“与(并且)”的关系。例如：地域配置了“上海”，人物配置了“周某”，事件配置了“撞车”，只有同时满足这3个条件的文章才会被监测到。">
-                                            <i class="fa fa-question-circle"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                                <!-- <div class="create-line2 m-b-20">
-                                    <span>国家/城市/地域 关键词</span>
-                                    <textarea class="form-control" name="" id="proarea" rows="4"
-                                              placeholder='关键词之间用逗号","隔开;例如：美国，上海，北京，滕家沟，南京西路'></textarea>
-                                    <div class="create-tips">
-                                        <a tabindex="0" class="" data-html="true" role="button" data-toggle="popover"
-                                           data-trigger="focus" title="国家/城市/地域 关键词提示"
-                                           data-content="1、地域、人物、事件 三类都可输入多个关键词，关键词之间用空格分开。三个类型都可以为空。<br>2、每一类的多个关键词之间默认为或(或者)”的关系。<br>3、地域、人物、事件三个类型之间是“与(并且)”的关系。例如：地域配置了“上海”，人物配置了“周某”，事件配置了“撞车”，只有同时满足这3个条件的文章才会被监测到。">
-                                            <i class="fa fa-question-circle"></i>
-                                        </a>
-                                    </div>
-                                </div> -->
-                                <!-- <div class="create-line2 m-b-20">
-                                    <span>人物/机构/企业 关键词</span>
-                                    <textarea class="form-control" name="" id="properson" rows="4"
-                                              placeholder='关键词之间用逗号","隔开；例如：马云，北京网安中心，腾讯科技'></textarea>
-                                    <div class="create-tips">
-                                        <a tabindex="0" class="" data-html="true" role="button" data-toggle="popover"
-                                           data-trigger="focus" title="人物/机构/企业 关键词提示"
-                                           data-content="1、地域、人物、事件 三类都可输入多个关键词，关键词之间用空格分开。三个类型都可以为空。<br>2、每一类的多个关键词之间默认为或(或者)”的关系。<br>3、地域、人物、事件三个类型之间是“与(并且)”的关系。例如：地域配置了“上海”，人物配置了“周某”，事件配置了“撞车”，只有同时满足这3个条件的文章才会被监测到。">
-                                            <i class="fa fa-question-circle"></i>
-                                        </a>
-                                    </div>
-                                </div> -->
-                                <!-- <div class="create-line2 m-b-20">
-                                    <span>事件/动词 关键词</span>
-                                    <textarea class="form-control" name="" id="proaccident" rows="4"
-                                              placeholder='关键词之间用逗号","隔开；例如：高管离职，拖欠工资，跑路，开销，焦虑'></textarea>
-                                    <div class="create-tips">
-                                        <a tabindex="0" class="" data-html="true" role="button" data-toggle="popover"
-                                           data-trigger="focus" title="事件/动词 关键词提示"
-                                           data-content="1、地域、人物、事件 三类都可输入多个关键词，关键词之间用空格分开。三个类型都可以为空。<br>2、每一类的多个关键词之间默认为或(或者)”的关系。<br>3、地域、人物、事件三个类型之间是“与(并且)”的关系。例如：地域配置了“上海”，人物配置了“周某”，事件配置了“撞车”，只有同时满足这3个条件的文章才会被监测到。">
-                                            <i class="fa fa-question-circle"></i>
-                                        </a>
-                                    </div>
-                                </div> -->
-                                <div class="create-line2 m-b-20">
-                                    <span>监测屏蔽歧义词</span>
-                                    <textarea class="form-control" name="" id="proshield" rows="4"
-                                              placeholder='屏蔽词之间用逗号","隔开&#13;&#10;例如：合作，用不，二娃，流连'></textarea>
-                                    <div class="create-tips">
-                                        <a tabindex="0" class="" data-html="true" role="button" data-toggle="popover"
-                                           data-trigger="focus" title="监测屏蔽歧义词提示"
-                                           data-content="1、地域、人物、事件 三类都可输入多个关键词，关键词之间用英文逗号分开。三个类型都可以为空。<br>2、每一类的多个关键词之间默认为或(或者)”的关系。<br>3、地域、人物、事件三个类型之间是“与(并且)”的关系。例如：地域配置了“上海”，人物配置了“周某”，事件配置了“撞车”，只有同时满足这3个条件的文章才会被监测到。">
-                                            <i class="fa fa-question-circle"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="create-line m-b-30">
-                                    <span>来源网站</span>
-                                    <input id="sourceWebsite2" type="text" class="form-control"
-                                           placeholder="请输入来源网站">
-                                </div>
-                                <div class="create-line m-b-30">
-                                    <span>作者名称</span>
-                                    <input id="author2" type="text" class="form-control"
-                                           placeholder="请输入作者名称">
-                                </div>
-<!--                                <div class="p-t-10" >-->
-<!--                                    &lt;!&ndash; double line  start&ndash;&gt;-->
-<!--                                    <div class="warning-edit-third ">-->
-<!--                                        <div class="warning-left">-->
-<!--                                            <div>情感属性</div>-->
-<!--                                            <div class=" m-l-0" id="emotion2">-->
-<!--                                                <span data-emotion=1 class="badge badge-pill badge-light">正面</span>-->
-<!--                                                <span data-emotion=2 class="badge badge-pill badge-light">中性</span>-->
-<!--                                                <span data-emotion=3 class="badge badge-pill badge-light">负面</span>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                        <div class="warning-center">-->
-<!--                                            <div>相似文章</div>-->
-<!--                                            <div class=" m-l-0">-->
-<!--                                                <span data-similar=1 class="badge badge-pill badge-light">合并文章</span>-->
-<!--                                                <span data-similar=0 class="badge badge-pill badge-light">取消合并</span>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                        <div class="warning-right">-->
-<!--                                            <div>精准筛选</div>-->
-<!--                                            <div class=" m-l-0">-->
-<!--                                                <span data-precise=1 class="badge badge-pill badge-light">打开精准</span>-->
-<!--                                                <span data-precise=0 class="badge badge-pill badge-light">关闭精准</span>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                    &lt;!&ndash; double line end&ndash;&gt;-->
-<!--                                    &lt;!&ndash; double line  start&ndash;&gt;-->
-<!--                                    <div class="warning-edit-double" style="justify-content: inherit;">-->
-<!--                                        <div class="warning-left" style="width: 40%;">-->
-<!--                                            <div>信息排序</div>-->
-<!--                                            <div class=" m-l-0">-->
-<!--                                                <span data-sort=1 class="badge badge-pill badge-light">时间降序</span>-->
-<!--                                                <span data-sort=2 class="badge badge-pill badge-light">时间升序</span>-->
-<!--                                                <span data-sort=3 class="badge badge-pill badge-light">相似数量</span>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                        <div class="warning-right">-->
-<!--                                            <div>匹配方式</div>-->
-<!--                                            <div style="margin-left: 0;">-->
-<!--                                                <span data-matchs=1 class="badge badge-pill badge-light">全文匹配</span>-->
-<!--                                                <span data-matchs=2 class="badge badge-pill badge-light">标题匹配</span>-->
-<!--                                                <span data-matchs=3 class="badge badge-pill badge-light">正文匹配</span>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                    &lt;!&ndash; double line end&ndash;&gt;-->
-<!--                                    &lt;!&ndash; double line  start&ndash;&gt;-->
-<!--                                    <div class="warning-edit-double">-->
-<!--                                        <div class="warning-left w-100">-->
-<!--                                            <div class="preference-left">时间范围</div>-->
-<!--                                            <div class=" m-l-0 preference-time-list">-->
-<!--                                                <span data-time=1 class="badge badge-pill badge-light">24小时</span>-->
-<!--                                                <span data-time=3 class="badge badge-pill badge-light">昨天</span>-->
-<!--                                                <span data-time=2 class="badge badge-pill badge-light">今天</span>-->
-<!--                                                <span data-time=4 class="badge badge-pill badge-light">3天</span>-->
-<!--                                                <span data-time=5 class="badge badge-pill badge-light">7天</span>-->
-<!--                                                <span data-time=6 class="badge badge-pill badge-light">15天</span>-->
-<!--                                                <span data-time=7 class="badge badge-pill badge-light">30天</span>-->
-<!--                                                <span data-time=8 class="badge badge-pill badge-light">自定义</span>-->
-<!--                                                <div class="input-daterange monitor-date preference-time date-range" style="display:none"-->
-<!--                                                     >-->
-<!--                                                    <input type="text" class="form-control" name="start" placeholder="开始日期"/>-->
-<!--                                                    <input type="text" class="form-control" name="end" placeholder="结束日期"/>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-
-                                <div class="create-btn-group">
-                                    <button class="btn btn-info m-r-10" type="button" id="gosubmit">确定</button>
-                                    <button class="btn btn-secondary" type="button" id="goback">取消</button>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- tab2 end -->
+                            <i class="fa fa-question-circle"></i>
+                        </a>
                     </div>
                 </div>
-            </div>
-            <div class="page-footer">
-                © 2014-<span id="currentyear"></span> 南京涌亿思信息技术有限公司 苏ICP备17066984号-1
+                <div class="create-line2 m-b-20">
+                    <span>监测屏蔽歧义词</span>
+                    <textarea class="form-control" name="" id="proshield1" rows="4"
+                              placeholder=''></textarea>
+                    <div class="create-tips">
+                        <a tabindex="0" class="" data-html="true" role="button" data-toggle="popover"
+                           data-trigger="focus" title="监测屏蔽歧义词提示"
+                           data-content="1：“+”表示“并且”,“|”表示“或”
+														<br>
+														2：什么情况下用“|”：
+														如想关注北京或上海或广州的新闻，表达式为“北京|上海|广州”，表示文章中出现 “北京”、“上海”、“广州”任意一个城市就能监测到。
+														<br>
+														3：什么情况下用“+”：
+														如想关注北京车牌摇号的新闻，表达式为“北京+车牌摇号”，表示文章中同时出现 “北京”和“车牌摇号”两个关键词才能监测到。
+														<br>
+														4：什么情况下同时用到“+”、“|”：
+														如想关注上海世博会的新闻，由于“世博会”又可能被称为“世界博览会”，表达式为 “上海+(世博会|世界博览会)”，表示文章中出现“上海”，同时出现“世博会”或者 “世界博览会”中任意一个词，就能监测到；
+														<br>
+														5：什么情况下用到排除关键词：
+														如想关注上海、北京、广州的新闻，但又不想看到内容中有“三室一厅”、“二室 一厅”这种关键词的广告，可以使用排除关键词的方式。 匹配关键词表达式“北京|上海|广州” 排除关键词表达式“三室一厅|二室一厅”">
+                            <i class="fa fa-question-circle"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="create-line m-b-30">
+                    <span>来源网站</span>
+                    <input id="sourceWebsite1" type="text" class="form-control"
+                           placeholder="请输入来源网站">
+                </div>
+                <div class="create-line m-b-30">
+                    <span>作者名称</span>
+                    <input id="author1" type="text" class="form-control"
+                           placeholder="请输入作者名称">
+                </div>
+                <!--                                <div class="p-t-10" >-->
+                <!--                                    &lt;!&ndash; double line  start&ndash;&gt;-->
+                <!--                                    <div class="warning-edit-third ">-->
+                <!--                                        <div class="warning-left">-->
+                <!--                                            <div>情感属性</div>-->
+                <!--                                            <div class=" m-l-0" id="emotion1">-->
+                <!--                                                <span data-emotion=1 class="badge badge-pill badge-light">正面</span>-->
+                <!--                                                <span data-emotion=2 class="badge badge-pill badge-light">中性</span>-->
+                <!--                                                <span data-emotion=3 class="badge badge-pill badge-light">负面</span>-->
+                <!--                                            </div>-->
+                <!--                                        </div>-->
+                <!--                                        <div class="warning-center">-->
+                <!--                                            <div>相似文章</div>-->
+                <!--                                            <div class=" m-l-0">-->
+                <!--                                                <span data-similar=1 class="badge badge-pill badge-light">合并文章</span>-->
+                <!--                                                <span data-similar=0 class="badge badge-pill badge-light">取消合并</span>-->
+                <!--                                            </div>-->
+                <!--                                        </div>-->
+                <!--                                        <div class="warning-right">-->
+                <!--                                            <div>精准筛选</div>-->
+                <!--                                            <div class=" m-l-0">-->
+                <!--                                                <span data-precise=1 class="badge badge-pill badge-light">打开精准</span>-->
+                <!--                                                <span data-precise=0 class="badge badge-pill badge-light">关闭精准</span>-->
+                <!--                                            </div>-->
+                <!--                                        </div>-->
+                <!--                                    </div>-->
+                <!--                                    &lt;!&ndash; double line end&ndash;&gt;-->
+                <!--                                    &lt;!&ndash; double line  start&ndash;&gt;-->
+                <!--                                    <div class="warning-edit-double" style="justify-content: inherit;">-->
+                <!--                                        <div class="warning-left" style="width: 40%;">-->
+                <!--                                            <div>信息排序</div>-->
+                <!--                                            <div class=" m-l-0">-->
+                <!--                                                <span data-sort=1 class="badge badge-pill badge-light">时间降序</span>-->
+                <!--                                                <span data-sort=2 class="badge badge-pill badge-light">时间升序</span>-->
+                <!--                                                <span data-sort=3 class="badge badge-pill badge-light">相似数量</span>-->
+                <!--                                            </div>-->
+                <!--                                        </div>-->
+                <!--                                        <div class="warning-right">-->
+                <!--                                            <div>匹配方式</div>-->
+                <!--                                            <div style="margin-left: 0;">-->
+                <!--                                                <span data-matchs=1 class="badge badge-pill badge-light">全文匹配</span>-->
+                <!--                                                <span data-matchs=2 class="badge badge-pill badge-light">标题匹配</span>-->
+                <!--                                                <span data-matchs=3 class="badge badge-pill badge-light">正文匹配</span>-->
+                <!--                                            </div>-->
+                <!--                                        </div>-->
+                <!--                                    </div>-->
+                <!--                                    &lt;!&ndash; double line end&ndash;&gt;-->
+                <!--                                    &lt;!&ndash; double line  start&ndash;&gt;-->
+                <!--                                    <div class="warning-edit-double">-->
+                <!--                                        <div class="warning-left w-100">-->
+                <!--                                            <div class="preference-left">时间范围</div>-->
+                <!--                                            <div class=" m-l-0 preference-time-list">-->
+                <!--                                                <span data-time=1 class="badge badge-pill badge-light">24小时</span>-->
+                <!--                                                <span data-time=3 class="badge badge-pill badge-light">昨天</span>-->
+                <!--                                                <span data-time=2 class="badge badge-pill badge-light">今天</span>-->
+                <!--                                                <span data-time=4 class="badge badge-pill badge-light">3天</span>-->
+                <!--                                                <span data-time=5 class="badge badge-pill badge-light">7天</span>-->
+                <!--                                                <span data-time=6 class="badge badge-pill badge-light">15天</span>-->
+                <!--                                                <span data-time=7 class="badge badge-pill badge-light">30天</span>-->
+                <!--                                                <span data-time=8 class="badge badge-pill badge-light">自定义</span>-->
+                <!--                                                <div class="input-daterange monitor-date preference-time date-range" style="display:none"-->
+                <!--                                                     >-->
+                <!--                                                    <input type="text" class="form-control" name="start" placeholder="开始日期"/>-->
+                <!--                                                    <input type="text" class="form-control" name="end" placeholder="结束日期"/>-->
+                <!--                                                </div>-->
+                <!--                                            </div>-->
+                <!--                                        </div>-->
+                <!--                                    </div>-->
+                <!--                                </div>-->
+
+                <div class="create-btn-group">
+                    <button class="btn btn-info m-r-10" type="button" id="gosubmit1">确定</button>
+                    <button class="btn btn-secondary" type="button" id="goback1">取消</button>
+                </div>
             </div>
         </div>
+        <!-- tab1 end -->
+        <!-- tab2 start -->
+        <div id="tab1" class="card m-b-0" >
+            <div class="card-body p-b-0">
+                <div class="create-line m-b-30">
+                    <span>方案名称</span>
+                    <input id="proname" type="text" maxlength="6" class="form-control"
+                           placeholder="请输入方案名称">
+                    <span>*方案名称控制在6字符以内</span>
+                </div>
+                <div class="create-line m-b-30">
+                    <span>所属方案组名称</span>
+                    <select name="" id="groupList2" class="form-control">
+                        <option value="1">涉及国家</option>
+                    </select>
+                </div>
+                <div class="create-line2 m-b-20">
+                    <span>方案主体关键词</span>
+                    <textarea class="form-control" name="" id="prokeywords" rows="4"
+                              placeholder='关键词之间用逗号","隔开&#13;&#10;例如：汽车行业，别克，辉腾，三菱'></textarea>
+                    <div class="create-tips">
+                        <a tabindex="0" class="" data-html="true" role="button" data-toggle="popover"
+                           data-trigger="focus" title="方案主体关键词提示"
+                           data-content="1、地域、人物、事件 三类都可输入多个关键词，关键词之间用英文逗号分开。三个类型都可以为空。<br>2、每一类的多个关键词之间默认为或(或者)”的关系。<br>3、地域、人物、事件三个类型之间是“与(并且)”的关系。例如：地域配置了“上海”，人物配置了“周某”，事件配置了“撞车”，只有同时满足这3个条件的文章才会被监测到。">
+                            <i class="fa fa-question-circle"></i>
+                        </a>
+                    </div>
+                </div>
+                <!-- <div class="create-line2 m-b-20">
+                    <span>国家/城市/地域 关键词</span>
+                    <textarea class="form-control" name="" id="proarea" rows="4"
+                              placeholder='关键词之间用逗号","隔开;例如：美国，上海，北京，滕家沟，南京西路'></textarea>
+                    <div class="create-tips">
+                        <a tabindex="0" class="" data-html="true" role="button" data-toggle="popover"
+                           data-trigger="focus" title="国家/城市/地域 关键词提示"
+                           data-content="1、地域、人物、事件 三类都可输入多个关键词，关键词之间用空格分开。三个类型都可以为空。<br>2、每一类的多个关键词之间默认为或(或者)”的关系。<br>3、地域、人物、事件三个类型之间是“与(并且)”的关系。例如：地域配置了“上海”，人物配置了“周某”，事件配置了“撞车”，只有同时满足这3个条件的文章才会被监测到。">
+                            <i class="fa fa-question-circle"></i>
+                        </a>
+                    </div>
+                </div> -->
+                <!-- <div class="create-line2 m-b-20">
+                    <span>人物/机构/企业 关键词</span>
+                    <textarea class="form-control" name="" id="properson" rows="4"
+                              placeholder='关键词之间用逗号","隔开；例如：马云，北京网安中心，腾讯科技'></textarea>
+                    <div class="create-tips">
+                        <a tabindex="0" class="" data-html="true" role="button" data-toggle="popover"
+                           data-trigger="focus" title="人物/机构/企业 关键词提示"
+                           data-content="1、地域、人物、事件 三类都可输入多个关键词，关键词之间用空格分开。三个类型都可以为空。<br>2、每一类的多个关键词之间默认为或(或者)”的关系。<br>3、地域、人物、事件三个类型之间是“与(并且)”的关系。例如：地域配置了“上海”，人物配置了“周某”，事件配置了“撞车”，只有同时满足这3个条件的文章才会被监测到。">
+                            <i class="fa fa-question-circle"></i>
+                        </a>
+                    </div>
+                </div> -->
+                <!-- <div class="create-line2 m-b-20">
+                    <span>事件/动词 关键词</span>
+                    <textarea class="form-control" name="" id="proaccident" rows="4"
+                              placeholder='关键词之间用逗号","隔开；例如：高管离职，拖欠工资，跑路，开销，焦虑'></textarea>
+                    <div class="create-tips">
+                        <a tabindex="0" class="" data-html="true" role="button" data-toggle="popover"
+                           data-trigger="focus" title="事件/动词 关键词提示"
+                           data-content="1、地域、人物、事件 三类都可输入多个关键词，关键词之间用空格分开。三个类型都可以为空。<br>2、每一类的多个关键词之间默认为或(或者)”的关系。<br>3、地域、人物、事件三个类型之间是“与(并且)”的关系。例如：地域配置了“上海”，人物配置了“周某”，事件配置了“撞车”，只有同时满足这3个条件的文章才会被监测到。">
+                            <i class="fa fa-question-circle"></i>
+                        </a>
+                    </div>
+                </div> -->
+                <div class="create-line2 m-b-20">
+                    <span>监测屏蔽歧义词</span>
+                    <textarea class="form-control" name="" id="proshield" rows="4"
+                              placeholder='屏蔽词之间用逗号","隔开&#13;&#10;例如：合作，用不，二娃，流连'></textarea>
+                    <div class="create-tips">
+                        <a tabindex="0" class="" data-html="true" role="button" data-toggle="popover"
+                           data-trigger="focus" title="监测屏蔽歧义词提示"
+                           data-content="1、地域、人物、事件 三类都可输入多个关键词，关键词之间用英文逗号分开。三个类型都可以为空。<br>2、每一类的多个关键词之间默认为或(或者)”的关系。<br>3、地域、人物、事件三个类型之间是“与(并且)”的关系。例如：地域配置了“上海”，人物配置了“周某”，事件配置了“撞车”，只有同时满足这3个条件的文章才会被监测到。">
+                            <i class="fa fa-question-circle"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="create-line m-b-30">
+                    <span>来源网站</span>
+                    <input id="sourceWebsite2" type="text" class="form-control"
+                           placeholder="请输入来源网站">
+                </div>
+                <div class="create-line m-b-30">
+                    <span>作者名称</span>
+                    <input id="author2" type="text" class="form-control"
+                           placeholder="请输入作者名称">
+                </div>
+                <!--                                <div class="p-t-10" >-->
+                <!--                                    &lt;!&ndash; double line  start&ndash;&gt;-->
+                <!--                                    <div class="warning-edit-third ">-->
+                <!--                                        <div class="warning-left">-->
+                <!--                                            <div>情感属性</div>-->
+                <!--                                            <div class=" m-l-0" id="emotion2">-->
+                <!--                                                <span data-emotion=1 class="badge badge-pill badge-light">正面</span>-->
+                <!--                                                <span data-emotion=2 class="badge badge-pill badge-light">中性</span>-->
+                <!--                                                <span data-emotion=3 class="badge badge-pill badge-light">负面</span>-->
+                <!--                                            </div>-->
+                <!--                                        </div>-->
+                <!--                                        <div class="warning-center">-->
+                <!--                                            <div>相似文章</div>-->
+                <!--                                            <div class=" m-l-0">-->
+                <!--                                                <span data-similar=1 class="badge badge-pill badge-light">合并文章</span>-->
+                <!--                                                <span data-similar=0 class="badge badge-pill badge-light">取消合并</span>-->
+                <!--                                            </div>-->
+                <!--                                        </div>-->
+                <!--                                        <div class="warning-right">-->
+                <!--                                            <div>精准筛选</div>-->
+                <!--                                            <div class=" m-l-0">-->
+                <!--                                                <span data-precise=1 class="badge badge-pill badge-light">打开精准</span>-->
+                <!--                                                <span data-precise=0 class="badge badge-pill badge-light">关闭精准</span>-->
+                <!--                                            </div>-->
+                <!--                                        </div>-->
+                <!--                                    </div>-->
+                <!--                                    &lt;!&ndash; double line end&ndash;&gt;-->
+                <!--                                    &lt;!&ndash; double line  start&ndash;&gt;-->
+                <!--                                    <div class="warning-edit-double" style="justify-content: inherit;">-->
+                <!--                                        <div class="warning-left" style="width: 40%;">-->
+                <!--                                            <div>信息排序</div>-->
+                <!--                                            <div class=" m-l-0">-->
+                <!--                                                <span data-sort=1 class="badge badge-pill badge-light">时间降序</span>-->
+                <!--                                                <span data-sort=2 class="badge badge-pill badge-light">时间升序</span>-->
+                <!--                                                <span data-sort=3 class="badge badge-pill badge-light">相似数量</span>-->
+                <!--                                            </div>-->
+                <!--                                        </div>-->
+                <!--                                        <div class="warning-right">-->
+                <!--                                            <div>匹配方式</div>-->
+                <!--                                            <div style="margin-left: 0;">-->
+                <!--                                                <span data-matchs=1 class="badge badge-pill badge-light">全文匹配</span>-->
+                <!--                                                <span data-matchs=2 class="badge badge-pill badge-light">标题匹配</span>-->
+                <!--                                                <span data-matchs=3 class="badge badge-pill badge-light">正文匹配</span>-->
+                <!--                                            </div>-->
+                <!--                                        </div>-->
+                <!--                                    </div>-->
+                <!--                                    &lt;!&ndash; double line end&ndash;&gt;-->
+                <!--                                    &lt;!&ndash; double line  start&ndash;&gt;-->
+                <!--                                    <div class="warning-edit-double">-->
+                <!--                                        <div class="warning-left w-100">-->
+                <!--                                            <div class="preference-left">时间范围</div>-->
+                <!--                                            <div class=" m-l-0 preference-time-list">-->
+                <!--                                                <span data-time=1 class="badge badge-pill badge-light">24小时</span>-->
+                <!--                                                <span data-time=3 class="badge badge-pill badge-light">昨天</span>-->
+                <!--                                                <span data-time=2 class="badge badge-pill badge-light">今天</span>-->
+                <!--                                                <span data-time=4 class="badge badge-pill badge-light">3天</span>-->
+                <!--                                                <span data-time=5 class="badge badge-pill badge-light">7天</span>-->
+                <!--                                                <span data-time=6 class="badge badge-pill badge-light">15天</span>-->
+                <!--                                                <span data-time=7 class="badge badge-pill badge-light">30天</span>-->
+                <!--                                                <span data-time=8 class="badge badge-pill badge-light">自定义</span>-->
+                <!--                                                <div class="input-daterange monitor-date preference-time date-range" style="display:none"-->
+                <!--                                                     >-->
+                <!--                                                    <input type="text" class="form-control" name="start" placeholder="开始日期"/>-->
+                <!--                                                    <input type="text" class="form-control" name="end" placeholder="结束日期"/>-->
+                <!--                                                </div>-->
+                <!--                                            </div>-->
+                <!--                                        </div>-->
+                <!--                                    </div>-->
+                <!--                                </div>-->
+
+                <div class="create-btn-group">
+                    <button class="btn btn-info m-r-10" type="button" id="gosubmit">确定</button>
+                    <button class="btn btn-secondary" type="button" id="goback">取消</button>
+                </div>
+            </div>
+        </div>
+        <!-- tab2 end -->
     </div>
+</div>
+</div>
+<div class="page-footer">
+    © 2014-<span id="currentyear"></span> 南京涌亿思信息技术有限公司 苏ICP备17066984号-1
+</div>
+</div>
+</div>
 </div>
 <script th:src="@{/assets/libs/jquery/dist/jquery.min.js}"></script>
 <!-- Bootstrap tether Core JavaScript -->
@@ -423,17 +423,78 @@
 <!-- 提示框 -->
 <script th:src="@{/assets/libs/sweetalert2/dist/sweetalert2.all.min.js}"></script>
 <script th:src="@{/dist/baidu/baidu_statistics.js}"></script>
-                <script th:src="@{/assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js}"></script>
-                <script th:src="@{/assets/libs/bootstrap-datepicker/dist/locales/bootstrap-datepicker.zh-CN.min.js}"></script>
+<script th:src="@{/assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js}"></script>
+<script th:src="@{/assets/libs/bootstrap-datepicker/dist/locales/bootstrap-datepicker.zh-CN.min.js}"></script>
 <script th:inline="javascript" type="text/javascript">
     $("#currentyear").text((new Date()).getFullYear());
 
     var groupId = [[${groupId}]];
 
+    let projectId = [[${projectId}]];
+
     $(document).ready(function () {
         sendGroupByadd();  // 组装方案组数据
         // getOpinionConditionByProjectId()
+        getProjectDetail(); // 获取方案详情
     });
+
+    // 获取方案详情
+    function getProjectDetail() {
+        $.ajax({
+            type: "get",
+            url: "/defaultProject/getProjectDetail?projectId="+projectId,
+            contentType: "application/json;charset=UTF-8",
+            success: function (res) {
+                let code = res.status;
+                if (code === 200) {
+                    let data = res.data;
+                    // 渲染页面
+                    renderPage(data);
+                } else {
+                    showInfo("出错啦，请稍后再试");
+                }
+            },
+                error: function (xhr, ajaxOptions, thrownError) {
+                if (xhr.status == 403) {
+                    window.location.href = "/login";
+                } else {
+                    console.log(thrownError);
+                }
+            }
+        });
+    }
+
+    // 渲染页面
+    function renderPage(data) {
+        let project_name = data.project_name; // 方案名称
+        let group_id = data.group_id; // 方案组id
+        let keywords = data.subject_word; // 关键词
+        let shield = data.stop_word; // 屏蔽词
+        let source_website = data.source_website; // 来源网站
+        let author = data.author; // 作者名称
+
+        let project_type = data.project_type; // 方案类型
+
+        $("#proname").val(project_name); // 方案名称
+        $("#proname1").val(project_name); // 方案名称
+        $("#groupList2").val(group_id); // 方案组id
+        $("#groupList").val(group_id); // 方案组id
+        $("#prokeywords").val(keywords); // 关键词
+        $("#prokeywords1").val(keywords); // 关键词
+        $("#proshield").val(shield); // 屏蔽词
+        $("#proshield1").val(shield); // 屏蔽词
+        $("#sourceWebsite2").val(source_website); // 来源网站
+        $("#sourceWebsite1").val(source_website); // 来源网站
+        $("#author2").val(author); // 作者名称
+        $("#author1").val(author); // 作者名称
+
+        // 方案类型
+        if (project_type===1){
+            //高级方案
+            $("#search-tab li").removeClass("create-tab-act");
+            $("#search-tab li[data-type='1']").addClass("create-tab-act");
+        }
+    }
 
     // 左侧方案切换
     function switchProject(event) {
@@ -446,12 +507,12 @@
     /**
      * @author huajiancheng
      * @date 2020/04/15
-     * @description 发送新增方案的信息
+     * @description 发送修改方案的信息
      */
     function sendProjectInfo(data) {
         //新增方案
         $.ajax({
-            url: "/defaultProject/addProject",
+            url: "/defaultProject/updateProject",
             type: "post",
             contentType: 'application/json;charset=utf-8',
             data: JSON.stringify(data),
@@ -460,7 +521,7 @@
                 let code = res.status;
                 let msg = res.msg;
                 if (code == 200) {
-                    showInfo("新增成功");
+                    showInfo("修改成功");
                     //返回之前的页面
                     window.location.href = "/defaultProject/list";
                 } else {
@@ -644,6 +705,7 @@
             dataJson.stop_word = proshield;
             dataJson.group_id = group_id;
             dataJson.project_type = 1;
+            dataJson.project_id = projectId;
             let params = new Object(); // ajax基本的参数
             // let condition = getCondition();
             //获取emotion1的值
@@ -816,9 +878,7 @@
             dataJson.stop_word = proshield;
             dataJson.group_id = group_id;
             dataJson.project_type = 2;
-            dataJson.event_word = proaccident; // 事件关键词
-            dataJson.regional_word = proarea; // 地域词
-            dataJson.character_word = properson;  // 人物关键词
+            dataJson.project_id = projectId;
             let param = new Object(); // ajax基本的参数
             // let condition = getCondition();
             //读取情感属性
@@ -847,32 +907,32 @@
     // 偏好设置信息
     function getOpinionConditionByProjectId() {
 
-                    // $('#conditionGroup').show();
-                    $('#btnGroup').show();
-                    $('#nodata').html('');
+        // $('#conditionGroup').show();
+        $('#btnGroup').show();
+        $('#nodata').html('');
 
-                    $('span[data-time=' + 1 + ']').addClass('badge-info');
-                    $('span[data-time=' + 1 + ']').siblings().removeClass('badge-info');
+        $('span[data-time=' + 1 + ']').addClass('badge-info');
+        $('span[data-time=' + 1 + ']').siblings().removeClass('badge-info');
 
-                    $('span[data-precise=' + 0 + ']').addClass('badge-info');
-                    $('span[data-precise=' + 0 + ']').siblings().removeClass('badge-info');
+        $('span[data-precise=' + 0 + ']').addClass('badge-info');
+        $('span[data-precise=' + 0 + ']').siblings().removeClass('badge-info');
 
-                    $('span[data-similar=' + 0 + ']').addClass('badge-info');
-                    $('span[data-similar=' + 0 + ']').siblings().removeClass('badge-info');
+        $('span[data-similar=' + 0 + ']').addClass('badge-info');
+        $('span[data-similar=' + 0 + ']').siblings().removeClass('badge-info');
 
-                    $('span[data-sort=' + 1 + ']').addClass('badge-info');
-                    $('span[data-sort=' + 1 + ']').siblings().removeClass('badge-info');
+        $('span[data-sort=' + 1 + ']').addClass('badge-info');
+        $('span[data-sort=' + 1 + ']').siblings().removeClass('badge-info');
 
-                    $('span[data-matchs=' + 1 + ']').addClass('badge-info');
-                    $('span[data-matchs=' + 1 + ']').siblings().removeClass('badge-info');
+        $('span[data-matchs=' + 1 + ']').addClass('badge-info');
+        $('span[data-matchs=' + 1 + ']').siblings().removeClass('badge-info');
 
 
-                    $('span[data-emotion]').removeClass('badge-info');
+        $('span[data-emotion]').removeClass('badge-info');
 
-                    var emotion = JSON.parse('[1,2,3]');
-                        for (var i = 0; i < emotion.length; i++) {
-                            $('span[data-emotion=' + emotion[i] + ']').addClass('badge-info');
-                        }
+        var emotion = JSON.parse('[1,2,3]');
+        for (var i = 0; i < emotion.length; i++) {
+            $('span[data-emotion=' + emotion[i] + ']').addClass('badge-info');
+        }
 
 
     }

@@ -14,6 +14,11 @@
         set del_status = #{status}
         where project_id = #{projectId}
     </update>
+    <update id="update">
+        update default_project
+        set project_name = #{project_name}, project_type = #{project_type}, subject_word = #{subject_word}, stop_word = #{stop_word}, update_time = now()
+        where project_id = #{project_id}
+    </update>
 
 
     <select id="selectAll" resultType="com.stonedt.entity.DefaultProject">
@@ -34,5 +39,11 @@
         where project_name = #{projectName}
         and group_id = #{groupId}
         and del_status = 0
+    </select>
+    <select id="selectByProjectId" resultType="com.stonedt.entity.DefaultProject">
+        select
+            *
+        from default_project
+        where project_id = #{projectId}
     </select>
 </mapper>

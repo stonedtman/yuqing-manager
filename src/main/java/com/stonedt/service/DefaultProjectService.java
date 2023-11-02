@@ -54,4 +54,13 @@ public interface DefaultProjectService {
 
 
     DefaultSolutionGroup getGroupById(Integer groupId);
+
+    ResultUtil getProjectDetail(Long projectId);
+
+    /**
+     * 更新方案
+     * @param jsonObject
+     * @return
+     */
+    ResultUtil updateProject(JSONObject jsonObject);
 }

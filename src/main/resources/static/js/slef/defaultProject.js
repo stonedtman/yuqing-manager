@@ -138,7 +138,7 @@ function loading(pagenum) {
                         '<td>' +
                         '<div class="btn-group">' +
                         '<button class="btn-' + btn + ' btn btn-xs" onclick=\'changeState("' + project_id + '","' + dataJson.del_status + '")\'>' + stat + '</button>'
-                        +'<button class="btn-info btn btn-xs" onclick=\'updateProject(project_id)\'>' + '修改' + '</button>'
+                        +'<button class="btn-info btn btn-xs" onclick=\'updateProject("' + project_id +'")\'>' + '修改' + '</button>'
                         '</div>' +
                         '</td>' +
                         '</tr>'
@@ -224,7 +224,7 @@ function updateProject(projectId) {
 
     /*$.get("/user/getUser?oldTelephone="+telephone );*/
 
-    location.href="/defaultProject/updateProject?projectId="+projectId;
+    location.href="/defaultProject/updateProjectPage?projectId="+projectId;
 
     /*$.ajax({
         type: "get",
