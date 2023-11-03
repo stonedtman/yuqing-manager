@@ -84,7 +84,8 @@ public class LogServiceImpl implements LogService {
     String keyword = paramJson.getString("keyword");
 
     Map map = new HashMap();
-    map.put("times" , paramJson.getString("times"));//获取时间范围
+    String times = paramJson.getString("times");
+    map.put("times" , times);//获取时间范围
 
     /*if ( !"".equals(keyword) && keyword != null){
       keyword = "%" + keyword +"%";
@@ -94,6 +95,7 @@ public class LogServiceImpl implements LogService {
     PageHelper.startPage(page.intValue() , 10);
     List<Map> systemlogs = userDao.getSystemlogs(map);
     for (Map systemlog : systemlogs) {
+      systemlog.put("times", times);
       int count = userDao.getCountByCondition(systemlog);
       systemlog.put("count" , count);
     }

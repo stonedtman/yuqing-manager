@@ -173,7 +173,9 @@
 
     <select id="getSystemlogs" resultType="map" parameterType="map">
 
-        SELECT user_id ,
+        SELECT
+            distinct
+            user_id ,
             username ,
             loginip ,
             operatingSystem ,
@@ -188,7 +190,7 @@
             <if test="keyword != '' and keyword !=null">
                 and username like concat('%' , #{keyword} , '%')
             </if>
-            ORDER BY id desc
+            ORDER BY createtime desc
     </select>
 
 
@@ -320,5 +322,6 @@ organization.organization_id,organization.organization_short,organization.organi
         and module = #{module}
         and submodule = #{submodule}
         and type = #{type}
+        and createtime > #{times}
     </select>
 </mapper>
