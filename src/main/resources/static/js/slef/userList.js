@@ -1,6 +1,6 @@
 $(function () {
-    $('#head').html('默认方案配置')
-    $('#navigation').html('默认方案配置')
+    $('#head').html('用户管理')
+    $('#navigation').html('用户管理')
 
 
 
