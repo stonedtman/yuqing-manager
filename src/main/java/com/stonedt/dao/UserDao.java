@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.stonedt.entity.OrganizationEntity;
 import com.stonedt.entity.UserEntity;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -98,4 +99,10 @@ public interface UserDao {
    * @return 数量
    */
   int getCountByCondition(Map systemlog);
+
+
+  /**
+   * 删除时间小于输入时间的日志
+   */
+    void deleteSystemlogWhenLessTime(Date time);
 }
