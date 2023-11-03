@@ -22,7 +22,7 @@
     </update>
 
     <select id="getUserLoginLog" parameterType="map" resultType="map">
-        SELECT u.user_id , u.username , u.telephone , o.organization_short , o.organization_name , u.term_of_validity , u.login_count ,DATE_FORMAT(u.end_login_time,   '%Y-%m-%d %H:%i:%S') as end_login_time,
+        SELECT u.id as user_id , u.username , u.telephone , o.organization_short , o.organization_name , u.term_of_validity , u.login_count ,DATE_FORMAT(u.end_login_time,   '%Y-%m-%d %H:%i:%S') as end_login_time,
         o.organization_code , o.organization_type , o.organization_id
         from user u
         LEFT JOIN

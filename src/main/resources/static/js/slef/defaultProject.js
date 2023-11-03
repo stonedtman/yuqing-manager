@@ -105,7 +105,15 @@ function loading(pagenum) {
                     let project_id = dataJson.project_id;
                     let project_name = dataJson.project_name;
                     let subject_word = dataJson.subject_word;
-                    let stop_word = dataJson.stop_word===""?"————————":dataJson.stop_word;
+                    if (subject_word.length > 20){
+                        subject_word = subject_word.substring(0 , 20) + "......";
+                    }
+                    let stop_word = dataJson.stop_word;
+                    if (stop_word == null || stop_word === '') {
+                        stop_word = "———————";
+                    }else if (stop_word.length > 20){
+                        stop_word = stop_word.substring(0 , 20) + "......";
+                    }
                     let update_ime = stampTOtime(dataJson.update_time);
                     let project_type = dataJson.project_type;
                     let del_status = dataJson.del_status;
@@ -128,8 +136,8 @@ function loading(pagenum) {
                     htmlStr = '<tr class="textAlign">' +
                         '<td data-id="' + project_id + '">' + project_name + '</td>' +
                         /*'<td data-code="' + organization_code + '" data-id="' + organization_id + '">' + organization_short + '</td>' +*/
-                        '<td>'+subject_word+'</td>' +
-                        '<td>' + stop_word + '</td>' +
+                        '<td style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" title="'+dataJson.subject_word+'">'+subject_word+'</td>' +
+                        '<td style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" title="'+dataJson.stop_word+'">' + stop_word + '</td>' +
                         '<td>' + project_type + '</td>' +
                         '<td>' + status + '</td>' +
                         // '<td>' + update_ime + '</td>' +
