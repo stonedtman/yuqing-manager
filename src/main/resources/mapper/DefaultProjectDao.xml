@@ -16,7 +16,7 @@
     </update>
     <update id="update">
         update default_project
-        set project_name = #{project_name}, project_type = #{project_type}, subject_word = #{subject_word}, stop_word = #{stop_word}, update_time = now()
+        set project_name = #{project_name}, project_type = #{project_type}, subject_word = #{subject_word}, stop_word = #{stop_word}, update_time = now(),group_id = #{group_id}
         where project_id = #{project_id}
     </update>
 

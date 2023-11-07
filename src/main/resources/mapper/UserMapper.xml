@@ -247,6 +247,7 @@
 	user.nlp_flag,
 	user.wechatflag,
 	user.xie_flag,
+	user.openid,
 	DATE_FORMAT(
 		user.end_login_time ,
 		'%Y-%m-%d %H:%i:%S'

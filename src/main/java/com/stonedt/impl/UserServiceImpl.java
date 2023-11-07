@@ -9,17 +9,16 @@ import com.stonedt.dao.UserDao;
 import com.stonedt.entity.OrganizationEntity;
 import com.stonedt.entity.UserEntity;
 import com.stonedt.service.UserService;
-import com.stonedt.util.DateUtil;
-import com.stonedt.util.MD5Util;
-import com.stonedt.util.SnowFlake;
-import com.stonedt.util.SnowflakeUtil;
+import com.stonedt.util.*;
 
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.servlet.http.HttpSession;
 
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
@@ -29,6 +28,9 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 public class UserServiceImpl implements UserService {
   @Autowired
   UserDao userDao;
+
+  @Value("${jump-login-url}")
+  private String jumpLoginUrl;
   
   public JSONObject verifyAcount(String telephone, String password, HttpSession session) {
     JSONObject response = new JSONObject();
@@ -65,6 +67,16 @@ public class UserServiceImpl implements UserService {
       Integer page = Integer.valueOf(pageStr);
       PageHelper.startPage(page.intValue(), 20);
       List<Map<String, Object>> list = this.userDao.getUserList(map);
+      for (Map<String, Object> stringObjectMap : list) {
+        //将openid使用sha256加密
+        String openid = (String) stringObjectMap.get("openid");
+        if (openid != null && !openid.isEmpty()){
+          String sha256 = ShaUtil.getSHA256(openid, false);
+          //组装链接
+          String url = jumpLoginUrl + "?openid=" + sha256+"&userId="+stringObjectMap.get("user_id");
+          stringObjectMap.put("jumpLoginUrl" , url);
+        }
+      }
       PageInfo<Map<String, Object>> pageInfo = new PageInfo(list);
       Integer totalPage = Integer.valueOf(pageInfo.getPages());
       Long totalCount = Long.valueOf(pageInfo.getTotal());
