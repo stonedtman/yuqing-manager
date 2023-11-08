@@ -154,7 +154,7 @@ docker logs 容器ID -f
 
 ## License & Copyright
 
-Copyright (c) 2014-2022 思通数科 StoneDT, All rights reserved.
+Copyright (c) 2014-2023 思通数科 StoneDT, All rights reserved.
 
 Licensed under The GNU General Public License version 3 (GPLv3)  (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
 
