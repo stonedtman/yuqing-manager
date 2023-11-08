@@ -27,7 +27,7 @@
 
 ### UI 展示
 
-- 组织管理
+- 企业管理
 ![输入图片说明](proIMG/group-manager.png)
 - 用户管理
 ![输入图片说明](proIMG/user-manager.png)
@@ -35,6 +35,10 @@
 ![输入图片说明](proIMG/case-manager.png)
 - 日志管理
 ![输入图片说明](proIMG/logger-manager.png)
+- 默认方案组配置
+![输入图片说明](proIMG/group-manager.png)
+- 默认方案配置
+![输入图片说明](proIMG/project-manager.png)
 
 
 
