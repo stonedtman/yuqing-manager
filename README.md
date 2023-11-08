@@ -40,7 +40,7 @@
 - 公告管理
 ![输入图片说明](proIMG/gonggao-manager.png)
 - 默认方案组配置
-![输入图片说明](proIMG/group-manager.png)
+![输入图片说明](proIMG/projectgroup-manager.png)
 - 默认方案配置
 ![输入图片说明](proIMG/project-manager.png)
 
