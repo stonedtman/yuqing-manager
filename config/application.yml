@@ -37,5 +37,20 @@ mybatis:
 logging:
  # file: ./logs/core.log
   level:
-     com.yqt.portal.dao : debug # 打印sql
+     com.stonedt.dao: debug
   
+kaptcha:
+  border: "yes"
+  border.color: 105,179,90
+  textproducer:
+    font:
+      color: blue
+      size: 40
+      names: 宋体,楷体,微软雅黑
+    char:
+      length: 5
+  image:
+    width: 150
+    height: 50
+  session:
+    key: code
