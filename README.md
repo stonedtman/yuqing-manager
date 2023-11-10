@@ -7,7 +7,7 @@
 
 
 ### 软件架构
-软件架构说明，管理子系统分为4个主要部分：
+软件架构说明，管理子系统分为7个主要部分：
 
 - 1.企业管理
   
@@ -25,9 +25,21 @@
  
   管理员可以查看用户的登录次数以及用户具体操作了哪些功能菜单。
 
+- 5.公告管理
+
+  管理员可以前端舆情系统的公告栏进行更新。
+
+- 6.默认方案组配置
+
+  管理员可以前端舆情系统的新用户的默认方案组进行更新。
+
+- 7.默认方案配置
+
+  管理员可以前端舆情系统的新用户的默认方案进行更新。
+
 ### UI 展示
 
-- 组织管理
+- 企业管理
 ![输入图片说明](proIMG/group-manager.png)
 - 用户管理
 ![输入图片说明](proIMG/user-manager.png)
@@ -35,6 +47,12 @@
 ![输入图片说明](proIMG/case-manager.png)
 - 日志管理
 ![输入图片说明](proIMG/logger-manager.png)
+- 公告管理
+![输入图片说明](proIMG/gonggao-manager.png)
+- 默认方案组配置
+![输入图片说明](proIMG/projectgroup-manager.png)
+- 默认方案配置
+![输入图片说明](proIMG/project-manager.png)
 
 
 
@@ -136,7 +154,7 @@ docker logs 容器ID -f
 
 ## License & Copyright
 
-Copyright (c) 2014-2022 思通数科 StoneDT, All rights reserved.
+Copyright (c) 2014-2023 思通数科 StoneDT, All rights reserved.
 
 Licensed under The GNU General Public License version 3 (GPLv3)  (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
 
