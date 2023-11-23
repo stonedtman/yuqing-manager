@@ -8,7 +8,10 @@ function linemap() {
     var myChart = echarts.init(document.querySelector('#growth_trends'));
     var option = {
         tooltip: {
-            trigger: 'axis'
+            trigger: 'axis',
+            axisPointer: {
+                type: 'shadow'
+            }
         },
         grid: {
             top: '7%',
@@ -19,7 +22,7 @@ function linemap() {
         },
         xAxis: {
             type: 'category',
-            data: ['2023-11-20 00', '2023-11-20 04', '2023-11-20 08', '2023-11-20 12', '2023-11-20 16', '2023-11-20 20', '2023-11-21 00'],
+            data: ['2023-11-17', '2023-11-18', '2023-11-19', '2023-11-20', '2023-11-21', '2023-11-22', '2023-11-23'],
             axisLine: {
                 lineStyle: {
                     color: "#999"
@@ -46,21 +49,9 @@ function linemap() {
         series: [
             {
                 data: [2, 1, 4, 12, 16, 6, 3],
-                symbolSize : 6,
-                itemStyle:{
-                    color: "#64b5f6",
-
-                },
-                emphasis: {
-                    itemStyle: {
-                        color:'#64b5f6',//这里设置的拐点颜色
-                        borderColor: "#787878", //  拐点边框颜色
-                        borderWidth: 1, //  拐点边框宽度
-                    }
-                },
-                type: 'line',
-                showSymbol: false,
-                smooth: true
+                type: 'bar',
+                color: "#64b5f6",
+                barMaxWidth: 40
             }
         ]
     };
@@ -245,6 +236,22 @@ $("#keyword").keydown(function (res) {
         loading(1);
 })
 
+let user_ranking_sort = 0
+$(".user_ranking_sort").click(function () {
+    if(user_ranking_sort==0){
+        user_ranking_sort = 1
+        $(this)[0].children[0].className = ""
+        $(this)[0].children[1].className = "highlight"
+    }else if(user_ranking_sort==1){
+        user_ranking_sort = 2
+        $(this)[0].children[0].className = "highlight"
+        $(this)[0].children[1].className = ""
+    }else if(user_ranking_sort==2){
+        user_ranking_sort = 0
+        $(this)[0].children[0].className = ""
+        $(this)[0].children[1].className = ""
+    }
+})
 
 
 function stampTOtime(data) {

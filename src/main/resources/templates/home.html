@@ -36,6 +36,9 @@
             width: 100%;
             height: 370px;
         }
+        .highlight{
+            color: #64b5f6;
+        }
     </style>
 </head>
 <body>
@@ -78,18 +81,6 @@
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
                             <h5>用户增长趋势</h5>
-                            <div style="float: right ">
-                                <div class="form-group">
-                                    <select id="time" class="form-control">
-                                        <option value="0">24小时</option>
-                                        <option value="1">3天</option>
-                                        <option value="2">15天</option>
-                                        <option value="3">30天</option>
-                                        <option value="4">全部</option>
-                                    </select>
-                                </div>
-                            </div>
-
                         </div>
                         <div class="ibox-content">
                             <div id="growth_trends"></div>
@@ -126,7 +117,17 @@
                                         <th>写作宝</th>
                                         <th>微信公众号</th>
                                         <th>nlp</th>
-                                        <th>登录次数</th>
+                                        <th>
+                                            <span>使用次数</span>
+                                            <span class="user_ranking_sort" style="cursor:pointer;">
+                                                <span>
+                                                    <i class="fa fa-sort-up"></i>
+                                                </span>
+                                                <span style="margin-left: -11px;">
+                                                    <i class="fa fa-sort-down"></i>
+                                                </span>
+                                            </span>
+                                        </th>
                                         <th>最后一次登录时间</th>
                                     </tr>
                                     </thead>
@@ -191,46 +192,62 @@
                                 <table class="table table-hover">
                                     <thead>
                                     <tr class="textAlign">
-                                        <th>系统模块</th>
                                         <th>子模块</th>
+                                        <th>系统模块</th>
                                         <th>类型</th>
-                                        <th>使用总次数</th>
+                                        <th>
+                                            <span>使用总次数</span>
+                                            <span class="module_ranking_sort" style="cursor:pointer;">
+                                                <span>
+                                                    <i class="fa fa-sort-up"></i>
+                                                </span>
+                                                <span style="margin-left: -11px;">
+                                                    <i class="fa fa-sort-down"></i>
+                                                </span>
+                                            </span>
+                                        </th>
                                         <th>使用最多用户数</th>
-                                        <th>使用次数</th>
+                                        <th>
+                                            <span>使用次数</span>
+                                            <span class="module_ranking_sort1" style="cursor:pointer;">
+                                                <span>
+                                                    <i class="fa fa-sort-up"></i>
+                                                </span>
+                                                <span style="margin-left: -11px;">
+                                                    <i class="fa fa-sort-down"></i>
+                                                </span>
+                                            </span>
+                                        </th>
                                         <th>最新使用时间</th>
-                                        <th>操作</th>
                                     </tr>
                                     </thead>
                                     <tbody id="moduleRankingList">
                                         <tr class="textAlign">
-                                            <td><a href="/moduleRecords">数据监测</a></td>
                                             <td>数据监测-列表</td>
+                                            <td><a href="/moduleRecords">数据监测</a></td>
                                             <td>查询</td>
                                             <td>141</td>
                                             <td>微风轻轻起</td>
                                             <td>20</td>
                                             <td>11-09 15:35</td>
-                                            <td>查看更多</td>
                                         </tr>
                                         <tr class="textAlign">
-                                            <td><a href="/moduleRecords">数据监测</a></td>
                                             <td>数据监测-详情</td>
+                                            <td><a href="/moduleRecords">数据监测</a></td>
                                             <td>查询</td>
                                             <td>103</td>
                                             <td>微风轻轻起</td>
                                             <td>20</td>
                                             <td>11-09 15:35</td>
-                                            <td>查看更多</td>
                                         </tr>
                                         <tr class="textAlign">
-                                            <td><a href="/moduleRecords">监测分析</a></td>
                                             <td>监测分析页面</td>
+                                            <td><a href="/moduleRecords">监测分析</a></td>
                                             <td>查询</td>
                                             <td>88</td>
                                             <td>微风轻轻起</td>
                                             <td>16</td>
                                             <td>11-09 15:35</td>
-                                            <td>查看更多</td>
                                         </tr>
                                     </tbody>
                                 </table>
