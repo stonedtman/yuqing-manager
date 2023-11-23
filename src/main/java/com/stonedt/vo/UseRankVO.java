@@ -1,5 +1,7 @@
 package com.stonedt.vo;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.util.Date;
 import java.util.Objects;
 
@@ -23,6 +25,7 @@ public class UseRankVO {
 
     private Integer wechatFlag;
 
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date endLoginTime;
 
 
