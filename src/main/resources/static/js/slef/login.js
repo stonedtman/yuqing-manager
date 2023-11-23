@@ -43,7 +43,7 @@ $('.btn').click(function () {
             let code = res.code;
             let msg = res.msg;
             if (code == 200) {
-                window.location.href = ctxPath + "company/list";
+                window.location.href = ctxPath + "home";
             } else if (code == 500) {
                 alert(msg);
             } else if (code == 201) {
