@@ -13,11 +13,15 @@ import com.stonedt.util.*;
 
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoField;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpSession;
 
 import com.stonedt.vo.UseRankVO;
+import com.stonedt.vo.UserTrendChartVO;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -431,7 +435,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public ResultUtil getUserUseRanking(String username, Integer days, Integer pageNum, Integer pageSize) {
+  public ResultUtil<PageInfo<UseRankVO>> getUserUseRanking(String username, Integer days, Integer pageNum, Integer pageSize) {
     Date start = null;
     if (days > 0) {
         long currentTimeMillis = System.currentTimeMillis();
@@ -442,6 +446,48 @@ public class UserServiceImpl implements UserService {
     List<UseRankVO> useRankVOList = userDao.getUserUseRanking(username,start);
 
     return ResultUtil.ok(new PageInfo<>(useRankVOList));
+  }
+
+  @Override
+  public ResultUtil getUserTrend(Integer days) {
+
+
+    //获取今日日期,不包含时分秒
+    LocalDate now = LocalDate.now();
+    LocalDate start = now.minusDays(days);
+
+    //临时变量
+    LocalDate temp;
+    //创造列表
+    List<UserTrendChartVO> userTrendChartVOList = new ArrayList<>(days);
+    for (int i = days-1; i >= 0; i--) {
+        temp = now.minusDays(i);
+        UserTrendChartVO userTrendChartVO = new UserTrendChartVO();
+        userTrendChartVO.setCount(0);
+        userTrendChartVO.setDate(temp);
+        userTrendChartVOList.add(userTrendChartVO);
+    }
+    
+
+    List<UserTrendChartVO> list = userDao.getUserTrend(start);
+
+    //list转map
+    Map<LocalDate, Integer> map = new HashMap<>(list.size());
+    for (UserTrendChartVO userTrendChartVO : list) {
+      map.put(userTrendChartVO.getDate(), userTrendChartVO.getCount());
+    }
+
+    //遍历userTrendChartVOList,将map中的数据填充到userTrendChartVOList中
+    for (UserTrendChartVO userTrendChartVO : userTrendChartVOList) {
+        Integer count = map.get(userTrendChartVO.getDate());
+        if (count != null) {
+          userTrendChartVO.setCount(count);
+        }
+    }
+
+
+
+    return ResultUtil.ok(userTrendChartVOList);
   }
 
   public Integer addUserInfo(UserEntity userEntity) {

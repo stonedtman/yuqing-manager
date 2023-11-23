@@ -338,7 +338,7 @@ organization.organization_id,organization.organization_short,organization.organi
         LEFT JOIN systemlog s
         on u.id = s.user_id
         <where>
-            <if test="start != '' and start != null">
+            <if test="start != null">
                 s.createtime > #{start}
             </if>
             <if test="username != '' and username != null">
@@ -364,5 +364,13 @@ organization.organization_id,organization.organization_short,organization.organi
             </if>
         </where>
         order by count desc
+    </select>
+    <select id="getUserTrend" resultType="com.stonedt.vo.UserTrendChartVO">
+        SELECT
+        DATE_FORMAT(create_time , '%Y-%m-%d') AS date,
+        count(*) AS count
+        from user
+        where create_time > #{start}
+        group by date
     </select>
 </mapper>

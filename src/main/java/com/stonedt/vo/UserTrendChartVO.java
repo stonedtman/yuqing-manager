@@ -1,8 +1,11 @@
 package com.stonedt.vo;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
@@ -12,25 +15,17 @@ import java.util.Objects;
  */
 public class UserTrendChartVO implements Serializable {
 
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
-    private Date date;
+    @JSONField(format = "yyyy-MM-dd")
+    private LocalDate date;
 
     private Integer count;
 
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public Integer getCount() {
-        return count;
-    }
-
-    public void setCount(Integer count) {
-        this.count = count;
+    @Override
+    public String toString() {
+        return "UserTrendChartVO{" +
+                "date=" + date +
+                ", count=" + count +
+                '}';
     }
 
     @Override
@@ -46,11 +41,19 @@ public class UserTrendChartVO implements Serializable {
         return Objects.hash(date, count);
     }
 
-    @Override
-    public String toString() {
-        return "UserTrendChartVO{" +
-                "date=" + date +
-                ", count=" + count +
-                '}';
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
     }
 }

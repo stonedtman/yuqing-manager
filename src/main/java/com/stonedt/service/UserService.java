@@ -1,8 +1,11 @@
 package com.stonedt.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageInfo;
 import com.stonedt.entity.UserEntity;
 import com.stonedt.util.ResultUtil;
+import com.stonedt.vo.UseRankVO;
+import com.stonedt.vo.UserTrendChartVO;
 
 import java.util.List;
 import java.util.Map;
@@ -30,5 +33,7 @@ public interface UserService {
 
     JSONObject getCompanyList(JSONObject jo);
 
-  ResultUtil getUserUseRanking(String username, Integer days, Integer pageNum, Integer pageSize);
+  ResultUtil<PageInfo<UseRankVO>> getUserUseRanking(String username, Integer days, Integer pageNum, Integer pageSize);
+
+  ResultUtil<List<UserTrendChartVO>> getUserTrend(Integer days);
 }

@@ -4,12 +4,14 @@ import com.alibaba.fastjson.JSONObject;
 import com.stonedt.entity.OrganizationEntity;
 import com.stonedt.entity.UserEntity;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.stonedt.vo.UseRankVO;
+import com.stonedt.vo.UserTrendChartVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -112,4 +114,6 @@ public interface UserDao {
                                       @Param("start") Date start);
 
   List<UseRankVO> getAllUserUseRanking(String username);
+
+  List<UserTrendChartVO> getUserTrend(@Param("start") LocalDate start);
 }

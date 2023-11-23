@@ -3,7 +3,7 @@ package com.stonedt.util;
 /**
  * 自定义响应结构
  */
-public class ResultUtil {
+public class ResultUtil<T> {
 
     // 响应业务状态
     private Integer status;
@@ -12,18 +12,18 @@ public class ResultUtil {
     private String msg;
 
     // 响应中的数据
-    private Object data;
+    private T data;
 
-    public static ResultUtil build(Integer status, String msg, Object data) {
-        return new ResultUtil(status, msg, data);
+    public static <T> ResultUtil<T> build(Integer status, String msg, T data) {
+        return new ResultUtil<T>(status, msg, data);
     }
 
-    public static ResultUtil ok(Object data) {
-        return new ResultUtil(data);
+    public static <T> ResultUtil<T> ok(T data) {
+        return new ResultUtil<T>(data);
     }
 
-    public static ResultUtil ok() {
-        return new ResultUtil(null);
+    public static <T> ResultUtil<T> ok() {
+        return new ResultUtil<T>(null);
     }
 
     public ResultUtil() {
@@ -34,13 +34,13 @@ public class ResultUtil {
         return new ResultUtil(status, msg, null);
     }
 
-    public ResultUtil(Integer status, String msg, Object data) {
+    public ResultUtil(Integer status, String msg, T data) {
         this.status = status;
         this.msg = msg;
         this.data = data;
     }
 
-    public ResultUtil(Object data) {
+    public ResultUtil(T data) {
         this.status = 200;
         this.msg = "OK";
         this.data = data;
@@ -66,11 +66,11 @@ public class ResultUtil {
         this.msg = msg;
     }
 
-    public Object getData() {
+    public T getData() {
         return data;
     }
 
-    public void setData(Object data) {
+    public void setData(T data) {
         this.data = data;
     }
 
