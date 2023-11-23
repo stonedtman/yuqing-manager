@@ -1,28 +1,21 @@
 package com.stonedt.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.stonedt.dao.UserDao;
-import com.stonedt.entity.OrganizationEntity;
 import com.stonedt.entity.UserEntity;
 import com.stonedt.service.UserService;
 import com.stonedt.util.*;
 
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.temporal.ChronoField;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpSession;
 
 import com.stonedt.vo.UseRankVO;
 import com.stonedt.vo.UserTrendChartVO;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -435,7 +428,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public ResultUtil<PageInfo<UseRankVO>> getUserUseRanking(String username, Integer days, Integer pageNum, Integer pageSize) {
+  public ResultUtil<PageInfo<UseRankVO>> getUserUseRanking(String username, Integer days, Integer pageNum, Integer pageSize, boolean isASC) {
     Date start = null;
     if (days > 0) {
         long currentTimeMillis = System.currentTimeMillis();
@@ -443,7 +436,7 @@ public class UserServiceImpl implements UserService {
     }
 
     PageHelper.startPage(pageNum, pageSize);
-    List<UseRankVO> useRankVOList = userDao.getUserUseRanking(username,start);
+    List<UseRankVO> useRankVOList = userDao.getUserUseRanking(username,start,isASC);
 
     return ResultUtil.ok(new PageInfo<>(useRankVOList));
   }

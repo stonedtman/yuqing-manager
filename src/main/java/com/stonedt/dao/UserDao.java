@@ -111,7 +111,8 @@ public interface UserDao {
     void deleteSystemlogWhenLessTime(Date time);
 
     List<UseRankVO> getUserUseRanking(@Param("username") String username,
-                                      @Param("start") Date start);
+                                      @Param("start") Date start,
+                                      @Param("isASC") boolean isASC);
 
   List<UseRankVO> getAllUserUseRanking(String username);
 

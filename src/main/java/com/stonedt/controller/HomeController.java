@@ -36,6 +36,11 @@ public class HomeController {
     }
 
 
+    /**
+     * 用户增长趋势图
+     * @param days 天数
+     * @return
+     */
     @GetMapping("/userTrendChart")
     public ResultUtil<List<UserTrendChartVO>> userTrendChart(@RequestParam(required = true,defaultValue = "7") Integer days) {
         return userService.getUserTrend(days);
@@ -48,9 +53,20 @@ public class HomeController {
     public ResultUtil<PageInfo<UseRankVO>> userRanking(@RequestParam(required = false) String username,
                                                        @RequestParam(required = true) Integer days,
                                                        @RequestParam(defaultValue = "1") Integer pageNum,
-                                                       @RequestParam(defaultValue = "10") Integer pageSize) {
+                                                       @RequestParam(defaultValue = "10") Integer pageSize,
+                                                       @RequestParam(required = false) boolean isASC) {
 
-        return userService.getUserUseRanking(username, days, pageNum, pageSize);
+        return userService.getUserUseRanking(username, days, pageNum, pageSize, isASC);
+    }
+
+    /**
+     * 系统热门模块排名
+     */
+    @GetMapping("/systemHotModuleRanking")
+    public ResultUtil<PageInfo<UseRankVO>> systemHotModuleRanking(@RequestParam(required = false) String username,
+                                                                  @RequestParam(required = true) Integer days) {
+
+        return null;
     }
 
 

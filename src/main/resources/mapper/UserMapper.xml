@@ -346,7 +346,15 @@ organization.organization_id,organization.organization_short,organization.organi
             </if>
         </where>
         group by u.id
-        order by count desc
+        order by count
+        <choose>
+            <when test="isASC == true">
+                asc
+            </when>
+            <otherwise>
+                desc
+            </otherwise>
+        </choose>
     </select>
     <select id="getAllUserUseRanking" resultType="com.stonedt.vo.UseRankVO">
         SELECT
