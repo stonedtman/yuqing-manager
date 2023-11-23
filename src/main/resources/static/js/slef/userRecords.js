@@ -1,11 +1,61 @@
 $(function () {
     // loading(1)
+    barmap()
     paging(1, 1, 1);
 })
 
+function barmap() {
+    var myChart = echarts.init(document.querySelector('#usage'));
+    var option = {
+        tooltip: {
+            trigger: 'axis'
+        },
+        grid: {
+            top: '7%',
+            left: '2%',
+            right: '2%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis: {
+            type: 'category',
+            data: ['2023-11-20 00', '2023-11-20 04', '2023-11-20 08', '2023-11-20 12', '2023-11-20 16', '2023-11-20 20', '2023-11-21 00'],
+            axisLine: {
+                lineStyle: {
+                    color: "#999"
+                }
+            },
+            axisLabel: {
+                color: "#333"
+            }
+        },
+        yAxis: {
+            type: 'value',
+            axisLine: {
+                lineStyle: {
+                    color: "#999"
+                }
+            },
+            axisLabel: {
+                color: "#333"
+            },
+            splitLine: {
+                show: false,
+            },
+        },
+        series: [
+            {
+                data: [2, 1, 4, 12, 16, 6, 3],
+                type: 'bar',
+            }
+        ]
+    };
+    myChart.setOption(option);
+}
+
 function loading(pagenum) {
     let keyword = $("#keyword").val();
-    let time = $("#time option:selected").val();
+    let time = $("#time1 option:selected").val();
     return;
     $.ajax({
         type: "POST",
