@@ -337,11 +337,14 @@ organization.organization_id,organization.organization_short,organization.organi
         from user u
         LEFT JOIN systemlog s
         on u.id = s.user_id
-        where s.createtime > #{start}
-        and s.type = '登录'
-        <if test="username != '' and username != null">
-            and u.username like concat('%' , #{username} , '%')
-        </if>
+        <where>
+            <if test="start != '' and start != null">
+                s.createtime > #{start}
+            </if>
+            <if test="username != '' and username != null">
+                and u.username like concat('%' , #{username} , '%')
+            </if>
+        </where>
         group by u.id
         order by count desc
     </select>

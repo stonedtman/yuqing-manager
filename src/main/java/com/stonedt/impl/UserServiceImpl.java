@@ -432,16 +432,15 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public ResultUtil getUserUseRanking(String username, Integer days, Integer pageNum, Integer pageSize) {
-    List<UseRankVO> useRankVOList;
+    Date start = null;
     if (days > 0) {
         long currentTimeMillis = System.currentTimeMillis();
-        Date start = new Date(currentTimeMillis - TimeUnit.DAYS.toMillis(days));
-        PageHelper.startPage(pageNum, pageSize);
-        useRankVOList = userDao.getUserUseRanking(username, start);
-    }else {
-        PageHelper.startPage(pageNum, pageSize);
-        useRankVOList = userDao.getAllUserUseRanking(username);
+        start = new Date(currentTimeMillis - TimeUnit.DAYS.toMillis(days));
     }
+
+    PageHelper.startPage(pageNum, pageSize);
+    List<UseRankVO> useRankVOList = userDao.getUserUseRanking(username,start);
+
     return ResultUtil.ok(new PageInfo<>(useRankVOList));
   }
 
