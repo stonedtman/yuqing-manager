@@ -36,15 +36,15 @@ public class HomeController {
     }
 
 
-    @GetMapping("userTrendChart")
-    public ResultUtil<List<UserTrendChartVO>> userTrendChart(@RequestParam(required = true) Integer days) {
+    @GetMapping("/userTrendChart")
+    public ResultUtil<List<UserTrendChartVO>> userTrendChart(@RequestParam(required = true,defaultValue = "7") Integer days) {
         return userService.getUserTrend(days);
     }
 
     /**
      * 用户使用排名
      */
-    @GetMapping("userUseRanking")
+    @GetMapping("/userUseRanking")
     public ResultUtil<PageInfo<UseRankVO>> userRanking(@RequestParam(required = false) String username,
                                                        @RequestParam(required = true) Integer days,
                                                        @RequestParam(defaultValue = "1") Integer pageNum,
