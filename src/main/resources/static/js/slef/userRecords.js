@@ -8,7 +8,10 @@ function barmap() {
     var myChart = echarts.init(document.querySelector('#usage'));
     var option = {
         tooltip: {
-            trigger: 'axis'
+            trigger: 'axis',
+            axisPointer: {
+                type: 'shadow'
+            }
         },
         grid: {
             top: '7%',
@@ -19,7 +22,7 @@ function barmap() {
         },
         xAxis: {
             type: 'category',
-            data: ['2023-11-20 00', '2023-11-20 04', '2023-11-20 08', '2023-11-20 12', '2023-11-20 16', '2023-11-20 20', '2023-11-21 00'],
+            data: ['监测分析', '数据监测', '监测管理', '全文搜索', '事件分析'],
             axisLine: {
                 lineStyle: {
                     color: "#999"
@@ -45,8 +48,10 @@ function barmap() {
         },
         series: [
             {
-                data: [2, 1, 4, 12, 16, 6, 3],
+                data: [2, 4, 12, 6, 3],
                 type: 'bar',
+                color: "#64b5f6",
+                barMaxWidth: 40
             }
         ]
     };
