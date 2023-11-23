@@ -24,7 +24,7 @@ public class SystemLogSchedule {
      */
     @Scheduled(cron = "0 0 0 * * ?")
     public void systemLogSchedule() {
-        //获取当前时间的前30日的时间
-        userDao.deleteSystemlogWhenLessTime(new Date(System.currentTimeMillis() - 30L * 24 * 60 * 60 * 1000));
+        //获取当前时间的前180日的时间
+        userDao.deleteSystemlogWhenLessTime(new Date(System.currentTimeMillis() - 180L * 24 * 60 * 60 * 1000));
     }
 }

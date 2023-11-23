@@ -2,6 +2,7 @@ package com.stonedt.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.stonedt.entity.UserEntity;
+import com.stonedt.util.ResultUtil;
 
 import java.util.List;
 import java.util.Map;
@@ -28,4 +29,6 @@ public interface UserService {
     List getOrganizationList();
 
     JSONObject getCompanyList(JSONObject jo);
+
+  ResultUtil getUserUseRanking(String username, Integer days, Integer pageNum, Integer pageSize);
 }

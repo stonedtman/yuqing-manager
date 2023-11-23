@@ -14,8 +14,10 @@ import com.stonedt.util.*;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpSession;
 
+import com.stonedt.vo.UseRankVO;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -426,6 +428,21 @@ public class UserServiceImpl implements UserService {
     }
 
     return object;
+  }
+
+  @Override
+  public ResultUtil getUserUseRanking(String username, Integer days, Integer pageNum, Integer pageSize) {
+    List<UseRankVO> useRankVOList;
+    if (days > 0) {
+        long currentTimeMillis = System.currentTimeMillis();
+        Date start = new Date(currentTimeMillis - TimeUnit.DAYS.toMillis(days));
+        PageHelper.startPage(pageNum, pageSize);
+        useRankVOList = userDao.getUserUseRanking(username, start);
+    }else {
+        PageHelper.startPage(pageNum, pageSize);
+        useRankVOList = userDao.getAllUserUseRanking(username);
+    }
+    return ResultUtil.ok(new PageInfo<>(useRankVOList));
   }
 
   public Integer addUserInfo(UserEntity userEntity) {

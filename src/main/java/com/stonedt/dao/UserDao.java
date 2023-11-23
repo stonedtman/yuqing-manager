@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.stonedt.vo.UseRankVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -105,4 +107,9 @@ public interface UserDao {
    * 删除时间小于输入时间的日志
    */
     void deleteSystemlogWhenLessTime(Date time);
+
+    List<UseRankVO> getUserUseRanking(@Param("username") String username,
+                                      @Param("start") Date start);
+
+  List<UseRankVO> getAllUserUseRanking(String username);
 }

@@ -325,4 +325,41 @@ organization.organization_id,organization.organization_short,organization.organi
         and type = #{type}
         and createtime > #{times}
     </select>
+    <select id="getUserUseRanking" resultType="com.stonedt.vo.UseRankVO">
+        SELECT
+        u.username,
+        u.id,
+        count(s.id) AS count,
+        u.xie_flag as xieFlag,
+        u.wechatflag as wechatFlag,
+        u.nlp_flag as nlpFlag,
+        u.end_login_time as endLoginTime
+        from user u
+        LEFT JOIN systemlog s
+        on u.id = s.user_id
+        where s.createtime > #{start}
+        and s.type = '登录'
+        <if test="username != '' and username != null">
+            and u.username like concat('%' , #{username} , '%')
+        </if>
+        group by u.id
+        order by count desc
+    </select>
+    <select id="getAllUserUseRanking" resultType="com.stonedt.vo.UseRankVO">
+        SELECT
+        username,
+        id,
+        login_count AS count,
+        xie_flag as xieFlag,
+        wechatflag as wechatFlag,
+        nlp_flag as nlpFlag,
+        end_login_time as endLoginTime
+        from user
+        <where>
+            <if test="username != '' and username != null">
+                username like concat('%' , #{username} , '%')
+            </if>
+        </where>
+        order by count desc
+    </select>
 </mapper>
