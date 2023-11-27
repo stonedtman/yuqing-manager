@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 
 import com.stonedt.vo.UseRankVO;
 import com.stonedt.vo.UserTrendChartVO;
+import com.stonedt.vo.UserUseRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -481,6 +482,20 @@ public class UserServiceImpl implements UserService {
 
 
     return ResultUtil.ok(userTrendChartVOList);
+  }
+
+  @Override
+  public ResultUtil<PageInfo<UserUseRecord>> getUserModuleUseRecord(Integer userId, Integer days, Integer pageNum, Integer pageSize) {
+    Date start = null;
+    if (days != null && days > 0) {
+        long currentTimeMillis = System.currentTimeMillis();
+        start = new Date(currentTimeMillis - TimeUnit.DAYS.toMillis(days));
+    }
+
+    PageHelper.startPage(pageNum, pageSize);
+    List<UserUseRecord> userUseRecordList = userDao.getUserModuleUseRecord(userId, start);
+
+    return ResultUtil.ok(new PageInfo<>(userUseRecordList));
   }
 
   public Integer addUserInfo(UserEntity userEntity) {

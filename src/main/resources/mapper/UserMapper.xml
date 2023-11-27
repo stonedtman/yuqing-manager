@@ -450,4 +450,18 @@ organization.organization_id,organization.organization_short,organization.organi
             module
         </if>
     </select>
+    <select id="getUserModuleUseRecord" resultType="com.stonedt.vo.UserUseRecord">
+        SELECT
+            operatingSystem,
+            loginip,
+            max(createtime) as lastUseTime,
+            module,
+            submodule,
+            type,
+            count(id) as count
+        from systemlog
+        where user_id = #{userId}
+        group by module , submodule , type
+        ORDER BY lastUseTime desc
+    </select>
 </mapper>

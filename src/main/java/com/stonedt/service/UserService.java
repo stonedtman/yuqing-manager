@@ -3,9 +3,9 @@ package com.stonedt.service;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import com.stonedt.util.ResultUtil;
-import com.stonedt.vo.SystemHotModuleVO;
 import com.stonedt.vo.UseRankVO;
 import com.stonedt.vo.UserTrendChartVO;
+import com.stonedt.vo.UserUseRecord;
 
 import java.util.List;
 import java.util.Map;
@@ -36,4 +36,6 @@ public interface UserService {
   ResultUtil<PageInfo<UseRankVO>> getUserUseRanking(String username, Integer days, Integer pageNum, Integer pageSize, boolean isASC);
 
   ResultUtil<List<UserTrendChartVO>> getUserTrend(Integer days);
+
+  ResultUtil<PageInfo<UserUseRecord>> getUserModuleUseRecord(Integer userId, Integer days, Integer pageNum, Integer pageSize);
 }

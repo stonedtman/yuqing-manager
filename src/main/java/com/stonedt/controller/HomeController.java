@@ -4,10 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.stonedt.service.LogService;
 import com.stonedt.service.UserService;
 import com.stonedt.util.ResultUtil;
-import com.stonedt.vo.ModelUseChartVO;
-import com.stonedt.vo.SystemHotModuleVO;
-import com.stonedt.vo.UseRankVO;
-import com.stonedt.vo.UserTrendChartVO;
+import com.stonedt.vo.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -94,6 +91,18 @@ public class HomeController {
                                                             @RequestParam(required = false) String module){
 
         return logService.getModuleUseChart(userId,module);
+    }
+
+    /**
+     * 用户模块使用记录
+     */
+    @GetMapping("/userModuleUseRecord")
+    public ResultUtil<PageInfo<UserUseRecord>> userModuleUseRecord(@RequestParam(required = true) Integer userId,
+                                                                   @RequestParam(required = false) Integer days,
+                                                                   @RequestParam(required = false) Integer pageNum,
+                                                                   @RequestParam(required = false) Integer pageSize) {
+
+        return userService.getUserModuleUseRecord(userId, days, pageNum, pageSize);
     }
 
 

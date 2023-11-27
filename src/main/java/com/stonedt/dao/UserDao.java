@@ -10,10 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.stonedt.vo.ModelUseChartVO;
-import com.stonedt.vo.SystemHotModuleVO;
-import com.stonedt.vo.UseRankVO;
-import com.stonedt.vo.UserTrendChartVO;
+import com.stonedt.vo.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -128,4 +125,7 @@ public interface UserDao {
 
   List<ModelUseChartVO> getModuleUseChart(@Param("userId") Integer userId,
                                           @Param("module") String module);
+
+  List<UserUseRecord> getUserModuleUseRecord(@Param("userId")Integer userId,
+                                             @Param("start")Date start);
 }
