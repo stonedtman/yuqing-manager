@@ -381,4 +381,44 @@ organization.organization_id,organization.organization_short,organization.organi
         where create_time > #{start}
         group by date
     </select>
+    <select id="getSystemHotModuleRanking" resultType="com.stonedt.vo.SystemHotModuleVO">
+        SELECT
+            t.module,
+            t.submodule,
+            t.type,
+            max(t.count) as count,
+            t.user_id as userId,
+            t.username as mostUsedUsername,
+            (SELECT COUNT(id) FROM systemlog WHERE module = t.module and submodule = t.submodule and type = t.type
+             GROUP BY module , submodule
+            ) as total,
+            (SELECT MAX(createtime) FROM systemlog WHERE module = t.module and submodule = t.submodule and type = t.type) as endUseTime
+        FROM
+
+            (select module , submodule,type, count(id) as count,user_id,username
+             from systemlog
+             <where>
+                 <if test="start != null">
+                     createtime > #{start}
+                 </if>
+             </where>
+             group by module , submodule ,user_id) t
+        group by t.module , t.submodule
+        ORDER BY
+        <choose>
+            <when test="orderType == 1">
+                total desc
+            </when>
+            <when test="orderType == 2">
+                total asc
+            </when>
+            <when test="orderType == 3">
+                `count` desc
+            </when>
+            <when test="orderType == 4">
+                `count` asc
+            </when>
+        </choose>
+        limit #{size}
+    </select>
 </mapper>

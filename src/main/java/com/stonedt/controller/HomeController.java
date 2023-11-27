@@ -1,8 +1,10 @@
 package com.stonedt.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.stonedt.service.LogService;
 import com.stonedt.service.UserService;
 import com.stonedt.util.ResultUtil;
+import com.stonedt.vo.SystemHotModuleVO;
 import com.stonedt.vo.UseRankVO;
 import com.stonedt.vo.UserTrendChartVO;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,8 +24,12 @@ public class HomeController {
 
     private final UserService userService;
 
-    public HomeController(UserService userService) {
+    private final LogService logService;
+
+    public HomeController(UserService userService,
+                          LogService logService) {
         this.userService = userService;
+        this.logService = logService;
     }
 
 
@@ -63,10 +69,11 @@ public class HomeController {
      * 系统热门模块排名
      */
     @GetMapping("/systemHotModuleRanking")
-    public ResultUtil<PageInfo<UseRankVO>> systemHotModuleRanking(@RequestParam(required = false) String username,
-                                                                  @RequestParam(required = true) Integer days) {
+    public ResultUtil<List<SystemHotModuleVO>> systemHotModuleRanking(@RequestParam(required = true) Integer days,
+                                                                          @RequestParam(required = false,defaultValue = "1") Integer orderType,
+                                                                          @RequestParam(required = false,defaultValue = "10") Integer size) {
 
-        return null;
+        return logService.getSystemHotModuleRanking(days, orderType,size);
     }
 
 

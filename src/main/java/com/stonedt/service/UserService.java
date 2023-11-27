@@ -3,6 +3,7 @@ package com.stonedt.service;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import com.stonedt.util.ResultUtil;
+import com.stonedt.vo.SystemHotModuleVO;
 import com.stonedt.vo.UseRankVO;
 import com.stonedt.vo.UserTrendChartVO;
 

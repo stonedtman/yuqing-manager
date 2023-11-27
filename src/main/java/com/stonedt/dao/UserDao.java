@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.stonedt.vo.SystemHotModuleVO;
 import com.stonedt.vo.UseRankVO;
 import com.stonedt.vo.UserTrendChartVO;
 import org.apache.ibatis.annotations.Mapper;
@@ -117,4 +118,8 @@ public interface UserDao {
   List<UseRankVO> getAllUserUseRanking(String username);
 
   List<UserTrendChartVO> getUserTrend(@Param("start") LocalDate start);
+
+  List<SystemHotModuleVO> getSystemHotModuleRanking(@Param("start") Date start,
+                                                    @Param("orderType") Integer orderType,
+                                                    @Param("size") Integer size);
 }

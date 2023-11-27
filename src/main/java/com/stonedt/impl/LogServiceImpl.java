@@ -11,12 +11,12 @@ import com.stonedt.service.LogService;
 import com.stonedt.util.MapUtil;
 import com.stonedt.util.MyHttpRequestUtil;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import com.stonedt.util.ResultUtil;
+import com.stonedt.vo.SystemHotModuleVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -106,6 +106,15 @@ public class LogServiceImpl implements LogService {
 
     response.put("dataList" , mapPageInfo);
     return response;
+  }
+
+  @Override
+  public ResultUtil<List<SystemHotModuleVO>> getSystemHotModuleRanking(Integer days, Integer orderType, Integer size) {
+    long currentTimeMillis = System.currentTimeMillis();
+    Date start = new Date(currentTimeMillis - TimeUnit.DAYS.toMillis(days));
+
+    List<SystemHotModuleVO> systemHotModuleVOList = userDao.getSystemHotModuleRanking(start, orderType, size);
+    return ResultUtil.ok(systemHotModuleVOList);
   }
 
 
