@@ -3,8 +3,10 @@ package com.stonedt.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageInfo;
 import com.stonedt.service.DataService;
 import com.stonedt.util.ResultUtil;
+import com.stonedt.vo.ArticleVO;
 import com.stonedt.vo.DataChartVO;
 import com.stonedt.vo.DataRecord;
 import org.springframework.beans.factory.annotation.Value;
@@ -213,7 +215,7 @@ public class DataServiceImpl implements DataService {
         DataRecord dataRecord = new DataRecord();
         dataRecord.setCount(count);
         dataRecord.setLastPublishTime(source.getString("publish_time"));
-        dataRecord.setId(data.getString("_id"));
+//        dataRecord.setId(data.getString("_id"));
         dataRecord.setSource(dataSources);
         return dataRecord;
     }
@@ -319,5 +321,43 @@ public class DataServiceImpl implements DataService {
 
 
         return ResultUtil.build(200, "获取数据成功", dataRecordList);
+    }
+
+    @Override
+    public ResultUtil<PageInfo<ArticleVO>> getArticleList(String sourceWebsite, Integer pageNum, Integer pageSize) {
+        String url = esSearchUrl + "/yqsearch/searchlist?searchType=2&page="+pageNum;
+        if (sourceWebsite != null) {
+            url += "&sourceWebsite=" + sourceWebsite;
+        }
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json;charset=UTF-8");
+
+        HttpEntity<String> requestEntity = new HttpEntity<String>(headers);
+        ResponseEntity<String> response = restTemplate.postForEntity(url, requestEntity, String.class);
+        String result = response.getBody();
+        JSONObject jsonObject = JSON.parseObject(result);
+        String code = jsonObject.getString("code");
+        if (!"200".equals(code)) {
+            return ResultUtil.build(500,"获取数据失败",null);
+        }
+        PageInfo<ArticleVO> pageInfo =new PageInfo<>();
+        pageInfo.setTotal(jsonObject.getInteger("count"));
+        pageInfo.setPages(jsonObject.getInteger("page_count"));
+        pageInfo.setPageNum(jsonObject.getInteger("page"));
+        JSONArray jsonArray = jsonObject.getJSONArray("data");
+        List<ArticleVO> articleVOList = new ArrayList<>();
+        for (int i = 0; i < jsonArray.size(); i++) {
+            JSONObject data = jsonArray.getJSONObject(i);
+            JSONObject source = data.getJSONObject("_source");
+            ArticleVO articleVO = new ArticleVO();
+            articleVO.setId(data.getString("_id"));
+            articleVO.setTitle(source.getString("title"));
+            articleVO.setAuthor(source.getString("author"));
+            articleVO.setSpiderTime(source.getString("spider_time"));
+            articleVO.setPublishTime(source.getString("publish_time"));
+            articleVOList.add(articleVO);
+        }
+        pageInfo.setList(articleVOList);
+        return ResultUtil.build(200,"获取数据成功",pageInfo);
     }
 }
