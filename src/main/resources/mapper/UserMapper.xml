@@ -389,9 +389,7 @@ organization.organization_id,organization.organization_short,organization.organi
             max(t.count) as count,
             t.user_id as userId,
             t.username as mostUsedUsername,
-            (SELECT COUNT(id) FROM systemlog WHERE module = t.module and submodule = t.submodule and type = t.type
-             GROUP BY module , submodule
-            ) as total,
+            (SELECT COUNT(id) FROM systemlog WHERE module = t.module and submodule = t.submodule and type = t.type) as total,
             (SELECT MAX(createtime) FROM systemlog WHERE module = t.module and submodule = t.submodule and type = t.type) as endUseTime
         FROM
 
@@ -492,16 +490,25 @@ organization.organization_id,organization.organization_short,organization.organi
     </select>
     <select id="getModuleUseRecord" resultType="com.stonedt.vo.ModuleUseRecord">
         SELECT
-            operatingSystem,
-            loginip,
-            max(createtime) as lastUseTime,
-            module,
-            submodule,
-            type,
-            count(id) as total
-        from systemlog
-        where module = #{module}
-        group by submodule , type
+            t.module,
+            t.submodule,
+            t.type,
+            max(t.count) as count,
+            t.username as mostUsedUser,
+            (SELECT COUNT(id) FROM systemlog WHERE module = t.module and submodule = t.submodule and type = t.type) as total,
+            (SELECT MAX(createtime) FROM systemlog WHERE module = t.module and submodule = t.submodule and type = t.type) as lastUseTime,
+            (select username from systemlog WHERE module = t.module and submodule = t.submodule and type = t.type order by createtime desc limit 1) as lastUsedUser
+        FROM
+            (select module,submodule,type, count(id) as count,username
+                from
+                    systemlog
+                where
+                    module = #{module}
+                    <if test="start != null">
+                      and createtime > #{start}
+                    </if>
+                group by submodule,type,user_id) t
+        group by t.submodule,t.type
         ORDER BY lastUseTime desc
     </select>
 </mapper>

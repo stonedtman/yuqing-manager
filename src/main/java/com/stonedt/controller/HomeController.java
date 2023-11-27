@@ -128,7 +128,7 @@ public class HomeController {
      */
     @GetMapping("/moduleUseRecord")
     public ResultUtil<List<ModuleUseRecord>> moduleUseRecord(@RequestParam(required = true) String module,
-                                                           @RequestParam(required = false) Integer days,
+                                                            @RequestParam(required = false) Integer days,
                                                              @RequestParam(required = false) Integer pageNum,
                                                              @RequestParam(required = false) Integer pageSize) {
 

@@ -22,22 +22,21 @@ public class ModuleUseRecord {
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date lastUseTime;
 
-    private String lastUseUser;
+    private String lastUsedUser;
 
-    private String mostUseUser;
-
+    private String mostUsedUser;
 
     public ModuleUseRecord() {
     }
 
-    public ModuleUseRecord(String submodule, String type, Integer total, Integer count, Date lastUseTime, String lastUseUser, String mostUseUser) {
+    public ModuleUseRecord(String submodule, String type, Integer total, Integer count, Date lastUseTime, String lastUsedUser, String mostUsedUser) {
         this.submodule = submodule;
         this.type = type;
         this.total = total;
         this.count = count;
         this.lastUseTime = lastUseTime;
-        this.lastUseUser = lastUseUser;
-        this.mostUseUser = mostUseUser;
+        this.lastUsedUser = lastUsedUser;
+        this.mostUsedUser = mostUsedUser;
     }
 
     public String getSubmodule() {
@@ -56,6 +55,14 @@ public class ModuleUseRecord {
         this.type = type;
     }
 
+    public Integer getTotal() {
+        return total;
+    }
+
+    public void setTotal(Integer total) {
+        this.total = total;
+    }
+
     public Integer getCount() {
         return count;
     }
@@ -72,28 +79,20 @@ public class ModuleUseRecord {
         this.lastUseTime = lastUseTime;
     }
 
-    public String getLastUseUser() {
-        return lastUseUser;
+    public String getLastUsedUser() {
+        return lastUsedUser;
     }
 
-    public void setLastUseUser(String lastUseUser) {
-        this.lastUseUser = lastUseUser;
+    public void setLastUsedUser(String lastUsedUser) {
+        this.lastUsedUser = lastUsedUser;
     }
 
-    public String getMostUseUser() {
-        return mostUseUser;
+    public String getMostUsedUser() {
+        return mostUsedUser;
     }
 
-    public void setMostUseUser(String mostUseUser) {
-        this.mostUseUser = mostUseUser;
-    }
-
-    public Integer getTotal() {
-        return total;
-    }
-
-    public void setTotal(Integer total) {
-        this.total = total;
+    public void setMostUsedUser(String mostUsedUser) {
+        this.mostUsedUser = mostUsedUser;
     }
 
     @Override
@@ -101,12 +100,12 @@ public class ModuleUseRecord {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ModuleUseRecord that = (ModuleUseRecord) o;
-        return Objects.equals(submodule, that.submodule) && Objects.equals(type, that.type) && Objects.equals(total, that.total) && Objects.equals(count, that.count) && Objects.equals(lastUseTime, that.lastUseTime) && Objects.equals(lastUseUser, that.lastUseUser) && Objects.equals(mostUseUser, that.mostUseUser);
+        return Objects.equals(submodule, that.submodule) && Objects.equals(type, that.type) && Objects.equals(total, that.total) && Objects.equals(count, that.count) && Objects.equals(lastUseTime, that.lastUseTime) && Objects.equals(lastUsedUser, that.lastUsedUser) && Objects.equals(mostUsedUser, that.mostUsedUser);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(submodule, type, total, count, lastUseTime, lastUseUser, mostUseUser);
+        return Objects.hash(submodule, type, total, count, lastUseTime, lastUsedUser, mostUsedUser);
     }
 
     @Override
@@ -117,8 +116,8 @@ public class ModuleUseRecord {
                 ", total=" + total +
                 ", count=" + count +
                 ", lastUseTime=" + lastUseTime +
-                ", lastUseUser='" + lastUseUser + '\'' +
-                ", mostUseUser='" + mostUseUser + '\'' +
+                ", lastUsedUser='" + lastUsedUser + '\'' +
+                ", mostUsedUser='" + mostUsedUser + '\'' +
                 '}';
     }
 }
