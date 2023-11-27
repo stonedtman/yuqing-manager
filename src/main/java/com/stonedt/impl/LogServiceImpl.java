@@ -124,7 +124,7 @@ public class LogServiceImpl implements LogService {
 
   @Override
   public ResultUtil<List<ModelUseChartVO>> getModuleUseChart(Integer userId, String module) {
-    List<ModelUseChartVO> modelUseChartVOList = userDao.getModuleUseChart(module);
+    List<ModelUseChartVO> modelUseChartVOList = userDao.getModuleUseChart(userId,module);
     return ResultUtil.ok(modelUseChartVOList);
   }
 

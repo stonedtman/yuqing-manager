@@ -126,5 +126,6 @@ public interface UserDao {
 
   List<String> getSystemModuleList();
 
-  List<ModelUseChartVO> getModuleUseChart(String module);
+  List<ModelUseChartVO> getModuleUseChart(@Param("userId") Integer userId,
+                                          @Param("module") String module);
 }
