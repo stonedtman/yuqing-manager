@@ -68,7 +68,7 @@
           <h2 id="head">用户使用记录</h2>
           <ol class="breadcrumb">
             <li class="nav-main1"><a href="/home">首页</a></li>
-            <li class="active"><strong id="navigation">带刀方丈</strong></li>
+            <li class="active"><strong id="navigation"></strong></li>
           </ol>
         </div>
       </div>
@@ -83,11 +83,6 @@
                 <div class="form-group">
                   <select id="time" class="form-control">
                     <option value="0">全部</option>
-                    <option value="1">监测分析</option>
-                    <option value="2">数据监测</option>
-                    <option value="3">监测管理</option>
-                    <option value="4">全文搜索</option>
-                    <option value="5">事件分析</option>
                   </select>
                 </div>
               </div>
@@ -107,11 +102,11 @@
               <div style="float: right ">
                 <div class="form-group">
                   <select id="time1" class="form-control">
-                    <option value="0">24小时</option>
-                    <option value="1">3天</option>
-                    <option value="2">15天</option>
-                    <option value="3">30天</option>
-                    <option value="4">全部</option>
+                    <option value="0">全部</option>
+                    <option value="1">24小时</option>
+                    <option value="3">3天</option>
+                    <option value="15">15天</option>
+                    <option value="30">30天</option>
                   </select>
                 </div>
               </div>
@@ -131,7 +126,7 @@
                     <th>最新一次使用时间</th>
                   </tr>
                   </thead>
-                  <tbody id="userRankingList">
+                  <tbody id="userRecordsList">
                     <tr class="textAlign">
                       <td>WINDOWS_7</td>
                       <td>125.70.126.28</td>
@@ -218,6 +213,10 @@
 <script th:inline="javascript" type="text/javascript">
   var ctxPath = /*[[@{/}]]*/'';
   $("#currentyear").text((new Date()).getFullYear());
+  var params = new URLSearchParams(window.location.search);
+  var userId = params.get('userId');
+  var userName = params.get('userName');
+  $("#navigation").html(userName)
 </script>
 </body>
 

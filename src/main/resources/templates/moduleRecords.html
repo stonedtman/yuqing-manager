@@ -68,7 +68,7 @@
           <h2 id="head">模块使用记录</h2>
           <ol class="breadcrumb">
             <li class="nav-main1"><a href="/home">首页</a></li>
-            <li class="active"><strong id="navigation">数据监测</strong></li>
+            <li class="active"><strong id="navigation"></strong></li>
           </ol>
         </div>
       </div>
@@ -83,8 +83,6 @@
                 <div class="form-group">
                   <select id="time" class="form-control">
                     <option value="0">全部</option>
-                    <option value="1">列表</option>
-                    <option value="2">详情</option>
                   </select>
                 </div>
               </div>
@@ -104,11 +102,11 @@
               <div style="float: right ">
                 <div class="form-group">
                   <select id="time1" class="form-control">
-                    <option value="0">24小时</option>
-                    <option value="1">3天</option>
-                    <option value="2">15天</option>
-                    <option value="3">30天</option>
-                    <option value="4">全部</option>
+                    <option value="0">全部</option>
+                    <option value="1">24小时</option>
+                    <option value="3">3天</option>
+                    <option value="15">15天</option>
+                    <option value="30">30天</option>
                   </select>
                 </div>
               </div>
@@ -128,7 +126,7 @@
                     <th>使用次数</th>
                   </tr>
                   </thead>
-                  <tbody id="userRankingList">
+                  <tbody id="moduleRecordsList">
                   <tr class="textAlign">
                     <td>数据监测-列表</td>
                     <td>查询</td>
@@ -170,6 +168,9 @@
 <script th:inline="javascript" type="text/javascript">
   var ctxPath = /*[[@{/}]]*/'';
   $("#currentyear").text((new Date()).getFullYear());
+  var params = new URLSearchParams(window.location.search);
+  var module = params.get('module');
+  $("#navigation").html(module)
 </script>
 </body>
 

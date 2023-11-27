@@ -1,7 +1,7 @@
 $(function () {
     userTrendChart()
     loading(1)
-    // systemHotModuleRanking()
+    systemHotModuleRanking()
 })
 function userTrendChart() {
     $.ajax({
@@ -162,7 +162,7 @@ function loading(pagenum) {
 
                     htmlStr = `
                         <tr class="textAlign">
-                            <td><a href="/userRecords">${username}</a></td>
+                            <td><a href="/userRecords?userId=${id}&userName=${username}">${username}</a></td>
                             <td>${id}</td>
                             <td>${xieFlag}</td>
                             <td>${wechatFlag}</td>
@@ -207,10 +207,12 @@ $("#keyword").keydown(function (res) {
 
 let module_ranking_sort = false
 let module_ranking_sort1 = false
+let orderType = 1
 $(".module_ranking_sort").click(function () {
     let moduleRankingSort1 = document.querySelector(".module_ranking_sort1")
     if(module_ranking_sort){
         module_ranking_sort = false
+        orderType = 1
         $(this)[0].children[0].className = ""
         $(this)[0].children[1].className = "highlight"
 
@@ -218,6 +220,7 @@ $(".module_ranking_sort").click(function () {
         moduleRankingSort1.children[1].className = ""
     }else{
         module_ranking_sort = true
+        orderType = 2
         $(this)[0].children[0].className = "highlight"
         $(this)[0].children[1].className = ""
 
@@ -231,6 +234,7 @@ $(".module_ranking_sort1").click(function () {
     let moduleRankingSort = document.querySelector(".module_ranking_sort")
     if(module_ranking_sort1){
         module_ranking_sort1 = false
+        orderType = 3
         $(this)[0].children[0].className = ""
         $(this)[0].children[1].className = "highlight"
 
@@ -238,6 +242,7 @@ $(".module_ranking_sort1").click(function () {
         moduleRankingSort.children[1].className = ""
     }else{
         module_ranking_sort1 = true
+        orderType = 4
         $(this)[0].children[0].className = "highlight"
         $(this)[0].children[1].className = ""
 
@@ -247,79 +252,61 @@ $(".module_ranking_sort1").click(function () {
     systemHotModuleRanking()
 })
 
-$("#time").change(function () {
+$("#time1").change(function () {
     systemHotModuleRanking()
 })
 function systemHotModuleRanking() {
     let time = $("#time1 option:selected").val();
-    return
     $.ajax({
         type: "get",
         url: ctxPath + "home/systemHotModuleRanking",
         dataType: "json",
-        data: {days: time, isASC: module_ranking_sort},
+        data: {days: time, size: 10, orderType: orderType},
         beforeSend: function () {
             $("#moduleRankingList").html('');
         },
         success: function (res) {
             var status = res.status;
-            console.log(res)
-            return
             if (status == 200) {
-                var data = res.data.list;
+                var data = res.data;
                 var htmlStr = '';
                 for (var i = 0; i < data.length; i++) {
                     var dataJson = data[i];
 
-                    //姓名
-                    var username = dataJson.username
+                    //系统模块
+                    var module = dataJson.module;
 
-                    //用户id
-                    var id = dataJson.id;
+                    //子模块
+                    var submodule = dataJson.submodule
 
-                    //写作宝
-                    var xieFlag = "<span style='color: red'>未绑定</span>"
-                    if (dataJson.xieFlag == 1) {
-                        xieFlag = "<span style='color: green'>已绑定</span>";
-                    }else{
-                        xieFlag = "<span style='color: red'>未绑定</span>";
-                    }
+                    //类型
+                    var type = dataJson.type
 
-                    //微信公众号
-                    var wechatFlag = "<span style='color: red'>未关注</span>"
-                    if (dataJson.wechatFlag == 1) {
-                        wechatFlag = "<span style='color: green'>已关注</span>";
-                    }else{
-                        wechatFlag = "<span style='color: red'>未关注</span>";
-                    }
+                    //使用总次数
+                    var total = dataJson.total||0;
 
-                    //nlp
-                    var nlpFlag = "<span style='color: red'>未绑定</span>"
-                    if (dataJson.nlpFlag == 1) {
-                        nlpFlag = "<span style='color: green'>已绑定</span>";
-                    }else{
-                        nlpFlag = "<span style='color: red'>未绑定</span>";
-                    }
+                    //使用最多用户
+                    var mostUsedUsername = dataJson.mostUsedUsername;
 
                     //使用次数
                     var count = dataJson.count||0;
 
-                    //最后一次登录时间
-                    if (dataJson.endLoginTime != null && dataJson.endLoginTime != '') {
-                        var endLoginTime = stampTOtime(dataJson.endLoginTime);
+                    //最新使用时间
+                    if (dataJson.endUseTime != null && dataJson.endUseTime != '') {
+                        var endUseTime = dataJson.endUseTime;
                     }else{
-                        var endLoginTime = '—————————';
+                        var endUseTime = '—————————';
                     }
 
                     htmlStr = `
                         <tr class="textAlign">
-                            <td><a href="/userRecords">${username}</a></td>
-                            <td>${id}</td>
-                            <td>${xieFlag}</td>
-                            <td>${wechatFlag}</td>
-                            <td>${nlpFlag}</td>
+                            <td><a href="/moduleRecords?module=${module}">${module}</a></td>
+                            <td>${submodule}</td>
+                            <td>${type}</td>
+                            <td>${total}</td>
+                            <td>${mostUsedUsername}</td>
                             <td>${count}</td>
-                            <td>${endLoginTime}</td>
+                            <td>${endUseTime}</td>
                         </tr>
                     `
                     $("#moduleRankingList").append(htmlStr);

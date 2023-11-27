@@ -1,10 +1,64 @@
 $(function () {
-    // loading(1)
-    barmap()
-    paging(1, 1, 1);
+    systemModuleList()
+    moduleUseChart()
+    loading(1)
 })
 
-function barmap() {
+function systemModuleList() {
+    $.ajax({
+        type: "get",
+        url: ctxPath + "home/systemModuleList",
+        dataType: "json",
+        beforeSend: function () {
+            $("#time").html('<option value="0">全部</option>');
+        },
+        success: function (res) {
+            if(res.status==200){
+                let data = res.data
+                var htmlStr = '';
+                for (let i = 0; i < data.length; i++) {
+                    htmlStr = `
+                        <option value="${data[i]}">${data[i]}</option>
+                    `
+                    $("#time").append(htmlStr);
+                }
+            }
+        }
+    })
+}
+
+$("#time").change(function () {
+    moduleUseChart()
+})
+function moduleUseChart() {
+    let module = $("#time option:selected").val();
+    let paramsdata = {
+        userId: userId
+    }
+    if(module!=0){
+        paramsdata.module = module
+    }
+    $.ajax({
+        type: "get",
+        url: ctxPath + "home/moduleUseChart",
+        dataType: "json",
+        data: paramsdata,
+        success: function (res) {
+            if(res.status==200){
+                let data = res.data
+                let xAxisData = []
+                let seriesData = []
+                for (let i = 0; i < data.length; i++) {
+                    xAxisData.push(data[i].moduleName)
+                    seriesData.push(data[i].count)
+                }
+                barmap(xAxisData,seriesData)
+            }
+        }
+    })
+}
+
+function barmap(xAxisData,seriesData) {
     var myChart = echarts.init(document.querySelector('#usage'));
     var option = {
         tooltip: {
@@ -22,7 +76,7 @@ function barmap() {
         },
         xAxis: {
             type: 'category',
-            data: ['监测分析', '数据监测', '监测管理', '全文搜索', '事件分析'],
+            data: xAxisData,
             axisLine: {
                 lineStyle: {
                     color: "#999"
@@ -48,7 +102,7 @@ function barmap() {
         },
         series: [
             {
-                data: [2, 4, 12, 6, 3],
+                data: seriesData,
                 type: 'bar',
                 color: "#64b5f6",
                 barMaxWidth: 40
@@ -58,155 +112,73 @@ function barmap() {
     myChart.setOption(option);
 }
 
+$("#time1").change(function () {
+    loading(1)
+})
 function loading(pagenum) {
-    let keyword = $("#keyword").val();
     let time = $("#time1 option:selected").val();
-    return;
     $.ajax({
-        type: "POST",
-        url: ctxPath + "company/getCompanyList",
+        type: "get",
+        url: ctxPath + "home/userModuleUseRecord",
         dataType: "json",
-        data: {page: pagenum, keyword: keyword},
+        data: {userId: userId, pageNum: pagenum, pageSize: 10, days: time},
         beforeSend: function () {
-            $("#userRankingList").html('');
-        },
-        compvare: function () {
+            $("#userRecordsList").html('');
         },
         success: function (res) {
-            var code = res.code;
-            var totalCount = res.totalCount;
-            var totalPage = res.totalPage;
-            var page = res.page;
-            if (page == 1) {
-                paging(totalCount, totalPage, page);
+            var status = res.status;
+            var total = res.data.total;
+            var pages = res.data.pages;
+            var pageNum = res.data.pageNum;
+            if (pageNum == 1) {
+                paging(total, pages, pageNum);
             }
-            if (code == 200) {
-                console.log(res)
-                var data = res.data;
-                // paging(totalCount, totalPage, page);
+            if (status == 200) {
+                var data = res.data.list;
                 var htmlStr = '';
                 for (var i = 0; i < data.length; i++) {
                     var dataJson = data[i];
 
+                    //操作系统
+                    var operatingSystem = dataJson.operatingSystem
 
-                    //创建时间
-                    if (dataJson.create_time != null && dataJson.create_time != '') {
-                        var create_time = stampTOtime(dataJson.create_time);
+                    //登陆ip
+                    var loginip = dataJson.loginip;
+
+                    //模块
+                    var module = dataJson.module
+
+                    //子模块
+                    var submodule = dataJson.submodule;
+
+                    //类型
+                    var type = dataJson.type
+
+                    //使用总次数
+                    var count = dataJson.count;
+
+                    //最新一次使用时间
+                    if (dataJson.lastUseTime != null && dataJson.lastUseTime != '') {
+                        var lastUseTime = dataJson.lastUseTime;
                     }else{
-                        var create_time = '——————————';
+                        var lastUseTime = '—————————';
                     }
 
-                    //机构公共id
-                    if (dataJson.organization_id != null && dataJson.organization_id != '') {
-                        var organization_id = dataJson.organization_id;
-                    }else{
-                        var organization_id = '——————————';
-                    }
-
-
-                    //机构简称
-                    if (dataJson.organization_short != null && dataJson.organization_short != '') {
-                        var organization_short = dataJson.organization_short;
-                    }else{
-                        var organization_short = '——————————';
-                    }
-
-                    //机构名全称
-                    if (dataJson.organization_name != null && dataJson.organization_name != '') {
-                        var organization_name = dataJson.organization_name;
-                    }else{
-                        var organization_name = '——————————';
-                    }
-
-                    //机构类型（1机构、2个人）
-                    if (dataJson.organization_type != null && dataJson.organization_type != '') {
-                        var organization_type = dataJson.organization_type;
-                        if (organization_type == 1){
-                            organization_type = '机构';
-                        }else if (organization_type == 2) {
-                            organization_type = '个人';
-                        }else{
-                            var organization_type = '——————————';
-                        }
-                    }else{
-                        var organization_type = '——————————';
-                    }
-
-                    //有效期
-                    if (dataJson.term_of_validity != null && dataJson.term_of_validity != '') {
-                        var term_of_validity = stampTOtime(dataJson.term_of_validity);
-                        term_of_validity = term_of_validity.substring(0 , 10);
-                    }else{
-                        var term_of_validity = '——————————';
-                    }
-
-                    //状态（1代表正常 2代表注销）
-                    if (dataJson.status != null && dataJson.status != '') {
-                        var status = dataJson.status;
-                        if (status == 1){
-                            status = '正常';
-                        }else if (status == 2) {
-                            status = '注销';
-                        }else{
-                            var status = '——————————';
-                        }
-                    }else{
-                        var status = '——————————';
-                    }
-
-
-                    //组织代码
-                    if (dataJson.organization_code != null && dataJson.organization_code != '') {
-                        var organization_code = dataJson.organization_code;
-                    }else{
-                        var organization_code = '——————————';
-                    }
-
-                    //系统名称
-                    if (dataJson.system_title != null && dataJson.system_title != '') {
-                        var system_title = dataJson.system_title;
-                    }else{
-                        var system_title = '——————————';
-                    }
-
-                    if (dataJson.count != null && dataJson.count != '') {
-                        var count = dataJson.count;
-                    }else{
-                        var count = '——————————';
-                    }
-
-                    /* <th>机构公共id</th>    organization_id
-                                <th>机构全称</th>   organization_name
-                                <th>机构简称</th>   organization_short
-                                <th>机构类型</th>        organization_type
-                                <th>有效期</th>      term_of_validity
-                                <th>状态</th>       status
-                                <!-- <th>创建日期</th>-->    create_time
-                                <th>组织代码</th>      organization_code
-                                <th>logo地址</th>      logo_url
-                                <th>系统名称</th>         system_title*/
-
-
-                    htmlStr = '<tr class="textAlign">' +
-                        /*'<td>' + organization_id + '</td>' +*/
-                        '<td data-code="' + organization_code + '" data-id="' + organization_id + '" onclick="toUserList(' + '\'' +organization_id+ '\'' +')"><a>' + organization_name + '</a></td>' +
-                        '<td data-code="' + organization_code + '" data-id="' + organization_id + '">' + count + '</td>' +
-                        '<td>'+organization_type+'</td>' +
-                        '<td>' + term_of_validity + '</td>' +
-                        '<td>' + status + '</td>' +
-                        /*'<td>' + create_time + '</td>' +*/
-                        '<td>' + organization_code + '</td>' +
-                        '<td>' + system_title + '</td>' +
-                        '<td>' +
-                        '<div class="btn-group">' +
-                        '<button class="btn-info btn btn-xs" onclick="update('+dataJson.id+')" >' + '修改' + '</button>'+
-                        '</div>' +
-                        '</td>' +
-                        '</tr>'
-                    $("#userRankingList").append(htmlStr);
+                    htmlStr = `
+                        <tr class="textAlign">
+                            <td>${operatingSystem}</td>
+                            <td>${loginip}</td>
+                            <td>${module}</td>
+                            <td>${submodule}</td>
+                            <td>${type}</td>
+                            <td>${count}</td>
+                            <td>${lastUseTime}</td>
+                        </tr>
+                    `
+                    $("#userRecordsList").append(htmlStr);
                 }
             } else {
-                $("#userRankingList").html('<tr><td colspan="11">暂无数据！</td></tr>');
+                $("#userRecordsList").html('<tr><td colspan="11">暂无数据！</td></tr>');
             }
         },
     });
@@ -229,14 +201,6 @@ function paging(totalData, totalPage, pagenum) {
 function JumpToPage(pagenum) {
     loading(pagenum);
 }
-
-//搜索事件
-$("#keyword").keydown(function (res) {
-    if (res.keyCode == 13)
-        loading(1);
-})
-
-
 
 function stampTOtime(data) {
 //data为时间戳
