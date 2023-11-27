@@ -1,10 +1,28 @@
 $(function () {
-    // loading(1)
-    linemap()
-    paging(3, 1, 1);
+    userTrendChart()
+    loading(1)
+    // systemHotModuleRanking()
 })
-
-function linemap() {
+function userTrendChart() {
+    $.ajax({
+        type: "get",
+        url: ctxPath + "home/userTrendChart",
+        dataType: "json",
+        success: function (res) {
+            if(res.status==200){
+                let data = res.data
+                let xAxisData = []
+                let seriesData = []
+                for (let i = 0; i < data.length; i++) {
+                    xAxisData.push(data[i].date)
+                    seriesData.push(data[i].count)
+                }
+                linemap(xAxisData,seriesData)
+            }
+        }
+    })
+}
+function linemap(xAxisData,seriesData) {
     var myChart = echarts.init(document.querySelector('#growth_trends'));
     var option = {
         tooltip: {
@@ -22,7 +40,7 @@ function linemap() {
         },
         xAxis: {
             type: 'category',
-            data: ['2023-11-17', '2023-11-18', '2023-11-19', '2023-11-20', '2023-11-21', '2023-11-22', '2023-11-23'],
+            data: xAxisData,
             axisLine: {
                 lineStyle: {
                     color: "#999"
@@ -45,10 +63,11 @@ function linemap() {
             splitLine: {
                 show: false,
             },
+            minInterval: 1,
         },
         series: [
             {
-                data: [2, 1, 4, 12, 16, 6, 3],
+                data: seriesData,
                 type: 'bar',
                 color: "#64b5f6",
                 barMaxWidth: 40
@@ -58,155 +77,104 @@ function linemap() {
     myChart.setOption(option);
 }
 
+let user_ranking_sort = false
+$(".user_ranking_sort").click(function () {
+    if(user_ranking_sort){
+        user_ranking_sort = false
+        $(this)[0].children[0].className = ""
+        $(this)[0].children[1].className = "highlight"
+    }else{
+        user_ranking_sort = true
+        $(this)[0].children[0].className = "highlight"
+        $(this)[0].children[1].className = ""
+    }
+    loading(1)
+})
+
+$("#time").change(function () {
+    loading(1)
+})
+
 function loading(pagenum) {
     let keyword = $("#keyword").val();
-    let time = $("#time1 option:selected").val();
-    return;
+    let time = $("#time option:selected").val();
     $.ajax({
-        type: "POST",
-        url: ctxPath + "company/getCompanyList",
+        type: "get",
+        url: ctxPath + "home/userUseRanking",
         dataType: "json",
-        data: {page: pagenum, keyword: keyword},
+        data: {pageNum: pagenum, pageSize: 10, username: keyword, days: time, isASC: user_ranking_sort},
         beforeSend: function () {
             $("#userRankingList").html('');
         },
-        compvare: function () {
-        },
         success: function (res) {
-            var code = res.code;
-            var totalCount = res.totalCount;
-            var totalPage = res.totalPage;
-            var page = res.page;
-            if (page == 1) {
-                paging(totalCount, totalPage, page);
+            var status = res.status;
+            var total = res.data.total;
+            var pages = res.data.pages;
+            var pageNum = res.data.pageNum;
+            if (pageNum == 1) {
+                paging(total, pages, pageNum);
             }
-            if (code == 200) {
-                console.log(res)
-                var data = res.data;
-                // paging(totalCount, totalPage, page);
+            if (status == 200) {
+                var data = res.data.list;
                 var htmlStr = '';
                 for (var i = 0; i < data.length; i++) {
                     var dataJson = data[i];
 
+                    //姓名
+                    var username = dataJson.username
 
-                    //创建时间
-                    if (dataJson.create_time != null && dataJson.create_time != '') {
-                        var create_time = stampTOtime(dataJson.create_time);
+                    //用户id
+                    var id = dataJson.id;
+
+                    //写作宝
+                    var xieFlag = "<span style='color: red'>未绑定</span>"
+                    if (dataJson.xieFlag == 1) {
+                        xieFlag = "<span style='color: green'>已绑定</span>";
                     }else{
-                        var create_time = '——————————';
+                        xieFlag = "<span style='color: red'>未绑定</span>";
                     }
 
-                    //机构公共id
-                    if (dataJson.organization_id != null && dataJson.organization_id != '') {
-                        var organization_id = dataJson.organization_id;
+                    //微信公众号
+                    var wechatFlag = "<span style='color: red'>未关注</span>"
+                    if (dataJson.wechatFlag == 1) {
+                        wechatFlag = "<span style='color: green'>已关注</span>";
                     }else{
-                        var organization_id = '——————————';
+                        wechatFlag = "<span style='color: red'>未关注</span>";
                     }
 
-
-                    //机构简称
-                    if (dataJson.organization_short != null && dataJson.organization_short != '') {
-                        var organization_short = dataJson.organization_short;
+                    //nlp
+                    var nlpFlag = "<span style='color: red'>未绑定</span>"
+                    if (dataJson.nlpFlag == 1) {
+                        nlpFlag = "<span style='color: green'>已绑定</span>";
                     }else{
-                        var organization_short = '——————————';
+                        nlpFlag = "<span style='color: red'>未绑定</span>";
                     }
 
-                    //机构名全称
-                    if (dataJson.organization_name != null && dataJson.organization_name != '') {
-                        var organization_name = dataJson.organization_name;
+                    //使用次数
+                    var count = dataJson.count||0;
+
+                    //最后一次登录时间
+                    if (dataJson.endLoginTime != null && dataJson.endLoginTime != '') {
+                        var endLoginTime = stampTOtime(dataJson.endLoginTime);
                     }else{
-                        var organization_name = '——————————';
+                        var endLoginTime = '—————————';
                     }
 
-                    //机构类型（1机构、2个人）
-                    if (dataJson.organization_type != null && dataJson.organization_type != '') {
-                        var organization_type = dataJson.organization_type;
-                        if (organization_type == 1){
-                            organization_type = '机构';
-                        }else if (organization_type == 2) {
-                            organization_type = '个人';
-                        }else{
-                            var organization_type = '——————————';
-                        }
-                    }else{
-                        var organization_type = '——————————';
-                    }
-
-                    //有效期
-                    if (dataJson.term_of_validity != null && dataJson.term_of_validity != '') {
-                        var term_of_validity = stampTOtime(dataJson.term_of_validity);
-                        term_of_validity = term_of_validity.substring(0 , 10);
-                    }else{
-                        var term_of_validity = '——————————';
-                    }
-
-                    //状态（1代表正常 2代表注销）
-                    if (dataJson.status != null && dataJson.status != '') {
-                        var status = dataJson.status;
-                        if (status == 1){
-                            status = '正常';
-                        }else if (status == 2) {
-                            status = '注销';
-                        }else{
-                            var status = '——————————';
-                        }
-                    }else{
-                        var status = '——————————';
-                    }
-
-
-                    //组织代码
-                    if (dataJson.organization_code != null && dataJson.organization_code != '') {
-                        var organization_code = dataJson.organization_code;
-                    }else{
-                        var organization_code = '——————————';
-                    }
-
-                    //系统名称
-                    if (dataJson.system_title != null && dataJson.system_title != '') {
-                        var system_title = dataJson.system_title;
-                    }else{
-                        var system_title = '——————————';
-                    }
-
-                    if (dataJson.count != null && dataJson.count != '') {
-                        var count = dataJson.count;
-                    }else{
-                        var count = '——————————';
-                    }
-
-                    /* <th>机构公共id</th>    organization_id
-                                <th>机构全称</th>   organization_name
-                                <th>机构简称</th>   organization_short
-                                <th>机构类型</th>        organization_type
-                                <th>有效期</th>      term_of_validity
-                                <th>状态</th>       status
-                                <!-- <th>创建日期</th>-->    create_time
-                                <th>组织代码</th>      organization_code
-                                <th>logo地址</th>      logo_url
-                                <th>系统名称</th>         system_title*/
-
-
-                    htmlStr = '<tr class="textAlign">' +
-                        /*'<td>' + organization_id + '</td>' +*/
-                        '<td data-code="' + organization_code + '" data-id="' + organization_id + '" onclick="toUserList(' + '\'' +organization_id+ '\'' +')"><a>' + organization_name + '</a></td>' +
-                        '<td data-code="' + organization_code + '" data-id="' + organization_id + '">' + count + '</td>' +
-                        '<td>'+organization_type+'</td>' +
-                        '<td>' + term_of_validity + '</td>' +
-                        '<td>' + status + '</td>' +
-                        /*'<td>' + create_time + '</td>' +*/
-                        '<td>' + organization_code + '</td>' +
-                        '<td>' + system_title + '</td>' +
-                        '<td>' +
-                        '<div class="btn-group">' +
-                        '<button class="btn-info btn btn-xs" onclick="update('+dataJson.id+')" >' + '修改' + '</button>'+
-                        '</div>' +
-                        '</td>' +
-                        '</tr>'
+                    htmlStr = `
+                        <tr class="textAlign">
+                            <td><a href="/userRecords">${username}</a></td>
+                            <td>${id}</td>
+                            <td>${xieFlag}</td>
+                            <td>${wechatFlag}</td>
+                            <td>${nlpFlag}</td>
+                            <td>${count}</td>
+                            <td>${endLoginTime}</td>
+                        </tr>
+                    `
                     $("#userRankingList").append(htmlStr);
                 }
             } else {
-                $("#userRankingList").html('<tr><td colspan="11">暂无数据！</td></tr>');
+                $("#userRankingList").html('<tr><td colspan="11" style="text-align: center">暂无数据！</td></tr>');
             }
         },
     });
@@ -236,22 +204,134 @@ $("#keyword").keydown(function (res) {
         loading(1);
 })
 
-let user_ranking_sort = 0
-$(".user_ranking_sort").click(function () {
-    if(user_ranking_sort==0){
-        user_ranking_sort = 1
+
+let module_ranking_sort = false
+let module_ranking_sort1 = false
+$(".module_ranking_sort").click(function () {
+    let moduleRankingSort1 = document.querySelector(".module_ranking_sort1")
+    if(module_ranking_sort){
+        module_ranking_sort = false
         $(this)[0].children[0].className = ""
         $(this)[0].children[1].className = "highlight"
-    }else if(user_ranking_sort==1){
-        user_ranking_sort = 2
+
+        moduleRankingSort1.children[0].className = ""
+        moduleRankingSort1.children[1].className = ""
+    }else{
+        module_ranking_sort = true
         $(this)[0].children[0].className = "highlight"
         $(this)[0].children[1].className = ""
-    }else if(user_ranking_sort==2){
-        user_ranking_sort = 0
-        $(this)[0].children[0].className = ""
-        $(this)[0].children[1].className = ""
+
+        moduleRankingSort1.children[0].className = ""
+        moduleRankingSort1.children[1].className = ""
     }
+    systemHotModuleRanking()
 })
+
+$(".module_ranking_sort1").click(function () {
+    let moduleRankingSort = document.querySelector(".module_ranking_sort")
+    if(module_ranking_sort1){
+        module_ranking_sort1 = false
+        $(this)[0].children[0].className = ""
+        $(this)[0].children[1].className = "highlight"
+
+        moduleRankingSort.children[0].className = ""
+        moduleRankingSort.children[1].className = ""
+    }else{
+        module_ranking_sort1 = true
+        $(this)[0].children[0].className = "highlight"
+        $(this)[0].children[1].className = ""
+
+        moduleRankingSort.children[0].className = ""
+        moduleRankingSort.children[1].className = ""
+    }
+    systemHotModuleRanking()
+})
+
+$("#time").change(function () {
+    systemHotModuleRanking()
+})
+function systemHotModuleRanking() {
+    let time = $("#time1 option:selected").val();
+    return
+    $.ajax({
+        type: "get",
+        url: ctxPath + "home/systemHotModuleRanking",
+        dataType: "json",
+        data: {days: time, isASC: module_ranking_sort},
+        beforeSend: function () {
+            $("#moduleRankingList").html('');
+        },
+        success: function (res) {
+            var status = res.status;
+            console.log(res)
+            return
+            if (status == 200) {
+                var data = res.data.list;
+                var htmlStr = '';
+                for (var i = 0; i < data.length; i++) {
+                    var dataJson = data[i];
+
+                    //姓名
+                    var username = dataJson.username
+
+                    //用户id
+                    var id = dataJson.id;
+
+                    //写作宝
+                    var xieFlag = "<span style='color: red'>未绑定</span>"
+                    if (dataJson.xieFlag == 1) {
+                        xieFlag = "<span style='color: green'>已绑定</span>";
+                    }else{
+                        xieFlag = "<span style='color: red'>未绑定</span>";
+                    }
+
+                    //微信公众号
+                    var wechatFlag = "<span style='color: red'>未关注</span>"
+                    if (dataJson.wechatFlag == 1) {
+                        wechatFlag = "<span style='color: green'>已关注</span>";
+                    }else{
+                        wechatFlag = "<span style='color: red'>未关注</span>";
+                    }
+
+                    //nlp
+                    var nlpFlag = "<span style='color: red'>未绑定</span>"
+                    if (dataJson.nlpFlag == 1) {
+                        nlpFlag = "<span style='color: green'>已绑定</span>";
+                    }else{
+                        nlpFlag = "<span style='color: red'>未绑定</span>";
+                    }
+
+                    //使用次数
+                    var count = dataJson.count||0;
+
+                    //最后一次登录时间
+                    if (dataJson.endLoginTime != null && dataJson.endLoginTime != '') {
+                        var endLoginTime = stampTOtime(dataJson.endLoginTime);
+                    }else{
+                        var endLoginTime = '—————————';
+                    }
+
+                    htmlStr = `
+                        <tr class="textAlign">
+                            <td><a href="/userRecords">${username}</a></td>
+                            <td>${id}</td>
+                            <td>${xieFlag}</td>
+                            <td>${wechatFlag}</td>
+                            <td>${nlpFlag}</td>
+                            <td>${count}</td>
+                            <td>${endLoginTime}</td>
+                        </tr>
+                    `
+                    $("#moduleRankingList").append(htmlStr);
+                }
+            } else {
+                $("#moduleRankingList").html('<tr><td colspan="11" style="text-align: center">暂无数据！</td></tr>');
+            }
+        },
+    });
+}
+
+
 
 
 function stampTOtime(data) {

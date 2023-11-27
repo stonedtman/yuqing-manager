@@ -1,7 +1,62 @@
 $(function () {
     // loading(1)
+    barmap()
     paging(1, 1, 1);
 })
+
+function barmap() {
+    var myChart = echarts.init(document.querySelector('#usage'));
+    var option = {
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'shadow'
+            }
+        },
+        grid: {
+            top: '7%',
+            left: '2%',
+            right: '2%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis: {
+            type: 'category',
+            data: ['列表', '详情'],
+            axisLine: {
+                lineStyle: {
+                    color: "#999"
+                }
+            },
+            axisLabel: {
+                color: "#333"
+            }
+        },
+        yAxis: {
+            type: 'value',
+            axisLine: {
+                lineStyle: {
+                    color: "#999"
+                }
+            },
+            axisLabel: {
+                color: "#333"
+            },
+            splitLine: {
+                show: false,
+            },
+        },
+        series: [
+            {
+                data: [12, 6],
+                type: 'bar',
+                color: "#64b5f6",
+                barMaxWidth: 40
+            }
+        ]
+    };
+    myChart.setOption(option);
+}
 
 function loading(pagenum) {
     let keyword = $("#keyword").val();
