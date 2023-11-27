@@ -1,19 +1,14 @@
 package com.stonedt.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.stonedt.dao.UserDao;
-import com.stonedt.entity.OrganizationEntity;
 import com.stonedt.service.LogService;
-import com.stonedt.util.MapUtil;
-import com.stonedt.util.MyHttpRequestUtil;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 import com.stonedt.util.ResultUtil;
 import com.stonedt.vo.ModelUseChartVO;
@@ -112,9 +107,9 @@ public class LogServiceImpl implements LogService {
   @Override
   public ResultUtil<List<SystemHotModuleVO>> getSystemHotModuleRanking(Integer days, Integer orderType, Integer size) {
     Date start = null;
-    if (days != null) {
-      long currentTimeMillis = System.currentTimeMillis();
-      start = new Date(currentTimeMillis - TimeUnit.DAYS.toMillis(days));
+    if (days != null && days > 0) {
+        long currentTimeMillis = System.currentTimeMillis();
+        start = new Date(currentTimeMillis - TimeUnit.DAYS.toMillis(days));
     }
 
     List<SystemHotModuleVO> systemHotModuleVOList = userDao.getSystemHotModuleRanking(start, orderType, size);
@@ -128,7 +123,7 @@ public class LogServiceImpl implements LogService {
   }
 
   @Override
-  public ResultUtil<List<ModelUseChartVO>> getModuleUseChart(String module) {
+  public ResultUtil<List<ModelUseChartVO>> getModuleUseChart(Integer userId, String module) {
     List<ModelUseChartVO> modelUseChartVOList = userDao.getModuleUseChart(module);
     return ResultUtil.ok(modelUseChartVOList);
   }

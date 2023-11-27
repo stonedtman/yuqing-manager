@@ -16,5 +16,5 @@ public interface LogService {
 
   ResultUtil<List<String>> getSystemModuleList();
 
-  ResultUtil<List<ModelUseChartVO>> getModuleUseChart(String module);
+  ResultUtil<List<ModelUseChartVO>> getModuleUseChart(Integer userId, String module);
 }

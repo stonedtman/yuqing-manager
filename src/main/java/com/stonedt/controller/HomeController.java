@@ -90,9 +90,10 @@ public class HomeController {
      * 模块使用情况图表
      */
     @GetMapping("/moduleUseChart")
-    public ResultUtil<List<ModelUseChartVO>> moduleUseChart(@RequestParam(required = false) String module){
+    public ResultUtil<List<ModelUseChartVO>> moduleUseChart(@RequestParam(required = true) Integer userId,
+                                                            @RequestParam(required = false) String module){
 
-        return logService.getModuleUseChart(module);
+        return logService.getModuleUseChart(userId,module);
     }
 
 
