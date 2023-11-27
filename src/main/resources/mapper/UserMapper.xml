@@ -480,6 +480,9 @@ organization.organization_id,organization.organization_short,organization.organi
         count(*) AS count
         from systemlog
         where module = #{module}
+        <if test="subModule != '' and subModule != null">
+            and submodule = #{subModule}
+        </if>
         group by
         <if test="subModule != '' and subModule != null">
             type
