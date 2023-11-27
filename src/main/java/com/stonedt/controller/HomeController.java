@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.stonedt.service.LogService;
 import com.stonedt.service.UserService;
 import com.stonedt.util.ResultUtil;
+import com.stonedt.vo.ModelUseChartVO;
 import com.stonedt.vo.SystemHotModuleVO;
 import com.stonedt.vo.UseRankVO;
 import com.stonedt.vo.UserTrendChartVO;
@@ -74,6 +75,24 @@ public class HomeController {
                                                                           @RequestParam(required = false,defaultValue = "10") Integer size) {
 
         return logService.getSystemHotModuleRanking(days, orderType,size);
+    }
+
+
+    /**
+     * 系统模块下拉列表
+     */
+    @GetMapping("/systemModuleList")
+    public ResultUtil<List<String>> systemModuleList() {
+        return logService.getSystemModuleList();
+    }
+
+    /**
+     * 模块使用情况图表
+     */
+    @GetMapping("/moduleUseChart")
+    public ResultUtil<List<ModelUseChartVO>> moduleUseChart(@RequestParam(required = false) String module){
+
+        return logService.getModuleUseChart(module);
     }
 
 

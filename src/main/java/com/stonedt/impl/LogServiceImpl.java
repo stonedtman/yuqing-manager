@@ -16,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import com.stonedt.util.ResultUtil;
+import com.stonedt.vo.ModelUseChartVO;
 import com.stonedt.vo.SystemHotModuleVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -110,11 +111,26 @@ public class LogServiceImpl implements LogService {
 
   @Override
   public ResultUtil<List<SystemHotModuleVO>> getSystemHotModuleRanking(Integer days, Integer orderType, Integer size) {
-    long currentTimeMillis = System.currentTimeMillis();
-    Date start = new Date(currentTimeMillis - TimeUnit.DAYS.toMillis(days));
+    Date start = null;
+    if (days != null) {
+      long currentTimeMillis = System.currentTimeMillis();
+      start = new Date(currentTimeMillis - TimeUnit.DAYS.toMillis(days));
+    }
 
     List<SystemHotModuleVO> systemHotModuleVOList = userDao.getSystemHotModuleRanking(start, orderType, size);
     return ResultUtil.ok(systemHotModuleVOList);
+  }
+
+  @Override
+  public ResultUtil<List<String>> getSystemModuleList() {
+    List<String> systemModuleList = userDao.getSystemModuleList();
+    return ResultUtil.ok(systemModuleList);
+  }
+
+  @Override
+  public ResultUtil<List<ModelUseChartVO>> getModuleUseChart(String module) {
+    List<ModelUseChartVO> modelUseChartVOList = userDao.getModuleUseChart(module);
+    return ResultUtil.ok(modelUseChartVOList);
   }
 
 

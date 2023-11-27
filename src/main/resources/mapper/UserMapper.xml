@@ -421,4 +421,21 @@ organization.organization_id,organization.organization_short,organization.organi
         </choose>
         limit #{size}
     </select>
+    <select id="getSystemModuleList" resultType="java.lang.String">
+        SELECT DISTINCT module FROM systemlog
+    </select>
+    <select id="getModuleUseChart" resultType="com.stonedt.vo.ModelUseChartVO">
+        SELECT
+        <if test="module != '' and module != null">
+            submodule,
+        </if>
+        <if test="module == '' or module == null">
+            module,
+        </if>
+        count(*) AS count
+        from systemlog
+        where module = #{module}
+        and createtime > #{start}
+        group by date
+    </select>
 </mapper>

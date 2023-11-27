@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.stonedt.vo.ModelUseChartVO;
 import com.stonedt.vo.SystemHotModuleVO;
 import com.stonedt.vo.UseRankVO;
 import com.stonedt.vo.UserTrendChartVO;
@@ -122,4 +123,8 @@ public interface UserDao {
   List<SystemHotModuleVO> getSystemHotModuleRanking(@Param("start") Date start,
                                                     @Param("orderType") Integer orderType,
                                                     @Param("size") Integer size);
+
+  List<String> getSystemModuleList();
+
+  List<ModelUseChartVO> getModuleUseChart(String module);
 }
