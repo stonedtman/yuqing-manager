@@ -464,4 +464,27 @@ organization.organization_id,organization.organization_short,organization.organi
         group by module , submodule , type
         ORDER BY lastUseTime desc
     </select>
+    <select id="getSystemSubModuleList" resultType="java.lang.String">
+        SELECT DISTINCT submodule FROM systemlog
+        where module = #{module}
+    </select>
+    <select id="getSubModuleUseChart" resultType="com.stonedt.vo.ModelUseChartVO">
+        SELECT
+        <if test="subModule != '' and subModule != null">
+            type as moduleName,
+        </if>
+        <if test="subModule == '' or subModule == null">
+            submodule as moduleName,
+        </if>
+        count(*) AS count
+        from systemlog
+        where module = #{module}
+        group by
+        <if test="subModule != '' and subModule != null">
+            type
+        </if>
+        <if test="subModule == '' or subModule == null">
+            submodule
+        </if>
+    </select>
 </mapper>

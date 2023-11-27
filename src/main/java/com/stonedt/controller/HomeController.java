@@ -105,5 +105,23 @@ public class HomeController {
         return userService.getUserModuleUseRecord(userId, days, pageNum, pageSize);
     }
 
+    /**
+     * 根据系统模块获取子模块下拉列表
+     */
+    @GetMapping("/systemSubModuleList")
+    public ResultUtil<List<String>> systemSubModuleList(@RequestParam(required = true) String module) {
+        return ResultUtil.ok(userService.getSystemSubModuleList(module));
+    }
+
+    /**
+     * 子模块使用情况图表
+     */
+    @GetMapping("/subModuleUseChart")
+    public ResultUtil<List<ModelUseChartVO>> subModuleUseChart(@RequestParam(required = true) String module,
+                                                               @RequestParam(required = false) String subModule){
+
+        return ResultUtil.ok(userService.getSubModuleUseChart(module,subModule));
+    }
+
 
 }

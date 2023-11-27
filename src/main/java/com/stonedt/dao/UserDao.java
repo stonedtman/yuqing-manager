@@ -128,4 +128,9 @@ public interface UserDao {
 
   List<UserUseRecord> getUserModuleUseRecord(@Param("userId")Integer userId,
                                              @Param("start")Date start);
+
+  List<String> getSystemSubModuleList(String module);
+
+  List<ModelUseChartVO> getSubModuleUseChart(@Param("module") String module,
+                                             @Param("subModule") String subModule);
 }

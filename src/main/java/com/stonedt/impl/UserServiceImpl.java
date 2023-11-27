@@ -14,6 +14,7 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpSession;
 
+import com.stonedt.vo.ModelUseChartVO;
 import com.stonedt.vo.UseRankVO;
 import com.stonedt.vo.UserTrendChartVO;
 import com.stonedt.vo.UserUseRecord;
@@ -496,6 +497,16 @@ public class UserServiceImpl implements UserService {
     List<UserUseRecord> userUseRecordList = userDao.getUserModuleUseRecord(userId, start);
 
     return ResultUtil.ok(new PageInfo<>(userUseRecordList));
+  }
+
+  @Override
+  public List<String> getSystemSubModuleList(String module) {
+    return userDao.getSystemSubModuleList(module);
+  }
+
+  @Override
+  public List<ModelUseChartVO> getSubModuleUseChart(String module, String subModule) {
+    return userDao.getSubModuleUseChart(module,subModule);
   }
 
   public Integer addUserInfo(UserEntity userEntity) {
