@@ -14,5 +14,5 @@ public interface DataService {
 
     List<String> getDataSources(String times);
 
-    ResultUtil<List<DataRecord>> getDataSourcesChart(Integer days);
+    ResultUtil<List<DataRecord>> getDataSourcesChart(Integer days, String sourceWebsite);
 }

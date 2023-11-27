@@ -125,9 +125,12 @@ public class DataServiceImpl implements DataService {
 
     private final SimpleDateFormat ymd;
 
+    private final SimpleDateFormat ymdhms;
+
     public DataServiceImpl(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
         this.ymd = new SimpleDateFormat("yyyy-MM-dd");
+        this.ymdhms = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     }
 
 
@@ -275,20 +278,29 @@ public class DataServiceImpl implements DataService {
     }
 
     @Override
-    public ResultUtil<List<DataRecord>> getDataSourcesChart(Integer days) {
+    public ResultUtil<List<DataRecord>> getDataSourcesChart(Integer days, String sourceWebsite) {
         final String times;
         if (days != null && days > 0) {
             long currentTimeMillis = System.currentTimeMillis();
             Date start = new Date(currentTimeMillis - TimeUnit.DAYS.toMillis(days));
-            times = ymd.format(start) + " 00:00:00";
+            times = ymdhms.format(start);
         } else {
             times = null;
         }
-
+        List<DataRecord> dataRecordList = new ArrayList<>();
+        List<String> sourceList = getDataSources(times);
+        final List<String> dataSourceList;
+        if (sourceWebsite != null && !sourceWebsite.trim().isEmpty()) {
+            //模糊匹配
+            dataSourceList = new ArrayList<>();
+            sourceList.stream().filter(s -> s.contains(sourceWebsite)).forEach(dataSourceList::add);
+        }else {
+            dataSourceList = sourceList;
+        }
         //创建任务列表
         List<CompletableFuture<Void>> taskList = new ArrayList<>();
-        List<DataRecord> dataRecordList = new ArrayList<>();
-        List<String> dataSourceList = getDataSources(times);
+
+
         for (String dataSource : dataSourceList) {
             CompletableFuture<Void> task = CompletableFuture.runAsync(()-> {
                         DataRecord dataRecord = getDataCountByDataSources(dataSource,times);
@@ -304,6 +316,8 @@ public class DataServiceImpl implements DataService {
         CompletableFuture.allOf(taskList.toArray(new CompletableFuture[taskList.size()])).join();
         // 按照数据量排序
         dataRecordList.sort((o1, o2) -> o2.getCount() - o1.getCount());
+
+
         return ResultUtil.build(200, "获取数据成功", dataRecordList);
     }
 }

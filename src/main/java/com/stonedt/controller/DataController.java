@@ -44,8 +44,9 @@ public class DataController {
      * 数据来源图表
      */
     @RequestMapping("/getDataSourcesChart")
-    public ResultUtil<List<DataRecord>> getDataSourcesChart(@RequestParam("days") Integer days) {
-        return dataService.getDataSourcesChart(days);
+    public ResultUtil<List<DataRecord>> getDataSourcesChart(@RequestParam("days") Integer days,
+                                                            @RequestParam(required = false) String sourceWebsite) {
+        return dataService.getDataSourcesChart(days,sourceWebsite);
     }
 
 
