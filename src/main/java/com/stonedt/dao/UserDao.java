@@ -133,4 +133,7 @@ public interface UserDao {
 
   List<ModelUseChartVO> getSubModuleUseChart(@Param("module") String module,
                                              @Param("subModule") String subModule);
+
+  List<ModuleUseRecord> getModuleUseRecord(@Param("module")String module,
+                                           @Param("start")Date start);
 }

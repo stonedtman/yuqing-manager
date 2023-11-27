@@ -3,10 +3,7 @@ package com.stonedt.service;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import com.stonedt.util.ResultUtil;
-import com.stonedt.vo.ModelUseChartVO;
-import com.stonedt.vo.UseRankVO;
-import com.stonedt.vo.UserTrendChartVO;
-import com.stonedt.vo.UserUseRecord;
+import com.stonedt.vo.*;
 
 import java.util.List;
 import java.util.Map;
@@ -43,4 +40,6 @@ public interface UserService {
   List<String> getSystemSubModuleList(String module);
 
   List<ModelUseChartVO> getSubModuleUseChart(String module, String subModule);
+
+  List<ModuleUseRecord> getModuleUseRecord(String module, Integer days, Integer pageNum, Integer pageSize);
 }

@@ -123,5 +123,17 @@ public class HomeController {
         return ResultUtil.ok(userService.getSubModuleUseChart(module,subModule));
     }
 
+    /**
+     * 模块使用记录
+     */
+    @GetMapping("/moduleUseRecord")
+    public ResultUtil<List<ModuleUseRecord>> moduleUseRecord(@RequestParam(required = true) String module,
+                                                           @RequestParam(required = false) Integer days,
+                                                             @RequestParam(required = false) Integer pageNum,
+                                                             @RequestParam(required = false) Integer pageSize) {
+
+        return ResultUtil.ok(userService.getModuleUseRecord(module, days, pageNum, pageSize));
+    }
+
 
 }

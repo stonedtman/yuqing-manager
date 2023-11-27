@@ -14,10 +14,7 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpSession;
 
-import com.stonedt.vo.ModelUseChartVO;
-import com.stonedt.vo.UseRankVO;
-import com.stonedt.vo.UserTrendChartVO;
-import com.stonedt.vo.UserUseRecord;
+import com.stonedt.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -507,6 +504,18 @@ public class UserServiceImpl implements UserService {
   @Override
   public List<ModelUseChartVO> getSubModuleUseChart(String module, String subModule) {
     return userDao.getSubModuleUseChart(module,subModule);
+  }
+
+  @Override
+  public List<ModuleUseRecord> getModuleUseRecord(String module, Integer days, Integer pageNum, Integer pageSize) {
+    Date start = null;
+    if (days != null && days > 0) {
+        long currentTimeMillis = System.currentTimeMillis();
+        start = new Date(currentTimeMillis - TimeUnit.DAYS.toMillis(days));
+    }
+
+    PageHelper.startPage(pageNum, pageSize);
+    return userDao.getModuleUseRecord(module, start);
   }
 
   public Integer addUserInfo(UserEntity userEntity) {

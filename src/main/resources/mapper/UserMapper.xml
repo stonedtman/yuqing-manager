@@ -461,6 +461,9 @@ organization.organization_id,organization.organization_short,organization.organi
             count(id) as count
         from systemlog
         where user_id = #{userId}
+        <if test="start != null">
+            and createtime > #{start}
+        </if>
         group by module , submodule , type
         ORDER BY lastUseTime desc
     </select>
@@ -486,5 +489,19 @@ organization.organization_id,organization.organization_short,organization.organi
         <if test="subModule == '' or subModule == null">
             submodule
         </if>
+    </select>
+    <select id="getModuleUseRecord" resultType="com.stonedt.vo.ModuleUseRecord">
+        SELECT
+            operatingSystem,
+            loginip,
+            max(createtime) as lastUseTime,
+            module,
+            submodule,
+            type,
+            count(id) as total
+        from systemlog
+        where module = #{module}
+        group by submodule , type
+        ORDER BY lastUseTime desc
     </select>
 </mapper>
