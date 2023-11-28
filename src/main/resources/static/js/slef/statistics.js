@@ -98,6 +98,10 @@ function linemap(xAxisData,seriesData) {
     myChart.setOption(option);
 }
 
+$("#time").change(function () {
+    loading(1)
+})
+
 function loading(pagenum) {
     let keyword = $("#keyword").val();
     let time = $("#time option:selected").val();
