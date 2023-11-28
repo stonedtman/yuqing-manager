@@ -10,6 +10,7 @@ import com.stonedt.vo.ArticleVO;
 import com.stonedt.vo.DataChartVO;
 import com.stonedt.vo.DataRecord;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -249,6 +250,7 @@ public class DataServiceImpl implements DataService {
     /**
      * 获取数据来源列表
      */
+    @Cacheable(value = "dataSources",key = "#times")
     public List<String> getDataSources(String times) {
         String url = esSearchUrl + "/yqsearch/datasourceanalysis";
         if (times != null) {
@@ -280,6 +282,7 @@ public class DataServiceImpl implements DataService {
     }
 
     @Override
+    @Cacheable(value = "dataSourcesChart",key = "#days+'_'+#sourceWebsite")
     public ResultUtil<List<DataRecord>> getDataSourcesChart(Integer days, String sourceWebsite) {
         final String times;
         if (days != null && days > 0) {
@@ -324,6 +327,7 @@ public class DataServiceImpl implements DataService {
     }
 
     @Override
+    @Cacheable(value = "articleList",key = "#sourceWebsite+'_'+#pageNum+'_'+#pageSize")
     public ResultUtil<PageInfo<ArticleVO>> getArticleList(String sourceWebsite, Integer pageNum, Integer pageSize) {
         String url = esSearchUrl + "/yqsearch/searchlist?searchType=2&page="+pageNum;
         if (sourceWebsite != null) {
