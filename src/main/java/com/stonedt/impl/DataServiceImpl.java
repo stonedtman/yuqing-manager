@@ -329,7 +329,7 @@ public class DataServiceImpl implements DataService {
     @Override
     @Cacheable(value = "articleList",key = "#sourceWebsite+'_'+#pageNum+'_'+#pageSize")
     public ResultUtil<PageInfo<ArticleVO>> getArticleList(String sourceWebsite, Integer pageNum, Integer pageSize) {
-        String url = esSearchUrl + "/yqsearch/searchlist?searchType=2&page="+pageNum;
+        String url = esSearchUrl + "/yqsearch/searchlist?searchType=1&page="+pageNum;
         if (sourceWebsite != null) {
             url += "&sourceWebsite=" + sourceWebsite;
         }
