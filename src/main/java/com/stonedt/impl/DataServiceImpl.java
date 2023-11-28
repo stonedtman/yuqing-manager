@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import com.stonedt.service.DataService;
+import com.stonedt.thread.ThreadPoolConst;
 import com.stonedt.util.ResultUtil;
 import com.stonedt.vo.ArticleVO;
 import com.stonedt.vo.DataChartVO;
@@ -250,7 +251,6 @@ public class DataServiceImpl implements DataService {
     /**
      * 获取数据来源列表
      */
-    @Cacheable(value = "dataSources",key = "#times")
     public List<String> getDataSources(String times) {
         String url = esSearchUrl + "/yqsearch/datasourceanalysis";
         if (times != null) {
@@ -315,7 +315,7 @@ public class DataServiceImpl implements DataService {
                         dataRecord.setLastSpiderTime(getLastSpiderTimeByDataSources(dataSource));
                         dataRecordList.add(dataRecord);
                     }
-            );
+            , ThreadPoolConst.IO_EXECUTOR);
             taskList.add(task);
         }
         CompletableFuture.allOf(taskList.toArray(new CompletableFuture[taskList.size()])).join();
