@@ -131,7 +131,7 @@ function loading(pagenum) {
                     var author = dataJson.author
 
                     //采集时间
-                    if (dataJson.lastSpiderTime != null && dataJson.spiderTime != '') {
+                    if (dataJson.spiderTime != null && dataJson.spiderTime != '') {
                         var spiderTime = dataJson.spiderTime;
                     }else{
                         var spiderTime = '—————————';
