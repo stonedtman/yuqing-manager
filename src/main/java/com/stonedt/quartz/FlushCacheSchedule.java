@@ -23,8 +23,9 @@ public class FlushCacheSchedule {
         this.cacheManager = cacheManager;
     }
 
-    @Scheduled(fixedDelay = 1000 * 60 * 10)
+    @Scheduled(fixedDelay = 1000L * 60 * 60 * 2)
     public void flushCache() {
+        System.out.println("------------------刷新缓存任务开始---------------");
         Cache dataSourcesChart = cacheManager.getCache("dataSourcesChart");
 
         if (dataSourcesChart != null) {
@@ -34,10 +35,11 @@ public class FlushCacheSchedule {
         if (dataSources != null) {
             dataSources.clear();
         }
-        dataService.getDataSourcesChart(0,null);
-        dataService.getDataSourcesChart(1,null);
-        dataService.getDataSourcesChart(3,null);
-        dataService.getDataSourcesChart(15,null);
-        dataService.getDataSourcesChart(30,null);
+        dataService.getDataSourcesChart(0,"");
+        dataService.getDataSourcesChart(1,"");
+        dataService.getDataSourcesChart(3,"");
+        dataService.getDataSourcesChart(15,"");
+        dataService.getDataSourcesChart(30,"");
+        System.out.println("------------------刷新缓存任务结束---------------");
     }
 }
