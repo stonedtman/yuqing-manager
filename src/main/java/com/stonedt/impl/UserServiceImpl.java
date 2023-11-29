@@ -34,11 +34,11 @@ public class UserServiceImpl implements UserService {
     JSONObject response = new JSONObject();
     UserEntity userEntity = this.userDao.verifyAcountByphone(telephone);
     if (userEntity != null) {
-      if (userEntity.getTerm_of_validity().before(new Date())) {
-        response.put("code", 500);
-        response.put("msg", "账号已过期！");
-        return response;
-      }
+//      if (userEntity.getTerm_of_validity().before(new Date())) {
+//        response.put("code", 500);
+//        response.put("msg", "账号已过期！");
+//        return response;
+//      }
       String pwd = userEntity.getPassword();
       if (MD5Util.getMD5(password).equals(pwd)) {
         response.put("code", Integer.valueOf(200));
