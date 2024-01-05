@@ -1,0 +1,56 @@
+#------------------------------------tomcat 
+server:
+  port: 8124 # 配置tomcat运行端口
+  servlet:
+    session:
+      timeout: 3600s # 设置session的超时时间
+#------------------------------------Spring 
+spring:
+  thymeleaf:
+    #prefix: classpath:/templates/
+    cache: false
+    mode: LEGACYHTML5 # 用非严格的 HTML
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+  http:
+# 设置编码  
+    encoding:
+      force: true
+      charset: UTF-8
+      enabled: true
+  devtools:
+      restart:
+        enabled: true #热部署生效
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/stonedt_portal?useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false&serverTimezone=GMT&useSSL=false
+      username: root
+      password: 123456
+# mybatis     
+mybatis:
+    type-aliases-package: com.yq.basic.domain
+    mapper-locations: classpath:mapper/*.xml
+    
+
+logging:
+ # file: ./logs/core.log
+  level:
+     com.stonedt.dao: debug
+  
+kaptcha:
+  border: "yes"
+  border.color: 105,179,90
+  textproducer:
+    font:
+      color: blue
+      size: 40
+      names: 宋体,楷体,微软雅黑
+    char:
+      length: 5
+  image:
+    width: 150
+    height: 50
+  session:
+    key: code

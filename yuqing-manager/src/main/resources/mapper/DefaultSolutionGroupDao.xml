@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stonedt.dao.DefaultSolutionGroupDao">
+    <insert id="insert">
+        insert into default_solution_group
+        (group_name, create_time, del_status,group_id)
+        values
+        (#{group_name}, now(), #{del_status},#{group_id})
+    </insert>
+    <update id="updateGroupStatus">
+        update default_solution_group
+        set del_status = #{status}
+        where group_id = #{groupId}
+    </update>
+    <update id="updateGroup">
+        update default_solution_group
+        set group_name = #{groupName}
+        where group_id = #{groupId}
+    </update>
+
+    <select id="selectAll" resultType="com.stonedt.entity.DefaultSolutionGroup">
+        select
+            *
+        from default_solution_group
+    </select>
+    <select id="existGroupName" resultType="java.lang.Boolean">
+        select
+            count(*)
+        from default_solution_group
+        where group_name = #{groupName}
+        and del_status = 0
+    </select>
+    <select id="selectByGroupId" resultType="com.stonedt.entity.DefaultSolutionGroup">
+        select
+            *
+        from default_solution_group
+        where group_id = #{groupId}
+    </select>
+    <select id="selectById" resultType="com.stonedt.entity.DefaultSolutionGroup">
+        select
+            *
+        from default_solution_group
+        where id = #{id}
+    </select>
+</mapper>

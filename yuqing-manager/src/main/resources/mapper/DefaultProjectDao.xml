@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stonedt.dao.DefaultProjectDao">
+    <insert id="insert">
+        insert into default_project
+        (create_time, project_id, project_name, project_type, subject_word, character_word, event_word, regional_word, stop_word, del_status, group_id,update_time)
+        values
+        (now(), #{project_id}, #{project_name}, #{project_type}, #{subject_word}, #{character_word}, #{event_word}, #{regional_word}, #{stop_word}, #{del_status}, #{group_id},now())
+    </insert>
+    <update id="updateProjectStatus">
+        update default_project
+        set del_status = #{status}
+        where project_id = #{projectId}
+    </update>
+    <update id="update">
+        update default_project
+        set project_name = #{project_name}, project_type = #{project_type}, subject_word = #{subject_word}, stop_word = #{stop_word}, update_time = now(),group_id = #{group_id}
+        where project_id = #{project_id}
+    </update>
+
+
+    <select id="selectAll" resultType="com.stonedt.entity.DefaultProject">
+        select
+            *
+        from default_project
+    </select>
+    <select id="selectByGroupId" resultType="com.stonedt.entity.DefaultProject">
+        select
+            *
+        from default_project
+        where group_id = #{groupId}
+    </select>
+    <select id="existProjectName" resultType="java.lang.Boolean">
+        select
+            count(*)
+        from default_project
+        where project_name = #{projectName}
+        and group_id = #{groupId}
+        and del_status = 0
+    </select>
+    <select id="selectByProjectId" resultType="com.stonedt.entity.DefaultProject">
+        select
+            *
+        from default_project
+        where project_id = #{projectId}
+    </select>
+</mapper>

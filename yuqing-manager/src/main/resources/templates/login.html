@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>登录</title>
+<link rel="icon" type="image/png" sizes="16x16" href="/img/favicon.png">
+<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+<link th:href="@{/font-awesome/css/font-awesome.css}" rel="stylesheet">
+<link th:href="@{/css/animate.css}" rel="stylesheet">
+<link th:href="@{/css/style.css}" rel="stylesheet">
+	<link th:href="@{/css/custom.css}" rel="stylesheet">
+</head>
+
+<body class="gray-bg">
+	<div class="loginColumns animated fadeInDown">
+		<div class="row">
+			<div id="login">
+				<h2 align="center" class="font-bold">舆情用户管理系统</h2>
+				<div class="col-md-6" style="margin-left: 25%;">
+					<div class="ibox-content">
+						<!--<form id="logoin-form" class="m-t" role="form" method="post">-->
+							<div class="form-group">
+								<input type="text" class="form-control" name="username"
+									id="username" placeholder="用户名">
+							</div>
+							<div class="form-group">
+								<input type="password" class="form-control" name="password"
+									id="password" placeholder="密码">
+							</div>
+							<div class="form-group" style="display: flex">
+								<input type="text" class="form-control form-control" name="code" id="code" placeholder="图形验证码" required="">
+
+								<img th:src="@{/code}" alt="login-logo-icon" id="graph_img" style="height:44px;width:132px;margin-left:5px">
+							</div>
+
+							<button 
+								class="ladda-button ladda-button-demo btn btn-primary block full-width m-b"
+								data-style="zoom-in" type="submit">
+								<span class="ladda-label">登录</span><span class="ladda-spinner"></span>
+							</button>
+						<!--</form>-->
+					</div>
+				</div>
+			</div>
+		</div>
+		<hr />
+	</div>
+
+
+	<script th:src="@{/js/jquery-2.1.1.js}"></script>
+	<script th:src="@{/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
+	<script th:src="@{/js/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+	<script th:src="@{/js/slef/login.js}"></script>
+	<div class="page-footer" style="position: absolute">
+		© 2014-<span id="currentyear"></span> 南京涌亿思信息技术有限公司 苏ICP备17066984号-1
+	</div>
+</body>
+
+<script th:inline="javascript" type="text/javascript">
+	$("#currentyear").text((new Date()).getFullYear());
+    var ctxPath = /*[[@{/}]]*/'';
+</script>
+
+</html>
