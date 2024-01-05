@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>舆情用户管理系统·企业管理</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon.png">
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/font-awesome/css/font-awesome.css}" rel="stylesheet">
+    <link th:href="@{/css/animate.css}" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link th:href="@{/css/mypage.css}" rel="stylesheet">
+    <link th:href="@{/css/custom.css}" rel="stylesheet">
+    <style type="text/css">
+        .textAlign th {
+            text-align: center;
+        }
+
+        .textAlign td {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div id="wrapper">
+    <div th:replace="left::left"></div>
+
+    <div id="page-wrapper" class="gray-bg">
+        <!-- head start -->
+        <div class="row border-bottom">
+            <nav class="navbar navbar-static-top" role="navigation"
+                 style="margin-bottom: 0">
+                <div class="navbar-header nav-title">
+                    <a class=" minimalize-styl-2 btn btn-primary "><i
+                            class="fa fa-align-left"></i> </a>
+                    <form role="search" class="navbar-form-custom"
+                          action="search_results.html">
+                        <div class="form-group">
+                            <input type="text" placeholder="舆情用户管理系统" readonly="readonly"
+                                   class="form-control" name="top-search" id="top-search">
+                        </div>
+                    </form>
+                </div>
+                <ul class="nav navbar-top-links navbar-right">
+                    <li><a href="/logout"> <i class="fa fa-sign-out"></i> 退出登录
+                    </a></li>
+                </ul>
+            </nav>
+        </div>
+        <!-- Top Bar -->
+        <div id="topBar">
+            <div class="row wrapper border-bottom white-bg page-heading">
+                <div class="col-lg-10">
+                    <h2 id="head"></h2>
+                    <ol class="breadcrumb">
+                        <li class="nav-main1"><a href="#">主页</a></li>
+                        <li class="active"><strong id="navigation"></strong></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="wrapper wrapper-content">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>全部</h5>
+                            <div class="text-muted" style="float: right ">
+                                <h5 ><a href="/notice/addNoticePage">+发布公告</a></h5>
+                            </div>
+
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row"></div>
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr class="textAlign">
+                                        <!-- <th>机构公共id</th>-->
+                                        <th>公告内容</th>
+                                        <th style="width: 80px">发布者</th>
+                                        <th style="width: 100px">发布时间</th>
+                                        <th style="width: 80px">状态</th>
+                                        <!--<thuserlist>操作</thuserlist>-->
+                                        <th style="width: 100px">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="noticelist">
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="text-center" align="center">
+                                <div class="box" id="box"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="page-footer">
+    © 2014-<span id="currentyear"></span> 南京涌亿思信息技术有限公司 苏ICP备17066984号-1
+</div>
+<!-- Mainly scripts -->
+<script th:src="@{/js/jquery-2.1.1.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
+<script th:src="@{/js/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+
+<!-- Custom and plugin javascript -->
+<script th:src="@{/js/inspinia.js}"></script>
+<script th:src="@{/js/plugins/pace/pace.min.js}"></script>
+<script th:src="@{/js/mypage.js}"></script>
+<script th:src="@{/js/slef/noticeList.js}"></script>
+<script th:inline="javascript" type="text/javascript">
+    var ctxPath = /*[[@{/}]]*/'';
+    $("#currentyear").text((new Date()).getFullYear());
+</script>
+</body>
+
+</html>

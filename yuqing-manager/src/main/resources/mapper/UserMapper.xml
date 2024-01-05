@@ -1,0 +1,517 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stonedt.dao.UserDao">
+    <delete id="deleteSystemlogWhenLessTime">
+        delete from systemlog where createtime &lt; #{time}
+    </delete>
+
+    <select id="getProjectList" parameterType="map" resultType="map">
+        select p.*,u.username from project p
+                                       left join user u
+                                                 on p.user_id = u.user_id
+        order by user_id desc
+    </select>
+
+    <select id="getProjectListByuserId" parameterType="map" resultType="map">
+        select p.*,u.username from project p
+                                       left join user u
+                                                 on p.user_id = u.user_id
+        where p.user_id = #{user_id}
+        order by user_id desc
+    </select>
+
+    <update id="updateOrganizationById" parameterType="map">
+        update organization set term_of_validity = #{term_of_validity} where organization_id = #{organization_id}
+    </update>
+
+    <select id="getUserLoginLog" parameterType="map" resultType="map">
+        SELECT u.id as user_id , u.username , u.telephone , o.organization_short , o.organization_name , u.term_of_validity , u.login_count ,DATE_FORMAT(u.end_login_time,   '%Y-%m-%d %H:%i:%S') as end_login_time,
+        o.organization_code , o.organization_type , o.organization_id
+        from user u
+        LEFT JOIN
+        organization o on u.organization_id = o.organization_id
+        where end_login_time > #{times} and u.username is not null
+        <if test="keyword != '' and keyword != null">
+            and u.username like concat('%' , #{keyword} , '%')
+        </if>
+        order by u.end_login_time desc
+    </select>
+
+    <insert id="addWarningSetting" parameterType="map">
+        insert into warning_setting(create_time , warning_setting_id , project_id , warning_status , warning_name , warning_word ,
+        warning_classify , warning_content , warning_similar , warning_match , warning_deduplication , warning_source , warning_receive_time , weekend_warning , warning_interval)
+        values (#{create_time} , #{warning_setting_id} , #{project_id} , #{warning_status} , #{warning_name} , #{warning_word} , #{warning_classify} ,
+        #{warning_content} , #{warning_similar} , #{warning_match} , #{warning_deduplication} , #{warning_source} , #{warning_receive_time} , #{weekend_warning} ,
+        #{warning_interval})
+    </insert>
+
+    <select id="getWarningSetting" parameterType="string" resultType="map">
+        select * from warning_setting where project_id = #{project_id}
+    </select>
+
+    <select id="getOpinionCondition" parameterType="map" resultType="map">
+        select * from opinion_condition where project_id = #{project_id}
+    </select>
+
+    <insert id="addOpinionCondition" parameterType="map">
+        insert into opinion_condition(create_time , opinion_condition_id , project_id , time , precise , emotion , similar , sort , matchs , times , timee)
+        values (#{create_time} , #{opinion_condition_id} , #{project_id} , #{time} , #{precise} , #{emotion} , #{similar} , #{sort} ,
+        #{matchs} , #{times} , #{timee})
+    </insert>
+    
+    <update id="updateGroupDel" parameterType="string">
+        update solution_group set del_status = '0' where group_id = #{group_id}
+    </update>
+
+    <select id="getProjectTask" parameterType="map" resultType="map">
+        select * from project_task where project_id = #{project_id}
+    </select>
+
+    <insert id="addProjectTask" parameterType="map">
+        insert into project_task(create_time , project_id , project_type , subject_word , regional_word , character_word ,
+        event_word , stop_word , analysis_flag , volume_flag) values (#{create_time} , #{project_id} , #{project_type} , #{subject_word} , #{regional_word} ,
+        #{character_word} , #{event_word} , #{stop_word} , #{analysis_flag} , #{volume_flag})
+    </insert>
+
+    <update id="updateProjectTask" parameterType="map">
+        update project_task set project_type = #{project_type} , subject_word = #{subject_word} , regional_word = #{regional_word},
+        character_word = #{character_word} , event_word = #{event_word} , stop_word = #{stop_word} where project_id = #{project_id}
+    </update>
+
+    <insert id="addProject" parameterType="map">
+        insert into project(create_time , project_id , project_name , update_time , project_type , project_description , subject_word ,
+        character_word , event_word , regional_word , stop_word , group_id , user_id) values (#{create_time} , #{project_id} ,
+        #{project_name} , #{update_time} , #{project_type} , #{project_description} , #{subject_word} , #{character_word},
+        #{event_word} , #{regional_word} , #{stop_word} , #{group_id} , #{user_id})
+    </insert>
+
+    <update id="updateProject" parameterType="map" >
+        update project set update_time = #{update_time} , project_type = #{project_type} ,
+        project_description = #{project_description} , subject_word = #{subject_word} ,
+        character_word = #{character_word} , event_word = #{event_word} , regional_word = #{regional_word} ,
+        stop_word = #{stop_word} , del_status = #{del_status} where project_id = #{project_id}
+    </update>
+
+    <insert id="addGroup" parameterType="map">
+        insert into solution_group(create_time , group_id , group_name , user_id )
+        values (#{create_time} , #{group_id} , #{group_name} , #{user_id})
+    </insert>
+    
+    <select id="getGroupByGroupId" parameterType="string" resultType="map">
+        select * from solution_group where group_id = #{group_id};
+    </select>
+
+    <select id="getProjectListByGroupId" parameterType="map" resultType="map">
+        select p.*,u.username from project p
+                   left join user u
+                       on p.user_id = u.user_id
+                   where p.group_id = #{group_id}
+                      order by user_id desc
+    </select>
+
+    <select id="getGroupListByuserId" parameterType="string" resultType="map">
+        select group_id , group_name from solution_group where user_id = #{user_id}
+    </select>
+
+    <select id="getUsers" resultType="map">
+        select user_id , username from user
+    </select>
+
+    <select id="getCompanyById" parameterType="string" resultType="com.alibaba.fastjson.JSONObject">
+        select * from organization where id = #{id}
+    </select>
+
+    <update id="updateCompany" parameterType="map">
+        update organization set create_time = #{create_time}, organization_short = #{organization_short} , organization_name = #{organization_name} ,
+         organization_type = #{organization_type} , term_of_validity = #{term_of_validity} , status = #{status} , organization_code = #{organization_code} , system_title = #{system_title}
+         where id = #{id}
+    </update>
+
+    <select id="getCompanyList" resultType="map">
+      select o.* , count(u.id) as count from organization o
+        left join user u on
+        o.organization_id = u.organization_id
+        <where>
+            <if test="map.keyword != '' and map.keyword != null">
+                o.organization_name like concat('%' , #{map.keyword} , '%')
+            </if>
+            <if test="map.organization_id != '' and map.organization_id != null">
+                and o.organization_id = #{mao.organization_id}
+            </if>
+        </where>
+       group by o.id
+    </select>
+
+    <update id="updatePassword" parameterType="map">
+        update user set password = #{password} where telephone = #{telephone}
+    </update>
+
+    <update id="updateUserState" parameterType="map">
+        update user set status = #{status} where telephone = #{telephone}
+    </update>
+
+    <select id="getProjectByProjectId" parameterType="map" resultType="map">
+        select * from project where project_id = #{project_id}
+    </select>
+
+    <insert id="addCompany" parameterType="map">
+        insert into organization(create_time , organization_id , organization_short , organization_name , organization_type ,
+        term_of_validity , status , organization_code , system_title)
+        values (#{create_time} , #{organization_id} , #{organization_short} , #{organization_name} , #{organization_type} ,
+        #{term_of_validity} , #{status} , #{organization_code} ,#{system_title})
+    </insert>
+
+    <select id="getorganizationList" resultType="map" >
+        select * from organization
+    </select>
+
+    <!--<select id="getSystemlogs" resultType="map" parameterType="map">
+        select user_id , username , user_browser , user_browser_version , operatingSystem , loginip , module , type ,DATE_FORMAT(createtime,   '%Y-%m-%d %H:%i:%S') as createtime
+        from systemlog where createtime > #{times} and user_id is not null and username != '' ORDER BY createtime desc
+    </select>-->
+
+
+    <select id="getSystemlogs" resultType="map" parameterType="map">
+
+        SELECT
+            distinct
+            user_id ,
+            username ,
+            loginip ,
+            operatingSystem ,
+            type ,
+            DATE_FORMAT(createtime , '%Y-%m-%d') AS createtime,
+            module,
+            submodule
+            FROM systemlog
+            where createtime > #{times}
+              and user_id is not null
+              and username != ''
+            <if test="keyword != '' and keyword !=null">
+                and username like concat('%' , #{keyword} , '%')
+            </if>
+            ORDER BY createtime desc
+    </select>
+
+
+
+    <update id="updateterm_of_validity" parameterType="map">
+        update organization set
+                    term_of_validity = #{term_of_validity}
+
+        where organization_id = #{organization_id}
+    </update>
+
+    <update id="updateUserByTelephone" parameterType="map">
+
+        update user set  username = #{username} , organization_id = #{organization_id} , user_type = #{user_type} , user_level = #{user_level}  where telephone = #{telephone}
+    </update>
+
+    <select id="getOrganizationById" parameterType="string" resultType="com.stonedt.entity.OrganizationEntity">
+        select * from organization where organization_id = #{organization_id}
+    </select>
+
+
+    <select id="getUser" parameterType="string" resultType="com.stonedt.entity.UserEntity">
+        select * from user where telephone = #{oldTelephone}
+    </select>
+
+    <select id="verifyAcountByphone" resultType="com.stonedt.entity.UserEntity">
+      SELECT * FROM user
+
+      WHERE  telephone = #{telephone}
+
+      AND status = 1
+
+      AND user_type = 3
+    </select>
+
+
+    <select id="verifyAcount" resultType="integer">
+        SELECT count(1) FROM user
+
+        WHERE  telephone = #{telephone}
+
+        AND status = 1
+    </select>
+
+
+    <select id="getUserList" resultType="map" parameterType="map">
+      SELECT 	user.id ,
+	DATE_FORMAT(
+		user.create_time ,
+		'%Y-%m-%d %H:%i:%S'
+	) AS create_time ,
+	user .user_id ,
+	user .telephone ,
+	user.nlp_flag,
+	user.wechatflag,
+	user.xie_flag,
+	user.openid,
+	DATE_FORMAT(
+		user.end_login_time ,
+		'%Y-%m-%d %H:%i:%S'
+	) AS end_login_time,user.`status`,user.username,user.login_count,user.user_type,user.user_level,
+organization.organization_id,organization.organization_short,organization.organization_name,organization.organization_type,organization.term_of_validity
+ FROM user LEFT JOIN organization
+
+      ON user.organization_id = organization.organization_id
+
+      <where>
+          <if test="keyword != '' and keyword != null">
+            user.username like concat('%' , #{keyword} , '%')
+          </if>
+          <if test="organization_id != '' and organization_id != null">
+            and user.organization_id = #{organization_id}
+          </if>
+      </where>
+
+      ORDER BY user.end_login_time DESC
+    </select>
+    
+    <insert id="addUserInfo">
+      INSERT INTO user
+
+      (create_time,user_id,telephone,password,email,status,username,wechat_number,openid,organization_id,user_type,user_level,term_of_validity)
+
+      VALUES
+
+      (#{create_time},#{user_id},#{telephone},#{password},#{email},#{status},#{username},#{wechat_number},#{openid},#{organization_id},#{user_type},#{user_level},#{term_of_validity})
+
+    </insert>
+    
+    <insert id="addUserorganizeInfo" parameterType="com.stonedt.entity.OrganizationEntity">
+        INSERT INTO organization
+
+        (create_time,organization_id,organization_short,organization_name,organization_type,term_of_validity,status,organization_code,system_title)
+
+        VALUES
+
+      (#{create_time},#{organization_id},#{organization_short},#{organization_name},#{organization_type},#{term_of_validity},#{status},#{organization_code},#{system_title})
+    </insert>
+    
+    <select id="getorganizationIdByName" resultType="map" parameterType="map">
+      SELECT organization_id,organization_type,organization_code FROM  organization
+
+      WHERE organization_short = #{map.organization_short}
+
+      AND  organization_name = #{map.organization_name}
+    </select>
+
+    <select id="getUserInfoByUserId" resultType="map" parameterType="string">
+        SELECT
+	user_id,
+	telephone,
+	end_login_time,
+	user.status AS status,
+	username,
+	user.organization_id AS organization_id,
+	organization_short,
+	organization_name,
+	organization_type,
+	term_of_validity,
+	organization_code
+
+    FROM
+        user LEFT JOIN organization ON user.organization_id = organization.organization_id
+    WHERE
+        user.user_id = #{user_id}
+    </select>
+    <select id="getCountByCondition" resultType="java.lang.Integer">
+        SELECT count(1) FROM systemlog
+        where user_id = #{user_id}
+        and module = #{module}
+        and submodule = #{submodule}
+        and type = #{type}
+        and createtime > #{times}
+    </select>
+    <select id="getUserUseRanking" resultType="com.stonedt.vo.UseRankVO">
+        SELECT
+        u.username,
+        u.id,
+        count(s.id) AS count,
+        u.xie_flag as xieFlag,
+        u.wechatflag as wechatFlag,
+        u.nlp_flag as nlpFlag,
+        u.end_login_time as endLoginTime
+        from user u
+        LEFT JOIN systemlog s
+        on u.id = s.user_id
+        <where>
+            <if test="start != null">
+                s.createtime > #{start}
+            </if>
+            <if test="username != '' and username != null">
+                and u.username like concat('%' , #{username} , '%')
+            </if>
+        </where>
+        group by u.id
+        order by count
+        <choose>
+            <when test="isASC == true">
+                asc
+            </when>
+            <otherwise>
+                desc
+            </otherwise>
+        </choose>
+    </select>
+    <select id="getAllUserUseRanking" resultType="com.stonedt.vo.UseRankVO">
+        SELECT
+        username,
+        id,
+        login_count AS count,
+        xie_flag as xieFlag,
+        wechatflag as wechatFlag,
+        nlp_flag as nlpFlag,
+        end_login_time as endLoginTime
+        from user
+        <where>
+            <if test="username != '' and username != null">
+                username like concat('%' , #{username} , '%')
+            </if>
+        </where>
+        order by count desc
+    </select>
+    <select id="getUserTrend" resultType="com.stonedt.vo.UserTrendChartVO">
+        SELECT
+        DATE_FORMAT(create_time , '%Y-%m-%d') AS date,
+        count(*) AS count
+        from user
+        where create_time > #{start}
+        group by date
+    </select>
+    <select id="getSystemHotModuleRanking" resultType="com.stonedt.vo.SystemHotModuleVO">
+        SELECT
+            t.module,
+            t.submodule,
+            t.type,
+            max(t.count) as count,
+            t.user_id as userId,
+            t.username as mostUsedUsername,
+            (SELECT COUNT(id) FROM systemlog WHERE module = t.module and submodule = t.submodule and type = t.type) as total,
+            (SELECT MAX(createtime) FROM systemlog WHERE module = t.module and submodule = t.submodule and type = t.type) as endUseTime
+        FROM
+
+            (select module , submodule,type, count(id) as count,user_id,username
+             from systemlog
+             <where>
+                 <if test="start != null">
+                     createtime > #{start}
+                 </if>
+             </where>
+             group by module , submodule ,user_id) t
+        group by t.module , t.submodule
+        ORDER BY
+        <choose>
+            <when test="orderType == 1">
+                total desc
+            </when>
+            <when test="orderType == 2">
+                total asc
+            </when>
+            <when test="orderType == 3">
+                `count` desc
+            </when>
+            <when test="orderType == 4">
+                `count` asc
+            </when>
+        </choose>
+        limit #{size}
+    </select>
+    <select id="getSystemModuleList" resultType="java.lang.String">
+        SELECT DISTINCT module FROM systemlog
+    </select>
+    <select id="getModuleUseChart" resultType="com.stonedt.vo.ModelUseChartVO">
+        SELECT
+        <if test="module != '' and module != null">
+            submodule as moduleName,
+        </if>
+        <if test="module == '' or module == null">
+            module as moduleName,
+        </if>
+        count(*) AS count
+        from systemlog
+        <where>
+            <if test="userId != null">
+                user_id = #{userId}
+            </if>
+            <if test="module != '' and module != null">
+                and module = #{module}
+            </if>
+        </where>
+        group by
+        <if test="module != '' and module != null">
+            submodule
+        </if>
+        <if test="module == '' or module == null">
+            module
+        </if>
+    </select>
+    <select id="getUserModuleUseRecord" resultType="com.stonedt.vo.UserUseRecord">
+        SELECT
+            operatingSystem,
+            loginip,
+            max(createtime) as lastUseTime,
+            module,
+            submodule,
+            type,
+            count(id) as count
+        from systemlog
+        where user_id = #{userId}
+        <if test="start != null">
+            and createtime > #{start}
+        </if>
+        group by module , submodule , type
+        ORDER BY lastUseTime desc
+    </select>
+    <select id="getSystemSubModuleList" resultType="java.lang.String">
+        SELECT DISTINCT submodule FROM systemlog
+        where module = #{module}
+    </select>
+    <select id="getSubModuleUseChart" resultType="com.stonedt.vo.ModelUseChartVO">
+        SELECT
+        <if test="subModule != '' and subModule != null">
+            type as moduleName,
+        </if>
+        <if test="subModule == '' or subModule == null">
+            submodule as moduleName,
+        </if>
+        count(*) AS count
+        from systemlog
+        where module = #{module}
+        <if test="subModule != '' and subModule != null">
+            and submodule = #{subModule}
+        </if>
+        group by
+        <if test="subModule != '' and subModule != null">
+            type
+        </if>
+        <if test="subModule == '' or subModule == null">
+            submodule
+        </if>
+    </select>
+    <select id="getModuleUseRecord" resultType="com.stonedt.vo.ModuleUseRecord">
+        SELECT
+            t.module,
+            t.submodule,
+            t.type,
+            max(t.count) as count,
+            t.username as mostUsedUser,
+            (SELECT COUNT(id) FROM systemlog WHERE module = t.module and submodule = t.submodule and type = t.type) as total,
+            (SELECT MAX(createtime) FROM systemlog WHERE module = t.module and submodule = t.submodule and type = t.type) as lastUseTime,
+            (select username from systemlog WHERE module = t.module and submodule = t.submodule and type = t.type order by createtime desc limit 1) as lastUsedUser
+        FROM
+            (select module,submodule,type, count(id) as count,username
+                from
+                    systemlog
+                where
+                    module = #{module}
+                    <if test="start != null">
+                      and createtime > #{start}
+                    </if>
+                group by submodule,type,user_id) t
+        group by t.submodule,t.type
+        ORDER BY lastUseTime desc
+    </select>
+</mapper>
