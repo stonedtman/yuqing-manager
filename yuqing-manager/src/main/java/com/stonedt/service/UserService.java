@@ -42,4 +42,6 @@ public interface UserService {
   List<ModelUseChartVO> getSubModuleUseChart(String module, String subModule);
 
   List<ModuleUseRecord> getModuleUseRecord(String module, Integer days, Integer pageNum, Integer pageSize);
+
+    ResultUtil<SubscribeInfoVO> subscribeInfo();
 }

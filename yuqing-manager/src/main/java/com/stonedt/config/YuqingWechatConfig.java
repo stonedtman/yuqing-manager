@@ -10,6 +10,7 @@ import com.stonedt.yuqingwechat.properties.WechatClientsProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,8 +74,10 @@ public class YuqingWechatConfig {
 
     @Bean
     @ConditionalOnMissingBean
-    public WechatConfigServer wechatConfigServer(WechatConfigOperation wechatConfigOperation) {
-        return new WechatConfigServerImpl(wechatConfigOperation,wechatConfigDao);
+    public WechatConfigServer wechatConfigServer(WechatConfigOperation wechatConfigOperation,
+                                                 WechatConfigDao wechatConfigDao,
+                                                 RestTemplate restTemplate) {
+        return new WechatConfigServerImpl(wechatConfigOperation,wechatConfigDao, restTemplate);
     }
 
     @Bean

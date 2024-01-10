@@ -1,5 +1,6 @@
 package com.stonedt.yuqingwechat.config;
 
+import com.stonedt.yuqingwechat.constant.WechatConstant;
 import com.stonedt.yuqingwechat.properties.WechatClientsProperties;
 import com.stonedt.yuqingwechat.wechat.WechatCallbackHandler;
 import com.stonedt.yuqingwechat.wechat.WechatRedirectHandler;
@@ -7,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
+import me.chanjar.weixin.mp.bean.result.WxMpQrCodeTicket;
 import me.chanjar.weixin.mp.config.WxMpConfigStorage;
 import me.chanjar.weixin.mp.config.impl.WxMpDefaultConfigImpl;
 
@@ -126,5 +128,21 @@ public class WechatConfigOperation {
         }
 
         return true;
+    }
+
+    /**
+     * 获取二维码
+     */
+    public String getQrCode(String sceneStr, Integer expireSeconds) throws WxErrorException {
+        WxMpQrCodeTicket wxMpQrCodeTicket = wxMpService.getQrcodeService().qrCodeCreateTmpTicket(sceneStr, expireSeconds);
+        String ticket = wxMpQrCodeTicket.getTicket();
+        return WechatConstant.QRCODE_URL_PREFIX + ticket;
+    }
+
+    /**
+     * 获取access_token
+     */
+    public String getAccessToken() throws WxErrorException {
+        return wxMpService.getAccessToken();
     }
 }

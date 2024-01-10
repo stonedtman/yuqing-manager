@@ -9,6 +9,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.stonedt.util.ResultUtil;
+import com.stonedt.vo.SubscribeInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class UserController {
   @Autowired
   UserService userService;
-  
+
   @RequestMapping({"/list"})
   public ModelAndView toUserList(ModelAndView mv) {
     mv.setViewName("userList");
@@ -34,7 +37,7 @@ public class UserController {
   }
 
 
-  
+
   @PostMapping({"/getUserList"})
   @ResponseBody
   public String getUserList(@RequestBody JSONObject dataObject) {
@@ -51,7 +54,7 @@ public class UserController {
     JSONObject response = userService.getUserList(map);
     return response.toJSONString();
   }
-  
+
   @GetMapping({"/register"})
   public ModelAndView register(ModelAndView mv) {
 
@@ -68,7 +71,7 @@ public class UserController {
   }
 
 
-  
+
   @PostMapping({"/addUserInfo"})
   @ResponseBody
   public String addUserInfo(@RequestBody String data) {
@@ -141,6 +144,15 @@ public class UserController {
     JSONObject mes = userService.getCompanyList(jo);
 
     return mes.toJSONString();
+  }
+
+  /**
+   * 获取公众号关注信息
+   */
+  @GetMapping("/subscribeInfo")
+  @ResponseBody
+  public ResultUtil<SubscribeInfoVO> subscribeInfo() {
+    return userService.subscribeInfo();
   }
 
 

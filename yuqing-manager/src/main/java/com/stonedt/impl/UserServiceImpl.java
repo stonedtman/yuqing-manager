@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
 
   @Value("${jump-login-url}")
   private String jumpLoginUrl;
-  
+
   public JSONObject verifyAcount(String telephone, String password, HttpSession session) {
     JSONObject response = new JSONObject();
     UserEntity userEntity = this.userDao.verifyAcountByphone(telephone);
@@ -47,14 +47,14 @@ public class UserServiceImpl implements UserService {
       } else {
         response.put("code", Integer.valueOf(201));
         response.put("msg", "密码错误");
-      } 
+      }
     } else {
       response.put("code", Integer.valueOf(500));
       response.put("msg", "用户不存在");
-    } 
+    }
     return response;
   }
-  
+
   public JSONObject getUserList(Map<String, Object> map) {
     JSONObject response = new JSONObject();
     try {
@@ -90,7 +90,7 @@ public class UserServiceImpl implements UserService {
       response.put("page", Integer.valueOf(1));
       response.put("totalPage", Integer.valueOf(1));
       response.put("totalCount", Integer.valueOf(0));
-    } 
+    }
     return response;
   }
   
@@ -188,77 +188,77 @@ public class UserServiceImpl implements UserService {
     return response;
   }*/
 
-    @Override
-    public JSONObject addUser(Map<String, Object> map) {
-        JSONObject response = new JSONObject();
+  @Override
+  public JSONObject addUser(Map<String, Object> map) {
+    JSONObject response = new JSONObject();
 
-        try {
-          UserEntity user = new UserEntity();
-          SnowFlake snowFlake = new SnowFlake();
-          Long userId = snowFlake.getId();
-          map.put("user_id" , userId);
-          String password = String.valueOf(map.get("password"));
-          password = MD5Util.getMD5(password);
+    try {
+      UserEntity user = new UserEntity();
+      SnowFlake snowFlake = new SnowFlake();
+      Long userId = snowFlake.getId();
+      map.put("user_id" , userId);
+      String password = String.valueOf(map.get("password"));
+      password = MD5Util.getMD5(password);
 
-          String username = (String) map.get("username");
-          username = username.trim();
-          //用户名只能为2到20位汉字或者2到20位英文字母(含空格)
+      String username = (String) map.get("username");
+      username = username.trim();
+      //用户名只能为2到20位汉字或者2到20位英文字母(含空格)
 
-          if (!username.matches("[a-zA-Z\\s]{2,20}")
-                  &&!username.matches("^[\\u4e00-\\u9fa5\\u3400-\\u4db5\\u2e80-\\u2fdf]{2,20}$")){
-            response.put("code", Integer.valueOf(500));
-            response.put("msg", "用户名只能为2到20位汉字或者2到20位英文字母(含空格)");
-            return response;
-          }
-          String organization_id = String.valueOf(map.get("organization_id"));
-          Integer user_level = Integer.valueOf(String.valueOf(map.get("user_level")));
-          Integer user_type = Integer.valueOf((String) map.get("user_type"));
-          String telephone = String.valueOf(map.get("telephone"));
-          if (!telephone.matches("^\\d{11}$")) {
-            response.put("code", Integer.valueOf(500));
-            response.put("msg", "手机号格式不正确");
-            return response;
-          }
-          UserEntity checkUser = userDao.getUser(telephone);
-          if (checkUser != null) {
-            response.put("code", Integer.valueOf(500));
-            response.put("msg", "该手机号已经注册");
-            return response;
-          }
-          Long term_of_validityStr = Long.valueOf(String.valueOf(map.get("term_of_validity")));
-
-
-          user.setUser_id(telephone);
-          user.setUsername(username);
-          user.setPassword(password);
-          user.setOrganization_id(organization_id);
-          user.setCreate_time(DateUtil.nowTime());
-          user.setUser_type(user_type);
-          user.setUser_level(user_level);
-          user.setTelephone(telephone);
-          user.setStatus(Integer.valueOf(1));
-          user.setEmail("");
-          user.setWechat_number("");
-          user.setOpenid("");
-          //获取当前时间戳
-          long nowTime = System.currentTimeMillis();
-          user.setTerm_of_validity(new Date(nowTime+term_of_validityStr*24*60*60*1000));
-          Integer count = addUserInfo(user);
-          if (count > 0){
-            response.put("code", Integer.valueOf(200));
-            response.put("msg", "新增用户成功");
-          }else {
-            response.put("code", Integer.valueOf(500));
-            response.put("msg", "新增用户失败");
-          }
-
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
+      if (!username.matches("[a-zA-Z\\s]{2,20}")
+              &&!username.matches("^[\\u4e00-\\u9fa5\\u3400-\\u4db5\\u2e80-\\u2fdf]{2,20}$")){
+        response.put("code", Integer.valueOf(500));
+        response.put("msg", "用户名只能为2到20位汉字或者2到20位英文字母(含空格)");
         return response;
+      }
+      String organization_id = String.valueOf(map.get("organization_id"));
+      Integer user_level = Integer.valueOf(String.valueOf(map.get("user_level")));
+      Integer user_type = Integer.valueOf((String) map.get("user_type"));
+      String telephone = String.valueOf(map.get("telephone"));
+      if (!telephone.matches("^\\d{11}$")) {
+        response.put("code", Integer.valueOf(500));
+        response.put("msg", "手机号格式不正确");
+        return response;
+      }
+      UserEntity checkUser = userDao.getUser(telephone);
+      if (checkUser != null) {
+        response.put("code", Integer.valueOf(500));
+        response.put("msg", "该手机号已经注册");
+        return response;
+      }
+      Long term_of_validityStr = Long.valueOf(String.valueOf(map.get("term_of_validity")));
+
+
+      user.setUser_id(telephone);
+      user.setUsername(username);
+      user.setPassword(password);
+      user.setOrganization_id(organization_id);
+      user.setCreate_time(DateUtil.nowTime());
+      user.setUser_type(user_type);
+      user.setUser_level(user_level);
+      user.setTelephone(telephone);
+      user.setStatus(Integer.valueOf(1));
+      user.setEmail("");
+      user.setWechat_number("");
+      user.setOpenid("");
+      //获取当前时间戳
+      long nowTime = System.currentTimeMillis();
+      user.setTerm_of_validity(new Date(nowTime+term_of_validityStr*24*60*60*1000));
+      Integer count = addUserInfo(user);
+      if (count > 0){
+        response.put("code", Integer.valueOf(200));
+        response.put("msg", "新增用户成功");
+      }else {
+        response.put("code", Integer.valueOf(500));
+        response.put("msg", "新增用户失败");
+      }
+
+
+    }catch (Exception e){
+      e.printStackTrace();
     }
+
+    return response;
+  }
 
   @Override
   public Map getUser(String oldTelephone) {
@@ -340,7 +340,7 @@ public class UserServiceImpl implements UserService {
     }
 
 
-      return "修改成功";
+    return "修改成功";
 
 
   }
@@ -403,11 +403,11 @@ public class UserServiceImpl implements UserService {
     return jo;
   }
 
-    @Override
-    public List getOrganizationList() {
-        List<Map<String, Object>> mapList = userDao.getorganizationList();
-        return mapList;
-    }
+  @Override
+  public List getOrganizationList() {
+    List<Map<String, Object>> mapList = userDao.getorganizationList();
+    return mapList;
+  }
 
   @Override
   public JSONObject getCompanyList(JSONObject jo) {
@@ -430,8 +430,8 @@ public class UserServiceImpl implements UserService {
   public ResultUtil<PageInfo<UseRankVO>> getUserUseRanking(String username, Integer days, Integer pageNum, Integer pageSize, boolean isASC) {
     Date start = null;
     if (days > 0) {
-        long currentTimeMillis = System.currentTimeMillis();
-        start = new Date(currentTimeMillis - TimeUnit.DAYS.toMillis(days));
+      long currentTimeMillis = System.currentTimeMillis();
+      start = new Date(currentTimeMillis - TimeUnit.DAYS.toMillis(days));
     }
 
     PageHelper.startPage(pageNum, pageSize);
@@ -453,13 +453,13 @@ public class UserServiceImpl implements UserService {
     //创造列表
     List<UserTrendChartVO> userTrendChartVOList = new ArrayList<>(days);
     for (int i = days-1; i >= 0; i--) {
-        temp = now.minusDays(i);
-        UserTrendChartVO userTrendChartVO = new UserTrendChartVO();
-        userTrendChartVO.setCount(0);
-        userTrendChartVO.setDate(temp);
-        userTrendChartVOList.add(userTrendChartVO);
+      temp = now.minusDays(i);
+      UserTrendChartVO userTrendChartVO = new UserTrendChartVO();
+      userTrendChartVO.setCount(0);
+      userTrendChartVO.setDate(temp);
+      userTrendChartVOList.add(userTrendChartVO);
     }
-    
+
 
     List<UserTrendChartVO> list = userDao.getUserTrend(start);
 
@@ -471,10 +471,10 @@ public class UserServiceImpl implements UserService {
 
     //遍历userTrendChartVOList,将map中的数据填充到userTrendChartVOList中
     for (UserTrendChartVO userTrendChartVO : userTrendChartVOList) {
-        Integer count = map.get(userTrendChartVO.getDate());
-        if (count != null) {
-          userTrendChartVO.setCount(count);
-        }
+      Integer count = map.get(userTrendChartVO.getDate());
+      if (count != null) {
+        userTrendChartVO.setCount(count);
+      }
     }
 
 
@@ -486,8 +486,8 @@ public class UserServiceImpl implements UserService {
   public ResultUtil<PageInfo<UserUseRecord>> getUserModuleUseRecord(Integer userId, Integer days, Integer pageNum, Integer pageSize) {
     Date start = null;
     if (days != null && days > 0) {
-        long currentTimeMillis = System.currentTimeMillis();
-        start = new Date(currentTimeMillis - TimeUnit.DAYS.toMillis(days));
+      long currentTimeMillis = System.currentTimeMillis();
+      start = new Date(currentTimeMillis - TimeUnit.DAYS.toMillis(days));
     }
 
     PageHelper.startPage(pageNum, pageSize);
@@ -510,12 +510,21 @@ public class UserServiceImpl implements UserService {
   public List<ModuleUseRecord> getModuleUseRecord(String module, Integer days, Integer pageNum, Integer pageSize) {
     Date start = null;
     if (days != null && days > 0) {
-        long currentTimeMillis = System.currentTimeMillis();
-        start = new Date(currentTimeMillis - TimeUnit.DAYS.toMillis(days));
+      long currentTimeMillis = System.currentTimeMillis();
+      start = new Date(currentTimeMillis - TimeUnit.DAYS.toMillis(days));
     }
 
     PageHelper.startPage(pageNum, pageSize);
     return userDao.getModuleUseRecord(module, start);
+  }
+
+  @Override
+  public ResultUtil<SubscribeInfoVO> subscribeInfo() {
+    Integer subscribe = userDao.getSubscribe();
+//    Integer warning = userDao.getWarning();
+//    SubscribeInfoVO subscribeInfoVO = new SubscribeInfoVO(subscribe, warning);
+//    return ResultUtil.ok(subscribeInfoVO);
+    return null;
   }
 
   public Integer addUserInfo(UserEntity userEntity) {
@@ -524,7 +533,7 @@ public class UserServiceImpl implements UserService {
       count = this.userDao.addUserInfo(userEntity);
     } catch (Exception e) {
       e.printStackTrace();
-    } 
+    }
     return count;
   }
 

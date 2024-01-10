@@ -15,6 +15,10 @@ public interface WechatConfigDao {
     void update(WechatConfig wechatConfig);
 
     WechatConfig selectLast();
+
+    void clearWechatBind();
+
+    void updateUserWechatStatus();
 }
 
 

@@ -514,4 +514,7 @@ organization.organization_id,organization.organization_short,organization.organi
         group by t.submodule,t.type
         ORDER BY lastUseTime desc
     </select>
+    <select id="getSubscribe" resultType="java.lang.Integer">
+        select count(*) from user where wechatflag = 1
+    </select>
 </mapper>

@@ -34,4 +34,21 @@ public class WechatConfigController {
     public ResultUtil<WechatConfig> getConfig() {
         return wechatConfigServer.getConfig();
     }
+
+    /**
+     * 获取无事件二维码
+     */
+    @GetMapping("/qrCode")
+    public ResultUtil<String> getQrCode() {
+        return wechatConfigServer.getQrCode();
+    }
+
+    /**
+     * 获取公众号名称
+     */
+    @GetMapping("/accountName")
+    public ResultUtil<String> getAccountName() {
+        return wechatConfigServer.getAccountName();
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.stonedt.impl;
 
+import com.alibaba.fastjson2.JSON;
 import com.stonedt.dao.WechatConfigDao;
 import com.stonedt.entity.WechatConfig;
 import com.stonedt.service.WechatConfigServer;
@@ -8,6 +9,8 @@ import com.stonedt.yuqingwechat.config.WechatConfigOperation;
 import com.stonedt.yuqingwechat.properties.WechatClientsProperties;
 import me.chanjar.weixin.common.error.WxErrorException;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,10 +26,14 @@ public class WechatConfigServerImpl implements WechatConfigServer {
 
     private final WechatConfigDao wechatConfigDao;
 
+    private final RestTemplate restTemplate;
+
     public WechatConfigServerImpl(WechatConfigOperation wechatConfigOperation,
-                                  WechatConfigDao wechatConfigDao) {
+                                  WechatConfigDao wechatConfigDao,
+                                  RestTemplate restTemplate) {
         this.wechatConfigOperation = wechatConfigOperation;
         this.wechatConfigDao = wechatConfigDao;
+        this.restTemplate = restTemplate;
     }
 
 
@@ -70,6 +77,14 @@ public class WechatConfigServerImpl implements WechatConfigServer {
                 return ResultUtil.build(500, "校验失败!请检查您的配置是否正确");
             }
         }
+        //查询原配置
+        WechatConfig last = wechatConfigDao.selectLast();
+        if (last != null && !wechatConfig.getAppid().equals(last.getAppid())) {
+            //1.清空微信绑定
+            wechatConfigDao.clearWechatBind();
+            //2.更新用户微信状态
+            wechatConfigDao.updateUserWechatStatus();
+        }
 
         //存入数据库
         wechatConfigDao.update(wechatConfig);
@@ -92,5 +107,42 @@ public class WechatConfigServerImpl implements WechatConfigServer {
         WechatConfig wechatConfig = wechatConfigDao.selectLast();
 
         return ResultUtil.ok(wechatConfig);
+    }
+
+    @Override
+    public ResultUtil<String> getQrCode() {
+        //构造sence
+        String sceneStr = "yuqing:" + "#pass";
+
+        try {
+            String qrCode = wechatConfigOperation.getQrCode(sceneStr, 2592000);
+            return ResultUtil.ok(qrCode);
+        } catch (WxErrorException e) {
+            return ResultUtil.build(500, "获取二维码失败",null);
+        }
+    }
+
+    /**
+     * 获取公众号名称
+     */
+    @Override
+    public ResultUtil<String> getAccountName() {
+
+        final String accessToken;
+        try {
+            accessToken = wechatConfigOperation.getAccessToken();
+        } catch (WxErrorException e) {
+            return ResultUtil.build(500, "获取公众号名称失败", null);
+        }
+        final String result;
+        try {
+            result = restTemplate.getForObject("https://api.weixin.qq.com/cgi-bin/account/getaccountbasicinfo?access_token=" + accessToken, String.class);
+        } catch (RestClientException e) {
+            return ResultUtil.build(500, "获取公众号名称失败", null);
+        }
+
+        String nickName = JSON.parseObject(result).getJSONObject("nickname_info").getString("nick_name");
+
+        return ResultUtil.ok(nickName);
     }
 }

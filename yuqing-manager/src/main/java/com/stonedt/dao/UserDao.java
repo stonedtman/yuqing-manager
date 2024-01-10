@@ -136,4 +136,7 @@ public interface UserDao {
 
   List<ModuleUseRecord> getModuleUseRecord(@Param("module")String module,
                                            @Param("start")Date start);
+
+    Integer getSubscribe();
+
 }
