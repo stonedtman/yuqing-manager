@@ -30,6 +30,14 @@ import java.util.Map;
 @Data
 public class DefaultCallbackHandler implements WechatCallbackHandler {
 
+    private final static String LOGIN_SUCCESS = "登录成功！";
+
+    /**
+     * 欢迎语
+     */
+    private final static String WELCOME = "感谢关注！";
+
+
     private final RestTemplate restTemplate;
     private Map<String, WechatClientsProperties.WechatClient> clients;
 
@@ -80,7 +88,7 @@ public class DefaultCallbackHandler implements WechatCallbackHandler {
                 String formattedDateTime = now.format(formatter);
                 return new TextBuilder().build("请点击授权：<a href=\"" + skipUrl + "\">点击此处完成注册/绑定</a> \n当前时间：" + formattedDateTime, eventData);
             }else {
-                return new TextBuilder().build("登录成功！", eventData);
+                return eventKey.contains("#")?new TextBuilder().build(WELCOME, eventData) : new TextBuilder().build(LOGIN_SUCCESS, eventData);
             }
         } catch (RestClientException | UnsupportedEncodingException e) {
             log.error("回调失败", e);
