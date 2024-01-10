@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>舆情用户管理系统·预警配置</title>
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon.png">
+  <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+  <link th:href="@{/font-awesome/css/font-awesome.css}" rel="stylesheet">
+  <link th:href="@{/css/animate.css}" rel="stylesheet">
+  <link th:href="@{/css/style.css}" rel="stylesheet">
+  <link th:href="@{/css/mypage.css}" rel="stylesheet">
+  <link th:href="@{/css/custom.css}" rel="stylesheet">
+  <style type="text/css">
+    .card{
+      height: 100%;
+      padding: 16px;
+      background-color: #FFFFFF;
+    }
+    .card .form{
+      width: 600px;
+      padding: 16px 0;
+      margin: auto;
+    }
+    .card .form-group{
+      display: flex;
+    }
+    .card .form-label{
+      min-width: 120px;
+      line-height: 34px;
+      padding-right: 12px;
+      text-align: right;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+<div id="wrapper">
+  <div th:replace="left::left"></div>
+
+  <div id="page-wrapper" class="gray-bg">
+    <!-- head start -->
+    <div class="row border-bottom">
+      <nav class="navbar navbar-static-top" role="navigation"
+           style="margin-bottom: 0">
+        <div class="navbar-header nav-title">
+          <a class=" minimalize-styl-2 btn btn-primary "><i
+                  class="fa fa-align-left"></i> </a>
+          <form role="search" class="navbar-form-custom"
+                action="search_results.html">
+            <div class="form-group">
+              <input type="text" placeholder="舆情用户管理系统" readonly="readonly"
+                     class="form-control" name="top-search" id="top-search">
+            </div>
+          </form>
+        </div>
+        <ul class="nav navbar-top-links navbar-right">
+          <li><a href="/logout"> <i class="fa fa-sign-out"></i> 退出登录
+          </a></li>
+        </ul>
+      </nav>
+    </div>
+    <!-- Top Bar -->
+    <div id="topBar">
+      <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+          <h2 id="head">预警配置</h2>
+          <ol class="breadcrumb">
+            <li class="nav-main1"><a href="#">主页</a></li>
+            <li class="active"><strong id="warning"><a href="/warning">预警配置</a></strong></li>
+            <li class="active"><strong id="warning_setting">预警设置</strong></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+    <div class="wrapper wrapper-content">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="form">
+              <div class="form-group">
+                <div class="form-label">appid</div>
+                <input type="text" id="appid" class="form-control" placeholder="请输入appid">
+              </div>
+              <div class="form-group">
+                <div class="form-label">secretid</div>
+                <input type="text" id="secretid" class="form-control" placeholder="请输入secretid">
+              </div>
+              <div class="form-group">
+                <div class="form-label">token</div>
+                <input type="text" id="token" class="form-control" placeholder="请输入token">
+              </div>
+              <div class="form-group">
+                <div class="form-label">舆情客户端地址</div>
+                <input type="text" id="url" class="form-control" placeholder="请输入舆情客户端地址">
+              </div>
+              <div class="form-group">
+                <div class="form-label">舆情管理端地址</div>
+                <input type="text" id="callback" class="form-control" placeholder="请输入舆情管理端地址">
+              </div>
+              <div class="form-group">
+                <div class="form-label">预警模板id</div>
+                <input type="text" id="templateId" class="form-control" placeholder="请输入预警模板id">
+              </div>
+              <div class="form-group">
+                <div class="form-label"></div>
+                <button class="btn btn-success" onclick="submit()">保存</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<div class="page-footer">
+  © 2014-<span id="currentyear"></span> 南京涌亿思信息技术有限公司 苏ICP备17066984号-1
+</div>
+<!-- Mainly scripts -->
+<script th:src="@{/js/jquery-2.1.1.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
+<script th:src="@{/js/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+
+<!-- Custom and plugin javascript -->
+<script th:src="@{/js/inspinia.js}"></script>
+<script th:src="@{/js/plugins/pace/pace.min.js}"></script>
+<script th:src="@{/js/echarts.min.js}"></script>
+<script th:src="@{/js/mypage.js}"></script>
+<script th:inline="javascript" type="text/javascript">
+  var ctxPath = /*[[@{/}]]*/'';
+  $("#currentyear").text((new Date()).getFullYear());
+
+  $.ajax({
+    type: "get",
+    url: "/wechat/config",
+    success: function (res) {
+      let code = res.status;
+      if (code == 200) {
+        let data = res.data
+
+        $('#appid').val(data.appid)
+        $('#secretid').val(data.secret)
+        $('#token').val(data.token)
+        $('#url').val(data.url)
+        $('#callback').val(data.callback)
+        $('#templateId').val(data.template_id)
+      }
+    },
+    error: function (xhr, ajaxOptions, thrownError) {
+      if (xhr.status == 403) {
+        window.location.href = "/login";
+      }
+    }
+  });
+
+  function submit() {
+    if ($('#appid').val() == '' || $('#appid').val() == null) {
+      alert("appid不能为空！");
+      return
+    }
+    if ($('#secretid').val() == '' || $('#secretid').val() == null) {
+      alert("secretid不能为空！");
+      return
+    }
+    if ($('#token').val() == '' || $('#token').val() == null) {
+      alert("token不能为空！");
+      return
+    }
+    if ($('#url').val() == '' || $('#url').val() == null) {
+      alert("舆情客户端地址不能为空！");
+      return
+    }
+    if ($('#callback').val() == '' || $('#callback').val() == null) {
+      alert("舆情管理端地址不能为空！");
+      return
+    }
+    if ($('#templateId').val() == '' || $('#templateId').val() == null) {
+      alert("预警模板id不能为空！");
+      return
+    }
+
+
+    let appid = $("#appid").val();
+    let secretid = $("#secretid").val();
+    let token = $("#token").val();
+    let url = $("#url").val();
+    let callback = $("#callback").val();
+    let templateId = $("#templateId").val();
+
+    let dataJson = {
+      appid,
+      secretid,
+      token,
+      url,
+      callback,
+      templateId,
+    }
+
+    $.ajax({
+      type: "put",
+      url: "/wechat/config",
+      dataType: 'json',
+      data: JSON.stringify(dataJson),
+      contentType: 'application/json;charset=utf-8',
+      success: function (res) {
+        let code = res.code;
+        if (code == 200) {
+          alert("保存成功");
+          location.href = "/warning";
+        } else if(code == 500){
+          alert("保存出错");
+        }else{
+          alert("保存失败");
+        }
+      },
+      error: function (xhr, ajaxOptions, thrownError) {
+        if (xhr.status == 403) {
+          window.location.href = "/login";
+        }
+      }
+    });
+  }
+</script>
+</body>
+
+</html>

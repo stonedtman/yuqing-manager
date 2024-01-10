@@ -60,6 +60,10 @@
                 <a th:href="@{/statistics}"><i class="fa fa-line-chart"></i> <span class="nav-label">数据统计</span> </a>
             </li>
 
+            <li th:classappend="${left == 'warning' ? 'active' : ''}">
+                <a th:href="@{/warning}"><i class="fa fa-bell"></i> <span class="nav-label">预警配置</span> </a>
+            </li>
+
 
         </ul>
     </div>
