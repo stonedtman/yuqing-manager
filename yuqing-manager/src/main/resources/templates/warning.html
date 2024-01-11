@@ -163,15 +163,6 @@
                     <p>预警模板id：${data.template_id}</p>
                 `
                 $(".wrapper-content .card").eq(0).html(html)
-                let html2 = `
-                    <div class="title">微信公众号配置信息</div>
-                    <div class="d-flex">
-                        <div>公众号名称：${data.accountName}</div>
-                        <div><p>公众号二维码</p><img class="qrCode" src="${data.qrCode}" alt=""></div>
-                    </div>
-                    <button class="btn-success btn" onclick="warningModify()">修改</button>
-                `
-                $(".wrapper-content .card").eq(1).html(html2)
             }else{
 
             }
