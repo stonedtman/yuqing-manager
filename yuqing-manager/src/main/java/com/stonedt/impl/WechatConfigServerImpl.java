@@ -84,6 +84,8 @@ public class WechatConfigServerImpl implements WechatConfigServer {
             wechatConfigDao.clearWechatBind();
             //2.更新用户微信状态
             wechatConfigDao.updateUserWechatStatus();
+            //3.将所有预警设置为微信公众号推送的改成系统推送
+            wechatConfigDao.updateWarningPushType();
         }
 
         //存入数据库

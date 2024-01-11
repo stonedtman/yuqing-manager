@@ -19,6 +19,8 @@ public interface WechatConfigDao {
     void clearWechatBind();
 
     void updateUserWechatStatus();
+
+    void updateWarningPushType();
 }
 
 

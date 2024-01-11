@@ -26,6 +26,9 @@
     <update id="updateUserWechatStatus">
         update user set wechatflag = 0,openid = null
     </update>
+    <update id="updateWarningPushType">
+        update warning_setting set warning_source = replace(warning_source,'"type":"3"', '"type":"1"')
+    </update>
     <delete id="clearWechatBind">
         delete from user_wechat_info
     </delete>
