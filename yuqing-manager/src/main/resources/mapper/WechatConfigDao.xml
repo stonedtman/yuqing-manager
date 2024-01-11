@@ -21,7 +21,7 @@
         ,create_time,update_time
     </sql>
     <update id="update">
-        update wechat_config set appid = #{appid},secret = #{secret}, token = #{token}, url=#{url},callback = #{callback}, template_id=#{template_id}
+        update wechat_config set appid = #{appid},secret = #{secret}, token = #{token}, url=#{url},callback = #{callback}, template_id=#{template_id}, name = #{name}
     </update>
     <update id="updateUserWechatStatus">
         update user set wechatflag = 1,openid = null

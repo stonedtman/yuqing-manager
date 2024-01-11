@@ -137,6 +137,7 @@ public class WechatConfigServerImpl implements WechatConfigServer {
         final String result;
         try {
             result = restTemplate.getForObject("https://api.weixin.qq.com/cgi-bin/account/getaccountbasicinfo?access_token=" + accessToken, String.class);
+            System.out.println(result);
         } catch (RestClientException e) {
             return ResultUtil.build(500, "获取公众号名称失败", null);
         }

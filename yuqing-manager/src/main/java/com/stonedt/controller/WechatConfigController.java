@@ -43,12 +43,12 @@ public class WechatConfigController {
         return wechatConfigServer.getQrCode();
     }
 
-    /**
-     * 获取公众号名称
-     */
-    @GetMapping("/accountName")
-    public ResultUtil<String> getAccountName() {
-        return wechatConfigServer.getAccountName();
-    }
+//    /**
+//     * 获取公众号名称
+//     */
+//    @GetMapping("/accountName")
+//    public ResultUtil<String> getAccountName() {
+//        return wechatConfigServer.getAccountName();
+//    }
 
 }

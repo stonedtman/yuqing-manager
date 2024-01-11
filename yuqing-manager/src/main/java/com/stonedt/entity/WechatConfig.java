@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Objects;
 
 /**
@@ -43,6 +44,11 @@ public class WechatConfig implements Serializable {
     private String callback;
 
     /**
+     * 微信公众号名称
+     */
+    private String name;
+
+    /**
      * 模板id
      */
     private String template_id;
@@ -51,6 +57,7 @@ public class WechatConfig implements Serializable {
     /**
      * 创建时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date createTime;
 
     /**
@@ -63,6 +70,19 @@ public class WechatConfig implements Serializable {
 
 
     public WechatConfig() {
+    }
+
+    public WechatConfig(Integer id, String appid, String secret, String token, String url, String callback, String name, String template_id, Date createTime, Date updateTime) {
+        this.id = id;
+        this.appid = appid;
+        this.secret = secret;
+        this.token = token;
+        this.url = url;
+        this.callback = callback;
+        this.name = name;
+        this.template_id = template_id;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
     }
 
     public Integer getId() {
@@ -113,6 +133,14 @@ public class WechatConfig implements Serializable {
         this.callback = callback;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getTemplate_id() {
         return template_id;
     }
@@ -137,31 +165,17 @@ public class WechatConfig implements Serializable {
         this.updateTime = updateTime;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         WechatConfig that = (WechatConfig) o;
-        return Objects.equals(id, that.id) && Objects.equals(appid, that.appid) && Objects.equals(secret, that.secret) && Objects.equals(token, that.token) && Objects.equals(url, that.url) && Objects.equals(callback, that.callback) && Objects.equals(template_id, that.template_id) && Objects.equals(createTime, that.createTime) && Objects.equals(updateTime, that.updateTime);
+        return Objects.equals(id, that.id) && Objects.equals(appid, that.appid) && Objects.equals(secret, that.secret) && Objects.equals(token, that.token) && Objects.equals(url, that.url) && Objects.equals(callback, that.callback) && Objects.equals(name, that.name) && Objects.equals(template_id, that.template_id) && Objects.equals(createTime, that.createTime) && Objects.equals(updateTime, that.updateTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, appid, secret, token, url, callback, template_id, createTime, updateTime);
-    }
-
-    @Override
-    public String toString() {
-        return "WechatConfig{" +
-                "id=" + id +
-                ", appid='" + appid + '\'' +
-                ", secret='" + secret + '\'' +
-                ", token='" + token + '\'' +
-                ", url='" + url + '\'' +
-                ", callback='" + callback + '\'' +
-                ", template_id='" + template_id + '\'' +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
-                '}';
+        return Objects.hash(id, appid, secret, token, url, callback, name, template_id, createTime, updateTime);
     }
 }
