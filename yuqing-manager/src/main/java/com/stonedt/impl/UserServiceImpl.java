@@ -521,10 +521,9 @@ public class UserServiceImpl implements UserService {
   @Override
   public ResultUtil<SubscribeInfoVO> subscribeInfo() {
     Integer subscribe = userDao.getSubscribe();
-//    Integer warning = userDao.getWarning();
-//    SubscribeInfoVO subscribeInfoVO = new SubscribeInfoVO(subscribe, warning);
-//    return ResultUtil.ok(subscribeInfoVO);
-    return null;
+    Integer warning = userDao.getWarning();
+    SubscribeInfoVO subscribeInfoVO = new SubscribeInfoVO(subscribe, warning);
+    return ResultUtil.ok(subscribeInfoVO);
   }
 
   public Integer addUserInfo(UserEntity userEntity) {

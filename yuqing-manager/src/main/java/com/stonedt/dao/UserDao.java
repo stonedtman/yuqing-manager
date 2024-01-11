@@ -139,4 +139,5 @@ public interface UserDao {
 
     Integer getSubscribe();
 
+    Integer getWarning();
 }
