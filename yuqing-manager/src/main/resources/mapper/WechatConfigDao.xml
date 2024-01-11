@@ -24,7 +24,7 @@
         update wechat_config set appid = #{appid},secret = #{secret}, token = #{token}, url=#{url},callback = #{callback}, template_id=#{template_id}, name = #{name}
     </update>
     <update id="updateUserWechatStatus">
-        update user set wechatflag = 1,openid = null
+        update user set wechatflag = 0,openid = null
     </update>
     <delete id="clearWechatBind">
         delete from user_wechat_info
