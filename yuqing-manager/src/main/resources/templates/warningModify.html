@@ -87,8 +87,8 @@
                 <input type="text" id="appid" class="form-control" placeholder="请输入appid">
               </div>
               <div class="form-group">
-                <div class="form-label">secretid</div>
-                <input type="text" id="secretid" class="form-control" placeholder="请输入secretid">
+                <div class="form-label">secret</div>
+                <input type="text" id="secret" class="form-control" placeholder="请输入secretid">
               </div>
               <div class="form-group">
                 <div class="form-label">token</div>
@@ -146,7 +146,7 @@
 
         $('#accountName').val(data.name)
         $('#appid').val(data.appid)
-        $('#secretid').val(data.secret)
+        $('#secret').val(data.secret)
         $('#token').val(data.token)
         $('#url').val(data.url)
         $('#callback').val(data.callback)
@@ -169,7 +169,7 @@
       alert("appid不能为空！");
       return
     }
-    if ($('#secretid').val() == '' || $('#secretid').val() == null) {
+    if ($('#secret').val() == '' || $('#secret').val() == null) {
       alert("secretid不能为空！");
       return
     }
@@ -193,7 +193,7 @@
 
     let name = $("#accountName").val();
     let appid = $("#appid").val();
-    let secretid = $("#secretid").val();
+    let secret = $("#secret").val();
     let token = $("#token").val();
     let url = $("#url").val();
     let callback = $("#callback").val();
@@ -202,7 +202,7 @@
     let dataJson = {
       name,
       appid,
-      secretid,
+      secret,
       token,
       url,
       callback,
@@ -216,7 +216,7 @@
       data: JSON.stringify(dataJson),
       contentType: 'application/json;charset=utf-8',
       success: function (res) {
-        let code = res.code;
+        let code = res.status;
         if (code == 200) {
           alert("保存成功");
           location.href = "/warning";
