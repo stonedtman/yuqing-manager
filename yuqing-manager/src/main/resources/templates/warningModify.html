@@ -79,6 +79,10 @@
           <div class="card">
             <div class="form">
               <div class="form-group">
+                <div class="form-label">公众号名称</div>
+                <input type="text" id="accountName" class="form-control" placeholder="请输入公众号名称">
+              </div>
+              <div class="form-group">
                 <div class="form-label">appid</div>
                 <input type="text" id="appid" class="form-control" placeholder="请输入appid">
               </div>
@@ -140,6 +144,7 @@
       if (code == 200) {
         let data = res.data
 
+        $('#accountName').val(data.name)
         $('#appid').val(data.appid)
         $('#secretid').val(data.secret)
         $('#token').val(data.token)
@@ -156,6 +161,10 @@
   });
 
   function submit() {
+    if ($('#accountName').val() == '' || $('#accountName').val() == null) {
+      alert("公众号名称不能为空！");
+      return
+    }
     if ($('#appid').val() == '' || $('#appid').val() == null) {
       alert("appid不能为空！");
       return
@@ -182,6 +191,7 @@
     }
 
 
+    let name = $("#accountName").val();
     let appid = $("#appid").val();
     let secretid = $("#secretid").val();
     let token = $("#token").val();
@@ -190,6 +200,7 @@
     let templateId = $("#templateId").val();
 
     let dataJson = {
+      name,
       appid,
       secretid,
       token,

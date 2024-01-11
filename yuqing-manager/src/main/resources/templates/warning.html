@@ -163,6 +163,8 @@
                     <p>预警模板id：${data.template_id}</p>
                 `
                 $(".wrapper-content .card").eq(0).html(html)
+
+                $(".accountName").html(`公众号名称：${data.name}`)
             }else{
 
             }
@@ -171,27 +173,6 @@
             if (xhr.status == 403) {
                 window.location.href = "/login";
             }
-        }
-    });
-
-    $.ajax({
-        type: "get",
-        url: "/wechat/config/accountName",
-        success: function (res) {
-            let code = res.status;
-            if (code == 200) {
-                let data = res.data
-                if(!data){
-                    return
-                }
-                let html = `公众号名称：${data}`
-                if($(".accountName")){$(".accountName").html(html)}
-            }else{
-
-            }
-        },
-        error: function (xhr, ajaxOptions, thrownError) {
-
         }
     });
 
