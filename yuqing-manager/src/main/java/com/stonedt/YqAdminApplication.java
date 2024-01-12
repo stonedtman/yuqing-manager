@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EnableScheduling
 @EnableCaching
-@EnableWechat
+//@EnableWechat
 public class YqAdminApplication {
 
 	public static void main(String[] args) {
