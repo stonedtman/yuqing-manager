@@ -40,6 +40,17 @@ public class WechatConfigServerImpl implements WechatConfigServer {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResultUtil<Void> updateConfig(WechatConfig wechatConfig, Boolean hasTest) {
+
+        //所有属性trim
+        wechatConfig.setAppid(wechatConfig.getAppid().trim());
+        wechatConfig.setSecret(wechatConfig.getSecret().trim());
+        wechatConfig.setToken(wechatConfig.getToken().trim());
+        wechatConfig.setTemplate_id(wechatConfig.getTemplate_id().trim());
+        wechatConfig.setUrl(wechatConfig.getUrl().trim());
+        wechatConfig.setCallback(wechatConfig.getCallback().trim());
+        wechatConfig.setName(wechatConfig.getName().trim());
+
+
         //构造配置对象
         WechatClientsProperties wechatClientsProperties = new WechatClientsProperties();
         wechatClientsProperties.setAppId(wechatConfig.getAppid());

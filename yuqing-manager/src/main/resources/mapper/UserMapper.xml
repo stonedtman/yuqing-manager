@@ -522,5 +522,6 @@ organization.organization_id,organization.organization_short,organization.organi
         left join project p on ws.project_id = p.project_id
         left join user u on p.user_id = u.user_id
         where ws.warning_status = 1 and u.wechatflag = 1
+        and ws.warning_source = '{"type":"3","email":""}'
     </select>
 </mapper>
