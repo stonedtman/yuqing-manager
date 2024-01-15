@@ -4,6 +4,10 @@ server:
   servlet:
     session:
       timeout: 3600s # 设置session的超时时间
+    encoding:
+      force: true
+      charset: UTF-8
+      enabled: true
 #------------------------------------Spring 
 spring:
   thymeleaf:
@@ -13,12 +17,6 @@ spring:
     encoding: UTF-8
     servlet:
       content-type: text/html
-  http:
-# 设置编码  
-    encoding:
-      force: true
-      charset: UTF-8
-      enabled: true
   devtools:
       restart:
         enabled: true #热部署生效
