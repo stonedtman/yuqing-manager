@@ -211,7 +211,7 @@
 
     $.ajax({
       type: "put",
-      url: "/wechat/config",
+      url: "/wechat/config?hasTest=true",
       dataType: 'json',
       data: JSON.stringify(dataJson),
       contentType: 'application/json;charset=utf-8',
@@ -223,7 +223,7 @@
         } else if(code == 500){
           alert("保存出错");
         }else{
-          alert("保存失败");
+          alert(res.msg);
         }
       },
       error: function (xhr, ajaxOptions, thrownError) {
