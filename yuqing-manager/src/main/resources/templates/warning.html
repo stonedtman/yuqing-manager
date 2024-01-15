@@ -110,11 +110,11 @@
                         <div class="d-flex">
                             <div>
                                 <div>设置预警用户</div>
-                                <div class="num">200</div>
+                                <div class="num warning_num"></div>
                             </div>
                             <div>
                                 <div>关注公众号用户</div>
-                                <div class="num">240</div>
+                                <div class="num subscribe_num"></div>
                             </div>
                         </div>
                     </div>
@@ -190,6 +190,21 @@
 
             }else{
 
+            }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+
+        }
+    });
+
+    $.ajax({
+        type: "get",
+        url: "/user/subscribeInfo",
+        success: function (res) {
+            let code = res.status;
+            if (code == 200) {
+                $(".warning_num").html(res.data.warning)
+                $(".subscribe_num").html(res.data.subscribe)
             }
         },
         error: function (xhr, ajaxOptions, thrownError) {
