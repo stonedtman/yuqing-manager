@@ -26,6 +26,7 @@ import org.jsoup.select.Elements;
 import com.stonedt.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -54,8 +55,10 @@ public class SynthesizeSchedule {
  	//
 	
 	  //@Scheduled(cron = "0 0/30 * * * ?")
-	@Scheduled(cron = "0 0 0/2 * * ?")
+	@Async
+	@Scheduled(fixedDelay = 1000L * 60 * 60 * 2,initialDelay = 1000*60*2)
     public void popularInformation() {
+		System.out.println("进入今日热点任务");
     	if(schedule_synthesize_open==1) {
     		//获取accesstoken
 			System.out.println("开始生成综合看板");

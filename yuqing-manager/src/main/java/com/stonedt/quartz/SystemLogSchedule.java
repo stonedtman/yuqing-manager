@@ -1,6 +1,7 @@
 package com.stonedt.quartz;
 
 import com.stonedt.dao.UserDao;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +23,7 @@ public class SystemLogSchedule {
     /**
      * 每天凌晨0点执行一次
      */
+    @Async
     @Scheduled(cron = "0 0 0 * * ?")
     public void systemLogSchedule() {
         //获取当前时间的前180日的时间

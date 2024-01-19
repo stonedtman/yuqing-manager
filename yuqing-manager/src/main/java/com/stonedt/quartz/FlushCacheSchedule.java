@@ -3,6 +3,7 @@ package com.stonedt.quartz;
 import com.stonedt.service.DataService;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -23,6 +24,7 @@ public class FlushCacheSchedule {
         this.cacheManager = cacheManager;
     }
 
+    @Async
     @Scheduled(fixedDelay = 1000L * 60 * 60 * 2)
     public void flushCache() {
         System.out.println("------------------刷新缓存任务开始---------------");
