@@ -58,7 +58,7 @@
 
 ### 安装教程 (待续未完)
 
-1.  下载发行版,下载 [yq-basic-admin.jar](https://gitee.com/stonedtx/yuqing-manager/blob/master/yuqing-manager/lastest_version/yq-basic-admin.jar) 程序，与 config文件夹 在同目录下。
+1.  下载发行版,下载 [yq-basic-admin.jar](https://gitee.com/stonedtx/yuqing-manager/blob/master/yuqing-manager/lastest_version/yq-basic-admin.jar) 程序。
 2.  下载 [application.yml](https://gitee.com/stonedtx/yuqing-manager/blob/master/yuqing-manager/config/application.yml)与[application.properties](https://gitee.com/stonedtx/yuqing-manager/blob/master/yuqing-manager/config/application.properties)并创建 **config目录**  与 stonedt-yuqing.jar 在同一个目录下，可修改配置文件参数。
 3.  安装MySQL、redis，执行建表 [initialize_db_cache.sh](https://gitee.com/stonedtx/yuqing-manager/blob/master/yuqing-manager/initialize_db_cache.sh)  脚本。
 4.  执行 java -jar yq-basic-admin.jar运行启动
