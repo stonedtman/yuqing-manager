@@ -67,11 +67,14 @@ public class UserServiceImpl implements UserService {
       List<Map<String, Object>> list = this.userDao.getUserList(map);
       for (Map<String, Object> stringObjectMap : list) {
         //将openid使用sha256加密
-        String openid = (String) stringObjectMap.get("openid");
-        if (openid != null && !openid.isEmpty()){
-          String sha256 = ShaUtil.getSHA256(openid, false);
+//        String openid = (String) stringObjectMap.get("openid");
+        Long userId = (Long) stringObjectMap.get("user_id");
+        String password = (String) stringObjectMap.get("password");
+        stringObjectMap.remove("password");
+        if (userId != null){
+          String sha256 = ShaUtil.getSHA256(password, false);
           //组装链接
-          String url = jumpLoginUrl + "?openid=" + sha256+"&userId="+stringObjectMap.get("user_id");
+          String url = jumpLoginUrl + "?sha=" + sha256 +"&userId="+ userId;
           stringObjectMap.put("jumpLoginUrl" , url);
         }
       }
