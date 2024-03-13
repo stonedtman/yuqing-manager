@@ -69,10 +69,10 @@ public class UserServiceImpl implements UserService {
         //将openid使用sha256加密
 //        String openid = (String) stringObjectMap.get("openid");
         Long userId = (Long) stringObjectMap.get("user_id");
-        String password = (String) stringObjectMap.get("password");
+//        String password = (String) stringObjectMap.get("password");
         stringObjectMap.remove("password");
         if (userId != null){
-          String sha256 = ShaUtil.getSHA256(password, false);
+          String sha256 = ShaUtil.getSHA256(String.valueOf(userId), false);
           //组装链接
           String url = jumpLoginUrl + "?sha=" + sha256 +"&userId="+ userId;
           stringObjectMap.put("jumpLoginUrl" , url);

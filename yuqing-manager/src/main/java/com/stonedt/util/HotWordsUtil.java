@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpHost;
 import org.apache.http.ParseException;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.config.RequestConfig;
@@ -34,12 +35,12 @@ import java.util.List;
 import java.util.Random;
 
 public class HotWordsUtil {
-	
-	public static void main(String[] args) {
-		System.out.println(search());
-	}
-	
-	
+
+//	public static void main(String[] args) {
+//		System.out.println(search());
+//	}
+
+
 //	public static String search() {
 //		//实时热点
 //		String realtimehotspotsurl = "http://top.baidu.com/buzz?b=1&c=513&fr=topbuzz_b341_c513";
@@ -47,7 +48,7 @@ public class HotWordsUtil {
 //		String todayhotspotsurl = "http://top.baidu.com/buzz?b=341&c=513&fr=topbuzz_b1_c513";
 //		//热门搜索
 //		String hotsearchurl = "http://top.baidu.com/buzz?b=2";
-//		
+//
 //		String[] arr ={realtimehotspotsurl,todayhotspotsurl,hotsearchurl};
 //		Map<String,Object> map =new HashMap<String,Object>();
 //		for (int m = 0; m < arr.length; m++) {
@@ -70,7 +71,7 @@ public class HotWordsUtil {
 //				}
 //			} catch (Exception e) {
 //			}
-//			
+//
 //		}
 //		JSONArray list = new JSONArray();
 //		for(String key:map.keySet()){
@@ -82,8 +83,8 @@ public class HotWordsUtil {
 //		     }
 //		return list.toJSONString();
 //	}
-	public static String search() {
-		String html = get("https://top.baidu.com/board?tab=realtime", "gb2312");
+	public static String search(HttpHost proxy) {
+		String html = get("https://top.baidu.com/board?tab=realtime", "gb2312", proxy);
 		JSONArray list= new JSONArray();
 		Document parse = Jsoup.parse(html);
 		try {
@@ -106,12 +107,13 @@ public class HotWordsUtil {
 			}
 
 		} catch (Exception e) {
+			System.err.println(e.getMessage());
 		}
 		return list.toJSONString();
 	}
-	public static String search2() {
+	public static String search2(HttpHost proxy) {
 		String url = "https://top.baidu.com/board?tab=realtime";
-		String html = HotWordsUtil.get(url, "gb2312");
+		String html = HotWordsUtil.get(url, "gb2312", proxy);
 		Document parse = Jsoup.parse(html);
 		Element element = parse.getElementById("sanRoot");
 		Elements elementsByClass = element.getElementsByClass("horizontal_1eKyQ");
@@ -130,18 +132,18 @@ public class HotWordsUtil {
 			jsonObject.put("source_name", "百度风云榜");
 			jsonArray.add(jsonObject);
 		}
-		
+
 		return jsonArray.toJSONString();
-		
+
 	}
-	
+
 	/**
 	 * 默认get请求
 	 * @param url
 	 * @param entityType
 	 * @return
 	 */
-	public static String get(String url,String entityType) {
+	public static String get(String url, String entityType, HttpHost proxy) {
 		SSLContext sslContext = null;
 		try {
 			sslContext = new SSLContextBuilder().loadTrustMaterial(null, new TrustStrategy() {
@@ -149,14 +151,10 @@ public class HotWordsUtil {
 					return true;
 				}
 			}).build();
-		} catch (NoSuchAlgorithmException e) {
-			throw new RuntimeException(e);
-		} catch (KeyManagementException e) {
-			throw new RuntimeException(e);
-		} catch (KeyStoreException e) {
+		} catch (NoSuchAlgorithmException | KeyManagementException | KeyStoreException e) {
 			throw new RuntimeException(e);
 		}
-		SSLConnectionSocketFactory sslSocketFactory = new SSLConnectionSocketFactory(sslContext,
+        SSLConnectionSocketFactory sslSocketFactory = new SSLConnectionSocketFactory(sslContext,
 				NoopHostnameVerifier.INSTANCE);
 		CloseableHttpClient httpclient = HttpClients.custom().setSSLSocketFactory(sslSocketFactory).build();
 //		CloseableHttpClient httpclient = HttpClients.createDefault();
@@ -165,9 +163,14 @@ public class HotWordsUtil {
 		try {
 			// 创建httpget.
 			HttpGet httpget = new HttpGet(url);
-			
-	        RequestConfig config = null;
-	        config = RequestConfig.custom().setConnectTimeout(10000).setSocketTimeout(10000).build();
+
+			RequestConfig.Builder builder = RequestConfig.custom().setConnectTimeout(10000).setSocketTimeout(10000);
+
+			if (proxy != null) {
+				builder.setProxy(proxy);
+			}
+			RequestConfig config = builder.build();
+
 			// 设置httpclient端口IP
 			httpget.setConfig(config);
 			httpget.setHeader("User-Agent",getRandomAgent());
@@ -184,17 +187,13 @@ public class HotWordsUtil {
 					System.out.println("Response content length:" + entity.getContentLength());
 					// 打印响应内容
 					string = EntityUtils.toString(entity, entityType);
-					
+
 				}
 			} finally {
 				response.close();
 			}
 		} catch (HttpHostConnectException e) {
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (ParseException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (ParseException | IOException e) {
 			e.printStackTrace();
 		} finally {
 			// 关闭连接,释放资源
@@ -207,8 +206,8 @@ public class HotWordsUtil {
 		}
 		return string;
 	}
-	
-	
+
+
 	/**
 	 * 随机一个Agent
 	 * @return
@@ -227,7 +226,7 @@ public class HotWordsUtil {
 
 
 	public static JSONObject wechatSearch() {
-		
+
 		return null;
 	}
 	/**
@@ -235,10 +234,10 @@ public class HotWordsUtil {
 	 * @param
 	 * @return
 	 */
-	public static String hotWeibo() {
+	public static String hotWeibo(HttpHost proxy) {
 		String html = null;
 		for (int i = 0; i < 3; i++) {
-			html = get("https://tophub.today/n/KqndgxeLl9", "gb2312");
+			html = get("https://tophub.today/n/KqndgxeLl9", "gb2312", proxy);
 			if (html != null){
 				break;
 			}
@@ -282,10 +281,10 @@ public class HotWordsUtil {
 		return list.toJSONString();
 
 	}
-	public static String hotWechat() {
+	public static String hotWechat(HttpHost proxy) {
 		String html = null;
 		for (int i = 0; i < 3; i++) {
-			html = get("https://tophub.today/n/j8Rv21noLw", "gb2312");
+			html = get("https://tophub.today/n/j8Rv21noLw", "gb2312", proxy);
 			if (html != null){
 				break;
 			}
@@ -327,10 +326,10 @@ public class HotWordsUtil {
 	 * 36氪
 	 * @return
 	 */
-	public static String hot36Kr() {
+	public static String hot36Kr(HttpHost proxy) {
 		String html = null;
 		for (int i = 0; i < 3; i++) {
-			html = get("https://tophub.today/n/Q1Vd5Ko85R", "gb2312");
+			html = get("https://tophub.today/n/Q1Vd5Ko85R", "gb2312", proxy);
 			if (html != null){
 				break;
 			}
@@ -364,16 +363,16 @@ public class HotWordsUtil {
 				list.add(js);
 			}
 		} catch (Exception e) {
-
+			System.err.println(e.getMessage());
 		}
 		return list.toJSONString();
 }
 
 
-	public static String hotDouyin() {
+	public static String hotDouyin(HttpHost proxy) {
 		String html = null;
 		for (int i = 0; i < 3; i++) {
-			html = get("https://tophub.today/n/K7GdaMgdQy", "gb2312");
+			html = get("https://tophub.today/n/K7GdaMgdQy", "gb2312", proxy);
 			if (html != null){
 				break;
 			}
@@ -408,16 +407,16 @@ public class HotWordsUtil {
 				list.add(js);
 			}
 		} catch (Exception e) {
-
+			System.err.println(e.getMessage());
 		}
 		return list.toJSONString();
 	}
 
 
-	public static String hotBilibili() {
+	public static String hotBilibili(HttpHost proxy) {
 		String html = null;
 		for (int i = 0; i < 3; i++) {
-			html = get("https://tophub.today/n/74KvxwokxM", "gb2312");
+			html = get("https://tophub.today/n/74KvxwokxM", "gb2312", proxy);
 			if (html != null){
 				break;
 			}
@@ -456,16 +455,16 @@ public class HotWordsUtil {
 				list.add(js);
 			}
 		} catch (Exception e) {
-
+			System.err.println(e.getMessage());
 		}
 		return list.toJSONString();
 	}
 
 
-	public static String hotTecent() {
+	public static String hotTecent(HttpHost proxy) {
 		String html = null;
 		for (int i = 0; i < 3; i++) {
-			html = get("https://tophub.today/n/qndg48xeLl", "gb2312");
+			html = get("https://tophub.today/n/qndg48xeLl", "gb2312", proxy);
 			if (html != null){
 				break;
 			}
@@ -503,7 +502,7 @@ public class HotWordsUtil {
 				list.add(js);
 			}
 		} catch (Exception e) {
-
+			System.err.println(e.getMessage());
 		}
 		return list.toJSONString();
 	}

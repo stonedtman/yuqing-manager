@@ -156,16 +156,19 @@ function loading(pagenum) {
                         btn = 'primary';
                         stat = '启用';
                     }
-                    let nlp = dataJson.nlp_flag===1?'<span style="color: green">已绑定</span>':'<span style="color: red">未绑定</span>';
-                    let xie = dataJson.xie_flag===1?'<span style="color: green">已绑定</span>':'<span style="color: red">未绑定</span>';
+
+                    let nlpCount = dataJson.nlpCount;
+                    let xieCount = dataJson.xieCount;
+                    // let nlp = dataJson.nlp_flag===1?'<span style="color: green">已绑定</span>':'<span style="color: red">未绑定</span>';
+                    // let xie = dataJson.xie_flag===1?'<span style="color: green">已绑定</span>':'<span style="color: red">未绑定</span>';
                     let wechatflag = dataJson.wechatflag===1?'<span style="color: green">已关注</span>':'<span style="color: red">未关注</span>';
                     let jumpLoginUrl = dataJson.jumpLoginUrl;
                     htmlStr = '<tr class="textAlign">' +
                         '<td>' + telephone + '</td>' +
                         '<td><a target="_blank" href='+jumpLoginUrl+'>' + username + '</a></td>' +
-                        '<td>' + nlp + '</td>' +
+                        '<td>' + nlpCount + '</td>' +
                         /*'<td data-code="' + organization_code + '" data-id="' + organization_id + '">' + organization_short + '</td>' +*/
-                        '<td>'+xie+'</td>' +
+                        '<td>'+xieCount+'</td>' +
                         '<td>'+wechatflag+'</td>' +
                         '<td>' + status + '</td>' +
                        /* '<td>' + create_time + '</td>' +*/

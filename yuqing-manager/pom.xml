@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.yq.basic</groupId>
 	<artifactId>yq-basic-admin</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>yq-basic-admin</name>
 	<description>SpringBoot-舆情通基础版本 用户管理页面</description>
 	<properties>

@@ -1,6 +1,10 @@
 package com.stonedt.quartz;
 
 import java.io.IOException;
+import java.net.Authenticator;
+import java.net.InetSocketAddress;
+import java.net.PasswordAuthentication;
+import java.net.Proxy;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +14,9 @@ import com.stonedt.entity.Synthesize;
 import com.stonedt.util.HotWordsUtil;
 import com.stonedt.vo.FullSearchParam;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpHost;
 import org.apache.http.ParseException;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -41,6 +47,18 @@ public class SynthesizeSchedule {
     // 定时任务开关
     @Value("${schedule.synthesize.open}")
     private Integer schedule_synthesize_open;
+
+	@Value("${schedule.synthesize.proxy.open}")
+	private Boolean proxyOpen;
+
+	@Value("${schedule.synthesize.proxy.url}")
+	private String proxyUrl;
+
+	@Value("${schedule.synthesize.proxy.username}")
+	private String proxyUsername;
+
+	@Value("${schedule.synthesize.proxy.password}")
+	private String proxyPassword;
 
 	@Autowired
 	private SynthesizeDao synthesizeDao;
@@ -78,24 +96,28 @@ public class SynthesizeSchedule {
 			searchParam.setSearchWord("");
 			searchParam.setClassify("4");
 			searchParam.setTimeType(1);
-			
+
+			HttpHost proxy = getProxy();
+
+			System.out.println("获取到代理:"+proxy);
+
 			//热点事件
 			searchParam.setSource_name("百度风云榜");
 			//JSONObject hotList = fullSearchService.hotList(searchParam);
-			hot_all = HotWordsUtil.search2();
+			hot_all = HotWordsUtil.search2(proxy);
 			
 			//热门微博
 			searchParam.setSource_name("微博");
 			//JSONObject hotList2 = fullSearchService.hotList(searchParam);
 			//hot_weibo =conversionHotList(hotList2);
-			hot_weibo = HotWordsUtil.hotWeibo();
+			hot_weibo = HotWordsUtil.hotWeibo(proxy);
 			
 			//热门微信
 			searchParam.setSource_name("微信");
 			
 			//JSONObject hotListWechat = fullSearchService.hotList(searchParam);
 			//hot_wechat =conversionHotList(hotListWechat);
-			hot_wechat = HotWordsUtil.hotWechat();
+			hot_wechat = HotWordsUtil.hotWechat(proxy);
 			
 			searchParam.setPageSize(10);
 			searchParam.setClassify("1");
@@ -105,7 +127,7 @@ public class SynthesizeSchedule {
 			//JSONObject hotList36kr = fullSearchService.hotList(searchParam);
 			//hot_36kr =conversionHotList(hotList36kr);
 			
-			hot_36kr = HotWordsUtil.hot36Kr();
+			hot_36kr = HotWordsUtil.hot36Kr(proxy);
 			
 			searchParam.setClassify("2");
 			searchParam.setTimeType(2);
@@ -116,7 +138,7 @@ public class SynthesizeSchedule {
 			///JSONObject hotListDouyin = fullSearchService.hotList(searchParam);
 			//hot_douyin =conversionHotList(hotListDouyin);
 			
-			hot_douyin = HotWordsUtil.hotDouyin();
+			hot_douyin = HotWordsUtil.hotDouyin(proxy);
 			
 			
 			//热门哔哩哔哩
@@ -124,7 +146,7 @@ public class SynthesizeSchedule {
 			
 			//JSONObject hotListBiLiBiLi = fullSearchService.hotList(searchParam);
 			//hot_bilibili =conversionHotList(hotListBiLiBiLi);
-			hot_bilibili =HotWordsUtil.hotBilibili();
+			hot_bilibili =HotWordsUtil.hotBilibili(proxy);
 			//热门腾讯视频
 			//searchParam.setSource_name("腾讯视频");
 			
@@ -132,9 +154,9 @@ public class SynthesizeSchedule {
 			
 			
 			//hot_tecentvedio =conversionHotList(hotListTecentVedio);
-			hot_tecentvedio =HotWordsUtil.hotTecent();
+			hot_tecentvedio =HotWordsUtil.hotTecent(proxy);
 			
-			hot_search_terms = HotWordsUtil.search();
+			hot_search_terms = HotWordsUtil.search(proxy);
 			
 			//政策--------国务院 > 首页 > 政策 > 最新    http://www.gov.cn/zhengce/zuixin.htm
 			
@@ -170,6 +192,42 @@ public class SynthesizeSchedule {
 
 			
     }
+
+
+	private HttpHost getProxy() {
+		if(proxyOpen) {
+			//请求代理
+			HttpClient client = HttpClients.createDefault();
+			HttpGet httpGet = new HttpGet(proxyUrl);
+			RequestConfig config = RequestConfig.custom().setConnectTimeout(10 * 1000).setSocketTimeout(20 * 1000).build();
+			httpGet.setConfig(config);
+			httpGet.setHeader("User-Agent",
+					"Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36");
+			try {
+				CloseableHttpResponse response = (CloseableHttpResponse) client.execute(httpGet);
+				HttpEntity entity = response.getEntity();
+				if (entity != null) {
+					String string = EntityUtils.toString(entity, "utf-8");
+					System.out.println("获取代理地址:" + string);
+					String[] split = string.split(":");
+					HttpHost proxy = new HttpHost(split[0].trim(), Integer.parseInt(split[1]));
+					//为代理服务器设置认证信息
+					Authenticator.setDefault(new Authenticator() {
+						@Override
+						protected PasswordAuthentication getPasswordAuthentication() {
+							return new PasswordAuthentication(proxyUsername, proxyPassword.toCharArray());
+						}
+					});
+					return proxy;
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+		return null;
+	}
 
 	
 	
@@ -350,34 +408,45 @@ public class SynthesizeSchedule {
 	 */
 	public void conversionHotList(Synthesize synthesize) {
 		Synthesize oldSynthesize = synthesizeDao.getNewSynthesize();
-		if (synthesize.getHot_all()==null||synthesize.getHot_all().length()<10) {
+		if (synthesize.getHot_all()==null||synthesize.getHot_all().length()<5) {
+
+			System.err.println("热点事件为空");
 			synthesize.setHot_all(oldSynthesize.getHot_all());
 		}
-		if (synthesize.getHot_weibo()==null||synthesize.getHot_weibo().length()<10) {
+		if (synthesize.getHot_weibo()==null||synthesize.getHot_weibo().length()<5) {
+			System.err.println("热门微博为空");
 			synthesize.setHot_weibo(oldSynthesize.getHot_weibo());
 		}
-		if (synthesize.getHot_wechat()==null||synthesize.getHot_wechat().length()<10) {
+		if (synthesize.getHot_wechat()==null||synthesize.getHot_wechat().length()<5) {
+			System.err.println("热门微信为空");
 			synthesize.setHot_wechat(oldSynthesize.getHot_wechat());
 		}
-		if (synthesize.getHot_douyin()==null||synthesize.getHot_douyin().length()<10) {
+		if (synthesize.getHot_douyin()==null||synthesize.getHot_douyin().length()<5) {
+			System.err.println("热门抖音为空");
 			synthesize.setHot_douyin(oldSynthesize.getHot_douyin());
 		}
-		if (synthesize.getHot_bilibili()==null||synthesize.getHot_bilibili().length()<10) {
+		if (synthesize.getHot_bilibili()==null||synthesize.getHot_bilibili().length()<5) {
+			System.err.println("热门哔哩哔哩为空");
 			synthesize.setHot_bilibili(oldSynthesize.getHot_bilibili());
 		}
-		if (synthesize.getHot_tecentvedio()==null||synthesize.getHot_tecentvedio().length()<10) {
+		if (synthesize.getHot_tecentvedio()==null||synthesize.getHot_tecentvedio().length()<5) {
+			System.err.println("热门腾讯视频为空");
 			synthesize.setHot_tecentvedio(oldSynthesize.getHot_tecentvedio());
 		}
-		if (synthesize.getHot_search_terms()==null||synthesize.getHot_search_terms().length()<10) {
+		if (synthesize.getHot_search_terms()==null||synthesize.getHot_search_terms().length()<5) {
+			System.err.println("热门搜索词为空");
 			synthesize.setHot_search_terms(oldSynthesize.getHot_search_terms());
 		}
-		if (synthesize.getHot_policydata()==null||synthesize.getHot_policydata().length()<10) {
+		if (synthesize.getHot_policydata()==null||synthesize.getHot_policydata().length()<5) {
+			System.err.println("热门政策数据为空");
 			synthesize.setHot_policydata(oldSynthesize.getHot_policydata());
 		}
-		if (synthesize.getHot_finaceData()==null||synthesize.getHot_finaceData().length()<10) {
+		if (synthesize.getHot_finaceData()==null||synthesize.getHot_finaceData().length()<5) {
+			System.err.println("热门经济数据为空");
 			synthesize.setHot_finaceData(oldSynthesize.getHot_finaceData());
 		}
-		if (synthesize.getHot_36kr()==null||synthesize.getHot_36kr().length()<10) {
+		if (synthesize.getHot_36kr()==null||synthesize.getHot_36kr().length()<5) {
+			System.err.println("热门36kr为空");
 			synthesize.setHot_36kr(oldSynthesize.getHot_36kr());
 		}
 
