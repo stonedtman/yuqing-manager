@@ -75,6 +75,7 @@ public class SynthesizeSchedule {
 	  //@Scheduled(cron = "0 0/30 * * * ?")
 	@Async
 	@Scheduled(fixedDelay = 1000L * 60 * 60 * 2,initialDelay = 1000*60*2)
+//	@Scheduled(fixedDelay = 1000L * 10,initialDelay = 1000)
     public void popularInformation() {
 		System.out.println("进入今日热点任务");
     	if(schedule_synthesize_open==1) {
@@ -210,7 +211,7 @@ public class SynthesizeSchedule {
 					String string = EntityUtils.toString(entity, "utf-8");
 					System.out.println("获取代理地址:" + string);
 					String[] split = string.split(":");
-					HttpHost proxy = new HttpHost(split[0].trim(), Integer.parseInt(split[1]));
+					HttpHost proxy = new HttpHost(split[0].trim(), Integer.parseInt(split[1].trim()));
 					//为代理服务器设置认证信息
 					Authenticator.setDefault(new Authenticator() {
 						@Override
@@ -242,6 +243,8 @@ public class SynthesizeSchedule {
 	 * @return
 	 */
 	public static String getPolicyData() {
+		System.out.println("--------------------------------------------------------------------------------------------------------------------");
+		System.out.println("国务院");
 		
 		String url = "https://www.gov.cn/zhengce/zuixin/home.htm";
 
@@ -263,6 +266,10 @@ public class SynthesizeSchedule {
 				JSONObject object = new JSONObject();
 				Element element = select.get(i);
 				String source_url = element.getElementsByTag("a").get(0).attr("href");
+				//国务院的今日热点数据，存在相对路径和绝对路径，需统一
+				if (source_url.contains("../")) {
+					source_url = source_url.replace("../", "https://www.gov.cn/zhengce/");
+				}
 				object.put("source_url", source_url);
 				int rank = i+1;
 				object.put("rank", rank);
@@ -271,6 +278,8 @@ public class SynthesizeSchedule {
 				object.put("source_name", "国务院");
 				String topic = element.getElementsByTag("a").get(0).text();
 				object.put("topic", topic);
+				System.out.println("topic = " + topic);
+				System.out.println("source_url = " + source_url);
 				
 				String publish_time = element.getElementsByClass("date").get(0).text();
 				object.put("publish_time", publish_time+" 00:00:00");
@@ -302,6 +311,8 @@ public class SynthesizeSchedule {
 	 * @return
 	 */
 	public static String getFinaceData() {
+		System.out.println("--------------------------------------------------------------------------------------------------------------------");
+		System.out.println("东方财富网");
 		
 		String url = "https://np-listapi.eastmoney.com/comm/web/getNewsByColumns?client=web&biz=web_news_channel&column=350&order=1&needInteractData=0&page_index=1&page_size=20&req_trace=1666952448875&fields=code,showTime,title,mediaName,summary,image,url,uniqueUrl";
 		JSONArray array = new JSONArray();
@@ -338,6 +349,8 @@ public class SynthesizeSchedule {
 					object.put("original_weight", 100000);
 					object.put("source_name", "东方财富网");
 					object.put("topic", topic);
+
+					System.out.println("topic = " + topic);
 					
 	               String publish_time = parseObject.getString("showTime");
 			       //String publish_time = element.getElementsByClass("time").get(0).text();

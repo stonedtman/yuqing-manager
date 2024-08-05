@@ -84,6 +84,8 @@ public class HotWordsUtil {
 //		return list.toJSONString();
 //	}
 	public static String search(HttpHost proxy) {
+		System.out.println("--------------------------------------------------------------------------------------------------------------------");
+		System.out.println("百度热搜");
 		String html = get("https://top.baidu.com/board?tab=realtime", "gb2312", proxy);
 		JSONArray list= new JSONArray();
 		Document parse = Jsoup.parse(html);
@@ -112,6 +114,8 @@ public class HotWordsUtil {
 		return list.toJSONString();
 	}
 	public static String search2(HttpHost proxy) {
+		System.out.println("--------------------------------------------------------------------------------------------------------------------");
+		System.out.println("百度风云榜");
 		String url = "https://top.baidu.com/board?tab=realtime";
 		String html = HotWordsUtil.get(url, "gb2312", proxy);
 		Document parse = Jsoup.parse(html);
@@ -122,6 +126,7 @@ public class HotWordsUtil {
 			JSONObject jsonObject = new JSONObject();
 			Element element3 = element2.getElementsByTag("a").get(0);
 			String title = element2.getElementsByClass("c-single-text-ellipsis").text();
+			System.out.println("title = " + title);
 			jsonObject.put("topic", title);
 			String href = element3.attr("href").toString();
 			String text = element2.getElementsByClass("hot-index_1Bl1a").get(0).text();
@@ -235,6 +240,8 @@ public class HotWordsUtil {
 	 * @return
 	 */
 	public static String hotWeibo(HttpHost proxy) {
+		System.out.println("--------------------------------------------------------------------------------------------------------------------");
+		System.out.println("微博");
 		String html = null;
 		for (int i = 0; i < 3; i++) {
 			html = get("https://tophub.today/n/KqndgxeLl9", "gb2312", proxy);
@@ -253,6 +260,7 @@ public class HotWordsUtil {
 			for(int i = 1;i<6;i++) {
 				Elements select = tobody.select("tr:nth-child("+i+")");
 				String topic = select.select("td.al > a").text();
+				System.out.println("topic = " + topic);
 				//
 				String topicUrlString = new String(java.net.URLEncoder.encode(topic,"utf-8").getBytes());
 				String source_url = "https://s.weibo.com/weibo?q=%23"+topicUrlString+"%23&Refer=top";
@@ -282,9 +290,15 @@ public class HotWordsUtil {
 
 	}
 	public static String hotWechat(HttpHost proxy) {
+		System.out.println("--------------------------------------------------------------------------------------------------------------------");
+//		System.out.println("微信热词");
+		System.out.println("今日热点");
 		String html = null;
 		for (int i = 0; i < 3; i++) {
-			html = get("https://tophub.today/n/j8Rv21noLw", "gb2312", proxy);
+			//微信热词
+//			html = get("https://tophub.today/n/j8Rv21noLw", "gb2312", proxy);
+			//更改为今日热点
+			html = get("https://tophub.today/n/x9ozB4KoXb", "gb2312", proxy);
 			if (html != null){
 				break;
 			}
@@ -299,9 +313,13 @@ public class HotWordsUtil {
 			for(int i = 1;i<6;i++) {
 				Elements select = tobody.select("tr:nth-child("+i+")");
 				String topic = select.select("td.al > a").text();
+				System.out.println("topic = " + topic);
 				//
 				String topicUrlString = new String(java.net.URLEncoder.encode(topic,"utf-8").getBytes());
-				String source_url = "https://weixin.sogou.com/weixin?type=2&ie=utf8&s_from=hotnews&query="+topicUrlString;
+				//微信热词
+//				String source_url = "https://weixin.sogou.com/weixin?type=2&ie=utf8&s_from=hotnews&query="+topicUrlString;
+				//今日热点
+				String source_url = "https://so.toutiao.com/search?keyword=%23"+topicUrlString+"%23";
 				Random r = new Random();
 				String original_weight = r.nextInt(100000)+(11-i)*100000 +"";
 				//热度值去除中文
@@ -327,6 +345,8 @@ public class HotWordsUtil {
 	 * @return
 	 */
 	public static String hot36Kr(HttpHost proxy) {
+		System.out.println("--------------------------------------------------------------------------------------------------------------------");
+		System.out.println("36氪");
 		String html = null;
 		for (int i = 0; i < 3; i++) {
 			html = get("https://tophub.today/n/Q1Vd5Ko85R", "gb2312", proxy);
@@ -344,6 +364,7 @@ public class HotWordsUtil {
 			for(int i = 1;i<6;i++) {
 				Elements select = tobody.select("tr:nth-child("+i+")");
 				String topic = select.select("td.al > a").text();
+				System.out.println("topic = " + topic);
 				//
 				String topicUrlString = new String(java.net.URLEncoder.encode(topic,"utf-8").getBytes());
 				String source_url = "https://www.36kr.com/search/articles/"+topicUrlString;
@@ -370,6 +391,8 @@ public class HotWordsUtil {
 
 
 	public static String hotDouyin(HttpHost proxy) {
+		System.out.println("--------------------------------------------------------------------------------------------------------------------");
+		System.out.println("抖音");
 		String html = null;
 		for (int i = 0; i < 3; i++) {
 			html = get("https://tophub.today/n/K7GdaMgdQy", "gb2312", proxy);
@@ -384,6 +407,7 @@ public class HotWordsUtil {
 			for(int i = 1;i<6;i++) {
 				Elements select = tobody.select("tr:nth-child("+i+")");
 				String topic = select.select("td.al > a").text();
+				System.out.println("topic = " + topic);
 				//
 				String topicUrlString = new String(java.net.URLEncoder.encode(topic,"utf-8").getBytes());
 				String source_url = "https://www.douyin.com/search/"+topicUrlString+"";
@@ -414,6 +438,8 @@ public class HotWordsUtil {
 
 
 	public static String hotBilibili(HttpHost proxy) {
+		System.out.println("--------------------------------------------------------------------------------------------------------------------");
+		System.out.println("哔哩哔哩");
 		String html = null;
 		for (int i = 0; i < 3; i++) {
 			html = get("https://tophub.today/n/74KvxwokxM", "gb2312", proxy);
@@ -432,6 +458,7 @@ public class HotWordsUtil {
 			for(int i = 1;i<6;i++) {
 				Elements select = tobody.select("tr:nth-child("+i+")");
 				String topic = select.select("td.al > a").text();
+				System.out.println("topic = " + topic);
 				//
 				String topicUrlString = new String(java.net.URLEncoder.encode(topic,"utf-8").getBytes());
 				String source_url = "https://www.bilibili.com/";
@@ -462,6 +489,8 @@ public class HotWordsUtil {
 
 
 	public static String hotTecent(HttpHost proxy) {
+		System.out.println("--------------------------------------------------------------------------------------------------------------------");
+		System.out.println("腾讯新闻");
 		String html = null;
 		for (int i = 0; i < 3; i++) {
 			html = get("https://tophub.today/n/qndg48xeLl", "gb2312", proxy);
@@ -479,6 +508,7 @@ public class HotWordsUtil {
 			for(int i = 1;i<6;i++) {
 				Elements select = tobody.select("tr:nth-child("+i+")");
 				String topic = select.select("td.al > a").text();
+				System.out.println("topic = " + topic);
 				//
 				String topicUrlString = new String(java.net.URLEncoder.encode(topic,"utf-8").getBytes());
 				String source_url = "https://view.inews.qq.com/";
