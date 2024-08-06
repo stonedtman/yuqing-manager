@@ -8,6 +8,9 @@ import java.net.Proxy;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import com.alibaba.fastjson.JSONArray;
 import com.stonedt.dao.SynthesizeDao;
 import com.stonedt.entity.Synthesize;
@@ -183,6 +186,10 @@ public class SynthesizeSchedule {
 					synthesize.setHot_36kr(hot_36kr);
 					synthesize.setUser_id(1L);
 					conversionHotList(synthesize);
+
+					//转换特殊字符
+					dealSynthesize(synthesize);
+
 					synthesizeDao.insertSynthesize(synthesize);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -463,6 +470,37 @@ public class SynthesizeSchedule {
 			synthesize.setHot_36kr(oldSynthesize.getHot_36kr());
 		}
 
+	}
+
+	/**
+	 * 将英文双引号\"\"转换为中文双引号“”
+	 */
+	public String convertQuotationMarks(String jsonStr) {
+		String regex = "\\\\\"([^\"]*)\\\\\"";
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(jsonStr);
+		String reCT = jsonStr;
+		while (matcher.find()) {
+			String itemMatch = "“" + matcher.group(1) + "”";
+			reCT = reCT.replace("\\\"" + matcher.group(1) + "\\\"", itemMatch);
+		}
+		return reCT;
+	}
+
+	/**
+	 * 处理synthesize
+	 */
+	public void dealSynthesize(Synthesize synthesize) {
+		synthesize.setHot_all(convertQuotationMarks(synthesize.getHot_all()));
+		synthesize.setHot_weibo(convertQuotationMarks(synthesize.getHot_weibo()));
+		synthesize.setHot_wechat(convertQuotationMarks(synthesize.getHot_wechat()));
+		synthesize.setHot_douyin(convertQuotationMarks(synthesize.getHot_douyin()));
+		synthesize.setHot_bilibili(convertQuotationMarks(synthesize.getHot_bilibili()));
+		synthesize.setHot_tecentvedio(convertQuotationMarks(synthesize.getHot_tecentvedio()));
+		synthesize.setHot_search_terms(convertQuotationMarks(synthesize.getHot_search_terms()));
+		synthesize.setHot_policydata(convertQuotationMarks(synthesize.getHot_policydata()));
+		synthesize.setHot_finaceData(convertQuotationMarks(synthesize.getHot_finaceData()));
+		synthesize.setHot_36kr(convertQuotationMarks(synthesize.getHot_36kr()));
 	}
 
 
