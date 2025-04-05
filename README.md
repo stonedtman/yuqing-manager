@@ -1,8 +1,11 @@
 # 开源舆情监测监控系统后台
 
 ### 介绍
-开源免费舆情监测网络监控系统的后台管理系统，**开源舆情系统请访问：**  https://gitee.com/stonedtx/yuqing
-<img src="https://gitee.com/stonedtx/yuqing/raw/master/ProIMG/login.png" />
+开源免费舆情监测网络监控系统的后台管理系统，**开源舆情系统请访问：**  https://github.com/stonedtman/stonedt-yuqing
+
+<br><br>
+
+<img src="https://github.com/stonedtman/stonedt-yuqing/raw/master/ProIMG/gongneng-jiagou.png" />
 
 
 
@@ -58,8 +61,8 @@
 
 ### 安装教程
 
-1.  下载发行版,下载 [yq-basic-admin.jar](https://gitee.com/stonedtx/yuqing-manager/blob/master/yuqing-manager/lastest_version/yq-basic-admin.jar) 程序。
-2.  下载 [application.yml](https://gitee.com/stonedtx/yuqing-manager/blob/master/yuqing-manager/config/application.yml)与[application.properties](https://gitee.com/stonedtx/yuqing-manager/blob/master/yuqing-manager/config/application.properties)并创建 **config目录**  与 yq-basic-admin.jar 在同一个目录下，可修改配置文件参数。
+1.  下载发行版,下载 [yq-basic-admin.jar](yuqing-manager/lastest_version/yq-basic-admin.jar) 程序。
+2.  下载 [application.yml](yuqing-manager/config/application.yml)与[application.properties](yuqing-manager/config/application.properties)并创建 **config目录**  与 yq-basic-admin.jar 在同一个目录下，可修改配置文件参数。
 3.  执行 java -jar yq-basic-admin.jar运行启动
 
 
@@ -103,7 +106,7 @@ docker logs 容器ID -f
 
   服务流程如下
 
-![输入图片说明](https://gitee.com/stonedtx/yuqing/raw/master/ProIMG/data-plan.png)
+![输入图片说明](https://github.com/stonedtman/stonedt-yuqing/raw/master/ProIMG/data-plan.png)
 
 ## 相关开源项目
 
@@ -111,15 +114,15 @@ docker logs 容器ID -f
 
     采用分布式技术对海量信息采集，采集类型包括文字、图象、音频、视频等。
 
-- **[NLP处理引擎](https://gitee.com/stonedtx/free-nlp-api)** 
+- **[NLP处理引擎](https://github.com/stonedtman/free-nlp-api)** 
  
   将采集数据采用NLP和文本挖掘技术对此标签，以便于用户分类查看和检索。
 
-- **[监测分析系统](https://gitee.com/stonedtx/yuqing)** 
+- **[监测分析系统](https://github.com/stonedtman/stonedt-yuqing)** 
    
   对采集数据展示分析，提供用户个性化配置，让每个用户获取不同的数据分析展示结果。
 
-- **[后台管理系统](https://gitee.com/stonedtx/yuqing-manager)** 
+- **[后台管理系统](https://github.com/stonedtman/yuqing-manager/)** 
    
    对组织和用户、方案配置、用户日志 等，提供了一套管理后台。
 
@@ -127,14 +130,14 @@ docker logs 容器ID -f
 ## 产品经理微信
    扫描微信二维码，技术交流。
 
-<img src="https://gitee.com/stonedtx/yuqing/raw/master/ProIMG/%E8%81%94%E7%B3%BB%E6%88%91%E4%BB%AC-%E4%B8%AA%E4%BA%BA%E5%BE%AE%E4%BF%A1.jpg" title="Logo"  width="220">
+<img src="https://github.com/stonedtman/free-nlp-api/raw/master/ProIMG/%E8%81%94%E7%B3%BB%E6%88%91%E4%BB%AC-%E4%B8%AA%E4%BA%BA%E5%BE%AE%E4%BF%A1.jpg" title="Logo"  width="220">
 
 
 ## 捐赠方式
 
-<img src="https://gitee.com/stonedtx/yuqing/raw/master/ProIMG/Wechat.png" title="Logo"  width="200">
+<img src="https://github.com/stonedtman/stonedt-yuqing/raw/master/ProIMG/Wechat.png" title="Logo"  width="200">
 
-<img src="https://gitee.com/stonedtx/yuqing/raw/master/ProIMG/zhifubao-pay.png" title="Logo"  width="200">
+<img src="https://github.com/stonedtman/stonedt-yuqing/raw/master/ProIMG/zhifubao-pay.png" title="Logo"  width="200">
 
 
 
